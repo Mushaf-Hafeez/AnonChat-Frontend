@@ -8,6 +8,7 @@ const initialState = {
 
 export const checkAuth = createAsyncThunk("checkAuth", async () => {
   const response = await api.get("/auth/me");
+  console.log("response is: ", response.data);
   return response.data;
 });
 
