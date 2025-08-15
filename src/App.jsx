@@ -1,5 +1,11 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
+import LazyLoadingPage from "./pages/LazyLoadingPage";
+
+// importing reducers
+import { checkAuth } from "./redux/slices/authSlice";
 
 // importing pages
 const HomePage = lazy(() => import("./pages/HomePage"));
@@ -7,11 +13,18 @@ const LoginPage = lazy(() => import("./pages/LoginPage"));
 const SignupPage = lazy(() => import("./pages/SignupPage"));
 
 // importing components
-import Spinner from "./custom_components/Spinner";
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(checkAuth());
+  }, [dispatch]);
+
   return (
     <main>
+      {}
+
       {/* routes */}
       <Routes>
         {/* Homepage route */}
@@ -19,7 +32,7 @@ const App = () => {
           index
           path="/"
           element={
-            <Suspense fallback={<Spinner />}>
+            <Suspense fallback={<LazyLoadingPage />}>
               <HomePage />
             </Suspense>
           }
@@ -29,7 +42,7 @@ const App = () => {
         <Route
           path="/login"
           element={
-            <Suspense fallback={<Spinner />}>
+            <Suspense fallback={<LazyLoadingPage />}>
               <LoginPage />
             </Suspense>
           }
@@ -39,7 +52,7 @@ const App = () => {
         <Route
           path="/signup"
           element={
-            <Suspense fallback={<Spinner />}>
+            <Suspense fallback={<LazyLoadingPage />}>
               <SignupPage />
             </Suspense>
           }

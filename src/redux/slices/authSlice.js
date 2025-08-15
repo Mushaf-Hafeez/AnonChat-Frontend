@@ -8,7 +8,7 @@ const initialState = {
 
 export const checkAuth = createAsyncThunk("checkAuth", async () => {
   const response = await api.get("/auth/me");
-  console.log("response is: ", response.data);
+  console.log("response in check auth is: ", response.data);
   return response.data;
 });
 
@@ -18,6 +18,9 @@ const authSlice = createSlice({
   reducers: {
     setIsAuth: (state, action) => {
       state.isAuth = action.payload;
+    },
+    setIsAuthLoading: (state, action) => {
+      state.isAuthLoading = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -32,5 +35,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { setIsAuth } = authSlice.actions;
+export const { setIsAuth, setIsAuthLoading } = authSlice.actions;
 export default authSlice.reducer;
