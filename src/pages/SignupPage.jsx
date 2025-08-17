@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { Eye, EyeClosed } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 // importing reducers
 import { setIsAuthLoading } from "@/redux/slices/authSlice";
@@ -35,15 +36,16 @@ import { Button } from "../components/ui/button";
 import Spinner from "@/custom_components/Spinner";
 
 // importing api call functions
-import { login } from "@/services/auth";
 import { getDepartments } from "@/services/department";
+import { getSections } from "@/services/section";
 
 // importing constant data
-import { semesters } from "@/constants/data";
+import { semesters, sessions } from "@/constants/data";
 
 const SignupPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [departments, setDepartments] = useState([]);
+  const [sections, setSections] = useState([]);
 
   const { isAuthLoading } = useSelector((state) => state.Auth);
   const dispatch = useDispatch();
@@ -57,17 +59,17 @@ const SignupPage = () => {
     control,
   } = useForm();
 
+  // selected data to get the sections
+  const selectedDepartment = watch("department");
+  const selectedSemester = watch("semester");
+  const selectedSession = watch("session");
+
   const handleToggle = () => {
     setShowPassword((prev) => !prev);
   };
 
   // Todo: add functionality
   const handleForgotPassword = () => {};
-
-  // Todo: destructure more data from data object
-  const onSubmit = async (data) => {
-    console.log("Data is: ", data);
-  };
 
   // function to get the departments
   const fetchDepartments = async () => {
@@ -78,15 +80,40 @@ const SignupPage = () => {
     }
   };
 
-  // Todo: create a function that will fetch the sections also when the department or semester is changed
+  // function to fetch the sections
+  const fetchSections = useCallback(async () => {
+    // if department, semester and session is selected then only fetch the data
+    if (selectedDepartment && selectedSemester && selectedSession) {
+      const getSectionsData = {
+        department: selectedDepartment,
+        semester: selectedSemester,
+        session: selectedSession,
+      };
+
+      const response = await getSections(getSectionsData);
+
+      if (response.success) {
+        setSections(response.sections[0].sections);
+      }
+    } else {
+      return;
+    }
+  }, [selectedDepartment, selectedSemester, selectedSession]);
+
+  // Todo: set the data in the state and when the user clicks on the signup button. you need to make the api call to send the mail to the user's email and redirect the user to the otp input page and then get the otp and add the otp with the signup data in state and then when the user click on the verify otp then call the singup api in the backend
+  const onSubmit = async (data) => {
+    console.log("Data is: ", data);
+  };
 
   useEffect(() => {
     fetchDepartments();
   }, []);
 
-  // Todo: uncomment the email and password patterns
+  useEffect(() => {
+    fetchSections();
+  }, [fetchSections]);
 
-  // Todo: Fields required (name , roll no, email , password, confirmPassword, section, semester)
+  // Todo: uncomment the email and password patterns
 
   return (
     <section className="min-h-screen w-full col-center">
@@ -280,35 +307,101 @@ const SignupPage = () => {
             </div>
 
             {/* Semester label and dropdown */}
-            <div className="space-y-2">
-              <Label htmlFor="semester">Semester</Label>
-              <Controller
-                name="semester"
-                control={control}
-                rules={{ required: "Semester is required." }}
-                render={({ field }) => (
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder="Select your semester" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectLabel>Semesters</SelectLabel>
-                        {semesters &&
-                          semesters.length > 0 &&
-                          semesters.map((semester, index) => (
-                            <SelectItem value={semester.value} key={index}>
-                              {semester.value}
-                            </SelectItem>
-                          ))}
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
+            <div className="container flex space-x-4">
+              <div className="space-y-2">
+                <Label htmlFor="semester">Semester</Label>
+                <Controller
+                  name="semester"
+                  control={control}
+                  rules={{ required: "Semester is required." }}
+                  render={({ field }) => (
+                    <Select onValueChange={field.onChange} value={field.value}>
+                      <SelectTrigger className="w-[140px]">
+                        <SelectValue placeholder="Semester" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectLabel>Semesters</SelectLabel>
+                          {semesters &&
+                            semesters.length > 0 &&
+                            semesters.map((semester, index) => (
+                              <SelectItem value={semester.value} key={index}>
+                                {semester.value}
+                              </SelectItem>
+                            ))}
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
+                {errors.semester && (
+                  <p className="text-red-500">{errors.semester.message}</p>
                 )}
-              />
-              {errors.semester && (
-                <p className="text-red-500">{errors.semester.message}</p>
-              )}
+              </div>
+
+              {/* session label and dropdown */}
+              <div className="space-y-2">
+                <Label htmlFor="session">Session</Label>
+                <Controller
+                  name="session"
+                  control={control}
+                  rules={{ required: "Session is required." }}
+                  render={({ field }) => (
+                    <Select onValueChange={field.onChange} value={field.value}>
+                      <SelectTrigger className="w-[140px]">
+                        <SelectValue placeholder="Session" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectLabel>Sessions</SelectLabel>
+                          {sessions &&
+                            sessions.length > 0 &&
+                            sessions.map((session, index) => (
+                              <SelectItem value={session.value} key={index}>
+                                {session.value}
+                              </SelectItem>
+                            ))}
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
+                {errors.session && (
+                  <p className="text-red-500">{errors.session.message}</p>
+                )}
+              </div>
+
+              {/* section label and dropdown */}
+              <div className="space-y-2">
+                <Label htmlFor="section">Section</Label>
+                <Controller
+                  name="section"
+                  control={control}
+                  rules={{ required: "Sectoin is required." }}
+                  render={({ field }) => (
+                    <Select onValueChange={field.onChange} value={field.value}>
+                      <SelectTrigger className="w-[140px]">
+                        <SelectValue placeholder="Section" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectLabel>Sessions</SelectLabel>
+                          {sections &&
+                            sections.length > 0 &&
+                            sections.map((section, index) => (
+                              <SelectItem value={section} key={index}>
+                                {section}
+                              </SelectItem>
+                            ))}
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
+                {errors.section && (
+                  <p className="text-red-500">{errors.section.message}</p>
+                )}
+              </div>
             </div>
 
             {/* Signup button */}
@@ -325,7 +418,7 @@ const SignupPage = () => {
               onClick={handleForgotPassword}
               className={"cursor-pointer"}
             >
-              Forgot Password?
+              Already have an account? <Link to="/login">Login</Link>
             </Button>
           </form>
         </CardContent>

@@ -24,3 +24,5 @@ export const semesters = [
     value: "8th",
   },
 ];
+
+export const sessions = [{ value: "Spring" }, { value: "Fall" }];
