@@ -120,6 +120,11 @@ const LoginPage = () => {
               <Input
                 id={"password"}
                 type={showPassword ? "text" : "password"}
+                className={`${
+                  errors &&
+                  errors.password &&
+                  "focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-0"
+                }`}
                 placeholder="Enter your password"
                 {...register("password", {
                   required: { value: true, message: "Password is required." },

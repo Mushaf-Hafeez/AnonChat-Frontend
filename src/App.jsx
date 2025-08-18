@@ -11,6 +11,7 @@ import { checkAuth } from "./redux/slices/authSlice";
 const HomePage = lazy(() => import("./pages/HomePage"));
 const LoginPage = lazy(() => import("./pages/LoginPage"));
 const SignupPage = lazy(() => import("./pages/SignupPage"));
+const VerifyOTPPage = lazy(() => import("./pages/VerifyOTPPage"));
 
 // importing components
 
@@ -23,8 +24,6 @@ const App = () => {
 
   return (
     <main>
-      {}
-
       {/* routes */}
       <Routes>
         {/* Homepage route */}
@@ -54,6 +53,16 @@ const App = () => {
           element={
             <Suspense fallback={<LazyLoadingPage />}>
               <SignupPage />
+            </Suspense>
+          }
+        ></Route>
+
+        {/* Verify OTP page route */}
+        <Route
+          path="/verify-otp"
+          element={
+            <Suspense fallback={<LazyLoadingPage />}>
+              <VerifyOTPPage />
             </Suspense>
           }
         ></Route>

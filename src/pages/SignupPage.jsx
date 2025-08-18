@@ -3,11 +3,10 @@ import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { Eye, EyeClosed } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // importing reducers
-import { setIsAuthLoading } from "@/redux/slices/authSlice";
-import { setUser } from "@/redux/slices/userSlice";
+import { setIsAuthLoading, setSignupData } from "@/redux/slices/authSlice";
 
 // importing Shadcn Components
 import {
@@ -38,6 +37,7 @@ import Spinner from "@/custom_components/Spinner";
 // importing api call functions
 import { getDepartments } from "@/services/department";
 import { getSections } from "@/services/section";
+import { sendOTP } from "@/services/auth";
 
 // importing constant data
 import { semesters, sessions } from "@/constants/data";
@@ -58,6 +58,8 @@ const SignupPage = () => {
     watch,
     control,
   } = useForm();
+
+  const navigate = useNavigate();
 
   // selected data to get the sections
   const selectedDepartment = watch("department");
@@ -103,6 +105,49 @@ const SignupPage = () => {
   // Todo: set the data in the state and when the user clicks on the signup button. you need to make the api call to send the mail to the user's email and redirect the user to the otp input page and then get the otp and add the otp with the signup data in state and then when the user click on the verify otp then call the singup api in the backend
   const onSubmit = async (data) => {
     console.log("Data is: ", data);
+
+    // destructure the data
+    const {
+      name,
+      rollno,
+      email,
+      password,
+      confirmPassword,
+      section,
+      semester,
+    } = data;
+
+    // create the signup data
+    const signupData = {
+      name,
+      rollno,
+      email,
+      password,
+      confirmPassword,
+      section,
+      semester,
+    };
+
+    // return if both passwords are not same
+    if (password !== confirmPassword) {
+      toast.error("Passwords must be same");
+      return;
+    }
+
+    // set the data in auth
+    dispatch(setSignupData(signupData));
+
+    dispatch(setIsAuthLoading(true));
+
+    // send request to the send-otp api
+    const response = await sendOTP(email);
+
+    if (response.success) {
+      dispatch(setIsAuthLoading(false));
+      navigate("/verify-otp");
+      toast.success(response.message);
+      reset();
+    }
   };
 
   useEffect(() => {
@@ -119,7 +164,7 @@ const SignupPage = () => {
     <section className="min-h-screen w-full col-center">
       <Card
         className={
-          "w-11/12 md:w-4/12 mx-auto shadow-xl border-2 border-neutral-200"
+          "w-11/12 my-20 md:w-4/12 mx-auto shadow-xl border-2 border-neutral-200"
         }
       >
         <CardHeader className={"flex-center gap-4"}>
@@ -153,12 +198,18 @@ const SignupPage = () => {
                 <p className="text-red-500">{errors.name.message}</p>
               )}
             </div>
+
             {/* Rollno label and input */}
             <div className="space-y-4 relative">
               <Label htmlFor="rollno">Roll no</Label>
               <Input
                 id={"rollno"}
                 type={"text"}
+                className={`${
+                  errors &&
+                  errors.rollno &&
+                  "focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-0"
+                }`}
                 placeholder="Enter your roll no"
                 {...register("rollno", {
                   required: { value: true, message: "Roll no is required." },
@@ -211,6 +262,11 @@ const SignupPage = () => {
               <Input
                 id={"password"}
                 type={showPassword ? "text" : "password"}
+                className={`${
+                  errors &&
+                  errors.password &&
+                  "focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-0"
+                }`}
                 placeholder="Enter your password"
                 {...register("password", {
                   required: { value: true, message: "Password is required." },
@@ -243,6 +299,11 @@ const SignupPage = () => {
               <Input
                 id={"confirm-password"}
                 type={showPassword ? "text" : "password"}
+                className={`${
+                  errors &&
+                  errors.confirmPassword &&
+                  "focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-0"
+                }`}
                 placeholder="Enter confirm password"
                 {...register("confirmPassword", {
                   required: {
@@ -272,8 +333,6 @@ const SignupPage = () => {
               <p className="text-red-500">{errors.confirmPassword.message}</p>
             )}
 
-            {/* Todo: make department a dropdown */}
-
             {/* department label and input */}
             <div className="space-y-2">
               <Label htmlFor="department">Department</Label>
@@ -283,7 +342,7 @@ const SignupPage = () => {
                 rules={{ required: "Department is required." }}
                 render={({ field }) => (
                   <Select onValueChange={field.onChange} value={field.value}>
-                    <SelectTrigger className="w-full">
+                    <SelectTrigger className={"w-full"}>
                       <SelectValue placeholder="Select department" />
                     </SelectTrigger>
                     <SelectContent>

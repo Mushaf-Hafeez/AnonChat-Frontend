@@ -4,11 +4,12 @@ import { api } from "@/services";
 const initialState = {
   isAuth: false,
   isAuthLoading: false,
+  signupData: {},
 };
 
 export const checkAuth = createAsyncThunk("checkAuth", async () => {
   const response = await api.get("/auth/me");
-  console.log("response in check auth is: ", response.data);
+  // console.log("response in check auth is: ", response.data);
   return response.data;
 });
 
@@ -21,6 +22,15 @@ const authSlice = createSlice({
     },
     setIsAuthLoading: (state, action) => {
       state.isAuthLoading = action.payload;
+    },
+    setSignupData: (state, action) => {
+      state.signupData = action.payload;
+    },
+    clearSignupData: (state) => {
+      state.signupData = {};
+    },
+    setOTPToSignupData: (state, action) => {
+      state.signupData.otp = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -35,5 +45,11 @@ const authSlice = createSlice({
   },
 });
 
-export const { setIsAuth, setIsAuthLoading } = authSlice.actions;
+export const {
+  setIsAuth,
+  setIsAuthLoading,
+  setSignupData,
+  clearSignupData,
+  setOTPToSignupData,
+} = authSlice.actions;
 export default authSlice.reducer;
