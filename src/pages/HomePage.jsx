@@ -8,9 +8,9 @@ const HomePage = () => {
   const { isAuth } = useSelector((state) => state.Auth);
   const { user } = useSelector((state) => state.User);
 
-  if (!isAuth && !user) {
-    return <Spinner />;
-  }
+  // if (!isAuth && !user) {
+  //   return <Spinner />;
+  // }
 
   return (
     <section className="h-screen w-full flex-center">

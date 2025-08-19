@@ -42,11 +42,11 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(checkAuth.fulfilled, (state, action) => {
-      state.isAuth = action.payload.success;
+      state.isAuth = action.payload?.success;
     });
 
     builder.addCase(checkAuth.rejected, (state, action) => {
-      state.isAuth = action.payload.success;
+      state.isAuth = action.payload?.success;
     });
   },
 });

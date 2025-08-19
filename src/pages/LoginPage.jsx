@@ -5,7 +5,7 @@ import { Eye, EyeClosed } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 
 // importing reducers
-import { setIsAuthLoading } from "@/redux/slices/authSlice";
+import { setIsAuth, setIsAuthLoading } from "@/redux/slices/authSlice";
 import { setUser } from "@/redux/slices/userSlice";
 
 // importing Shadcn Components
@@ -59,7 +59,8 @@ const LoginPage = () => {
     const response = await login(loginData);
 
     if (response.success) {
-      console.log("data is: ", response);
+      // console.log("data is: ", response);
+      dispatch(setIsAuth(response.success));
       dispatch(setUser(response.user));
       toast.success("Login successful");
       reset();

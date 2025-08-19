@@ -25,7 +25,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { sendOTP, signup } from "@/services/auth";
 import { toast } from "react-toastify";
-import { setIsAuthLoading, setOTPToSignupData } from "@/redux/slices/authSlice";
+import {
+  setIsAuth,
+  setIsAuthLoading,
+  setOTPToSignupData,
+} from "@/redux/slices/authSlice";
 import { useNavigate } from "react-router-dom";
 import { setUser } from "@/redux/slices/userSlice";
 
@@ -77,7 +81,8 @@ const VerifyOTPPage = () => {
       setOTP("");
       setIsTimerActive(false);
       setTimeLeft(5 * 60);
-      console.log("signup response is: ", response);
+      // console.log("signup response is: ", response);
+      dispatch(setIsAuth(response.success));
       dispatch(setUser(response.user));
       toast.success(response.message);
       navigate("/");
