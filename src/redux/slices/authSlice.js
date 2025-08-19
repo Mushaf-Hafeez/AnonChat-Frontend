@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { api } from "@/services";
+import { setUser } from "./userSlice";
 
 const initialState = {
   isAuth: false,
@@ -7,11 +8,17 @@ const initialState = {
   signupData: {},
 };
 
-export const checkAuth = createAsyncThunk("checkAuth", async () => {
-  const response = await api.get("/auth/me");
-  // console.log("response in check auth is: ", response.data);
-  return response.data;
-});
+export const checkAuth = createAsyncThunk(
+  "checkAuth",
+  async (_, { dispatch }) => {
+    const response = await api.get("/auth/me");
+
+    if (response.data.success) {
+      dispatch(setUser(response.data.user));
+    }
+    return response.data;
+  }
+);
 
 const authSlice = createSlice({
   name: "Auth",
@@ -34,12 +41,11 @@ const authSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(checkAuth.pending, (state) => {
-      state.isAuthLoading = true;
+    builder.addCase(checkAuth.fulfilled, (state, action) => {
+      state.isAuth = action.payload.success;
     });
 
-    builder.addCase(checkAuth.fulfilled, (state, action) => {
-      state.isAuthLoading = false;
+    builder.addCase(checkAuth.rejected, (state, action) => {
       state.isAuth = action.payload.success;
     });
   },

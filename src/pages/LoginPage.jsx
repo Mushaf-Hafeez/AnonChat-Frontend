@@ -27,12 +27,15 @@ import Spinner from "@/custom_components/Spinner";
 
 // importing api call functions
 import { login } from "@/services/auth";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const { isAuthLoading } = useSelector((state) => state.Auth);
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   const {
     register,
@@ -60,6 +63,7 @@ const LoginPage = () => {
       dispatch(setUser(response.user));
       toast.success("Login successful");
       reset();
+      navigate("/");
     } else {
       toast.error(response.message);
       console.log("error is: ", response);

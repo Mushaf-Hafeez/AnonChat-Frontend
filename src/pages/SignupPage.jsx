@@ -104,8 +104,6 @@ const SignupPage = () => {
 
   // Todo: set the data in the state and when the user clicks on the signup button. you need to make the api call to send the mail to the user's email and redirect the user to the otp input page and then get the otp and add the otp with the signup data in state and then when the user click on the verify otp then call the singup api in the backend
   const onSubmit = async (data) => {
-    console.log("Data is: ", data);
-
     // destructure the data
     const {
       name,
@@ -143,11 +141,13 @@ const SignupPage = () => {
     const response = await sendOTP(email);
 
     if (response.success) {
-      dispatch(setIsAuthLoading(false));
       navigate("/verify-otp");
       toast.success(response.message);
       reset();
+    } else {
+      toast.error(response.message);
     }
+    dispatch(setIsAuthLoading(false));
   };
 
   useEffect(() => {

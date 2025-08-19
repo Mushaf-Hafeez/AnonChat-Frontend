@@ -27,6 +27,7 @@ import { sendOTP, signup } from "@/services/auth";
 import { toast } from "react-toastify";
 import { setIsAuthLoading, setOTPToSignupData } from "@/redux/slices/authSlice";
 import { useNavigate } from "react-router-dom";
+import { setUser } from "@/redux/slices/userSlice";
 
 const VerifyOTPPage = () => {
   const { signupData, isAuthLoading } = useSelector((state) => state.Auth);
@@ -64,8 +65,11 @@ const VerifyOTPPage = () => {
 
     dispatch(setIsAuthLoading(true));
 
+    const newSignupData = structuredClone(signupData);
+    newSignupData.otp = otp;
+
     // call the signup api
-    const response = await signup(signupData);
+    const response = await signup(newSignupData);
 
     // Todo: fix why the internal server error came
 
@@ -74,6 +78,7 @@ const VerifyOTPPage = () => {
       setIsTimerActive(false);
       setTimeLeft(5 * 60);
       console.log("signup response is: ", response);
+      dispatch(setUser(response.user));
       toast.success(response.message);
       navigate("/");
     } else {
@@ -99,6 +104,7 @@ const VerifyOTPPage = () => {
       return () => clearInterval(interval);
     } else if (timeLeft === 0) {
       setIsTimerActive(false);
+      dispatch(setIsAuthLoading(false));
     }
   }, [timeLeft, isTimerActive]);
 
