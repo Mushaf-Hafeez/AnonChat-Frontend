@@ -49,7 +49,9 @@ const LoginPage = () => {
   };
 
   // Todo: add functionality
-  const handleForgotPassword = () => {};
+  const handleForgotPassword = () => {
+    navigate("/forgot-password");
+  };
 
   const onSubmit = async ({ email, password }) => {
     const loginData = { email, password };
@@ -81,10 +83,8 @@ const LoginPage = () => {
           "w-11/12 md:w-4/12 mx-auto shadow-xl border-2 border-neutral-200"
         }
       >
-        <CardHeader className={"flex-center gap-4"}>
-          <CardTitle className={"text-center text-4xl font-semibold"}>
-            Login
-          </CardTitle>
+        <CardHeader className={"flex-center text-center gap-4"}>
+          <CardTitle className={"text-4xl font-semibold"}>Login</CardTitle>
           <CardDescription>
             Enter your email and password to login to your account
           </CardDescription>

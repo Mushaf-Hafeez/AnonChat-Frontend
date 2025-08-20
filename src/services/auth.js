@@ -43,3 +43,40 @@ export const sendOTP = async (email) => {
     return error.response.data;
   }
 };
+
+// forgotPassword function
+export const forgotPassword = async (email) => {
+  try {
+    const response = await api.post("/auth/forgot-password", { email });
+
+    return response.data;
+  } catch (error) {
+    console.log(
+      "Error in the forgot password axios function: ",
+      error.response
+    );
+    return error.response.data;
+  }
+};
+
+// resetPassword function
+export const resetPassword = async (
+  resetPasswordToken,
+  password,
+  confirmPassword
+) => {
+  try {
+    const response = await api.put(
+      `/auth/reset-password/${resetPasswordToken}`,
+      { password, confirmPassword }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.log(
+      "Error in the reset password axios function: ",
+      error.response.data.message
+    );
+    return error.response.data;
+  }
+};

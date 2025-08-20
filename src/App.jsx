@@ -12,6 +12,8 @@ const HomePage = lazy(() => import("./pages/HomePage"));
 const LoginPage = lazy(() => import("./pages/LoginPage"));
 const SignupPage = lazy(() => import("./pages/SignupPage"));
 const VerifyOTPPage = lazy(() => import("./pages/VerifyOTPPage"));
+const ForgotPasswordPage = lazy(() => import("./pages/ForgotPasswordPage"));
+const ResetPasswordPage = lazy(() => import("./pages/ResetPasswordPage"));
 
 // importing components
 
@@ -63,6 +65,26 @@ const App = () => {
           element={
             <Suspense fallback={<LazyLoadingPage />}>
               <VerifyOTPPage />
+            </Suspense>
+          }
+        ></Route>
+
+        {/* Forgot password page route */}
+        <Route
+          path="/forgot-password"
+          element={
+            <Suspense fallback={<LazyLoadingPage />}>
+              <ForgotPasswordPage />
+            </Suspense>
+          }
+        ></Route>
+
+        {/* Reset password page route */}
+        <Route
+          path="/reset-password/:resetPasswordToken"
+          element={
+            <Suspense fallback={<LazyLoadingPage />}>
+              <ResetPasswordPage />
             </Suspense>
           }
         ></Route>
