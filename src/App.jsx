@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import LazyLoadingPage from "./pages/LazyLoadingPage";
@@ -14,11 +14,11 @@ const SignupPage = lazy(() => import("./pages/SignupPage"));
 const VerifyOTPPage = lazy(() => import("./pages/VerifyOTPPage"));
 const ForgotPasswordPage = lazy(() => import("./pages/ForgotPasswordPage"));
 const ResetPasswordPage = lazy(() => import("./pages/ResetPasswordPage"));
+const AdminLoginPage = lazy(() => import("./pages/AdminLoginPage"));
 const ErrorPage = lazy(() => import("./pages/ErrorPage"));
 
-// importing components
-
 const App = () => {
+  const { isAuth } = useSelector((state) => state.Auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -86,6 +86,16 @@ const App = () => {
           element={
             <Suspense fallback={<LazyLoadingPage />}>
               <ResetPasswordPage />
+            </Suspense>
+          }
+        ></Route>
+
+        {/* Admin login page route */}
+        <Route
+          path="/admin"
+          element={
+            <Suspense fallback={<LazyLoadingPage />}>
+              <AdminLoginPage />
             </Suspense>
           }
         ></Route>

@@ -1,5 +1,20 @@
 import { api } from "./index";
 
+// adminLogin function
+export const adminLogin = async (loginData) => {
+  try {
+    const response = await api.post("/admin/admin-login", loginData);
+
+    return response.data;
+  } catch (error) {
+    console.log(
+      "Error the admin's login axios function: ",
+      error.response.data.message
+    );
+    return error.response.data;
+  }
+};
+
 // login function
 export const login = async (loginData) => {
   try {
