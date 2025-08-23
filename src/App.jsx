@@ -6,6 +6,7 @@ import LazyLoadingPage from "./pages/LazyLoadingPage";
 
 // importing reducers
 import { checkAuth } from "./redux/slices/authSlice";
+import DashboardPage from "./pages/DashboardPage";
 
 // importing pages
 const HomePage = lazy(() => import("./pages/HomePage"));
@@ -15,15 +16,21 @@ const VerifyOTPPage = lazy(() => import("./pages/VerifyOTPPage"));
 const ForgotPasswordPage = lazy(() => import("./pages/ForgotPasswordPage"));
 const ResetPasswordPage = lazy(() => import("./pages/ResetPasswordPage"));
 const AdminLoginPage = lazy(() => import("./pages/AdminLoginPage"));
+const UnauthorizedPage = lazy(() => import("./pages/UnauthorizedPage"));
+const AdminProtectedRoute = lazy(() => import("./pages/AdminProtectedRoute"));
 const ErrorPage = lazy(() => import("./pages/ErrorPage"));
 
 const App = () => {
-  const { isAuth } = useSelector((state) => state.Auth);
+  const { isAuth, isAuthLoading } = useSelector((state) => state.Auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(checkAuth());
   }, [dispatch]);
+
+  if (isAuthLoading) {
+    return <Spinner />;
+  }
 
   return (
     <main>
@@ -96,6 +103,28 @@ const App = () => {
           element={
             <Suspense fallback={<LazyLoadingPage />}>
               <AdminLoginPage />
+            </Suspense>
+          }
+        ></Route>
+
+        {/* Dashboard page route */}
+        <Route
+          path="/dashboard"
+          element={
+            <Suspense fallback={<LazyLoadingPage />}>
+              <AdminProtectedRoute>
+                <DashboardPage />
+              </AdminProtectedRoute>
+            </Suspense>
+          }
+        ></Route>
+
+        {/* Unauthorized page route */}
+        <Route
+          path="/unauthorized"
+          element={
+            <Suspense fallback={<LazyLoadingPage />}>
+              <UnauthorizedPage />
             </Suspense>
           }
         ></Route>
