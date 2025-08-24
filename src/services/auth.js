@@ -95,3 +95,17 @@ export const resetPassword = async (
     return error.response.data;
   }
 };
+
+// logout function
+export const logout = async () => {
+  try {
+    const response = await api.post("/auth/logout");
+    return response.data;
+  } catch (error) {
+    console.log(
+      "Error in the logout axios function: ",
+      error.response.data.message
+    );
+    return error.response.data;
+  }
+};

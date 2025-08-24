@@ -82,6 +82,9 @@ const VerifyOTPPage = () => {
       setIsTimerActive(false);
       setTimeLeft(5 * 60);
       // console.log("signup response is: ", response);
+      // set items to the local storage
+      localStorage.setItem("isAuth", JSON.stringify(response.success));
+      localStorage.setItem("user", JSON.stringify(response.user));
       dispatch(setIsAuth(response.success));
       dispatch(setUser(response.user));
       toast.success(response.message);

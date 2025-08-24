@@ -62,6 +62,9 @@ const LoginPage = () => {
 
     if (response.success) {
       // console.log("data is: ", response);
+      // set to the local storage
+      localStorage.setItem("isAuth", JSON.stringify(response.success));
+      localStorage.setItem("user", JSON.stringify(response.user));
       dispatch(setIsAuth(response.success));
       dispatch(setUser(response.user));
       toast.success("Login successful");

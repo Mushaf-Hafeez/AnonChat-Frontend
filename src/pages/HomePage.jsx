@@ -1,16 +1,30 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 // importing custom component
 import Spinner from "@/custom_components/Spinner";
+import { logout } from "@/services/auth";
+import { setIsAuth } from "@/redux/slices/authSlice";
+import { clearUser } from "@/redux/slices/userSlice";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
   const { isAuth } = useSelector((state) => state.Auth);
   const { user } = useSelector((state) => state.User);
 
-  // if (!isAuth && !user) {
-  //   return <Spinner />;
-  // }
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    const response = await logout();
+
+    if (response.success) {
+      dispatch(setIsAuth(false));
+      dispatch(clearUser());
+      localStorage.clear();
+      navigate("/login");
+    }
+  };
 
   return (
     <section className="h-screen w-full flex-center">
@@ -18,6 +32,7 @@ const HomePage = () => {
         This is Homepage of the AnonChat.
         <p>{isAuth && user.name && `${user.name}`}</p>
       </h1>
+      {isAuth && <button onClick={handleLogout}>Logout</button>}
     </section>
   );
 };

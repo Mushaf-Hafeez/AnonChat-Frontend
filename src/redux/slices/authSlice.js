@@ -3,7 +3,9 @@ import { api } from "@/services";
 import { setUser } from "./userSlice";
 
 const initialState = {
-  isAuth: false,
+  isAuth: localStorage.getItem("isAuth")
+    ? JSON.parse(localStorage.getItem("isAuth"))
+    : false,
   isAuthLoading: false,
   signupData: {},
 };
@@ -47,6 +49,7 @@ const authSlice = createSlice({
 
     builder.addCase(checkAuth.rejected, (state, action) => {
       state.isAuth = action.payload?.success;
+      localStorage.clear();
     });
   },
 });

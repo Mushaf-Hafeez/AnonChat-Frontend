@@ -7,6 +7,7 @@ import LazyLoadingPage from "./pages/LazyLoadingPage";
 // importing reducers
 import { checkAuth } from "./redux/slices/authSlice";
 import DashboardPage from "./pages/DashboardPage";
+import { toast } from "react-toastify";
 
 // importing pages
 const HomePage = lazy(() => import("./pages/HomePage"));
@@ -21,16 +22,11 @@ const AdminProtectedRoute = lazy(() => import("./pages/AdminProtectedRoute"));
 const ErrorPage = lazy(() => import("./pages/ErrorPage"));
 
 const App = () => {
-  const { isAuth, isAuthLoading } = useSelector((state) => state.Auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(checkAuth());
   }, [dispatch]);
-
-  if (isAuthLoading) {
-    return <Spinner />;
-  }
 
   return (
     <main>
