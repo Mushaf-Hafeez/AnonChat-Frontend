@@ -58,6 +58,8 @@ const AdminLoginPage = () => {
     const response = await adminLogin(loginData);
 
     if (response.success) {
+      localStorage.setItem("isAuth", JSON.stringify(response.success));
+      localStorage.setItem("user", JSON.stringify(response.user));
       dispatch(setIsAuth(response.success));
       dispatch(setUser(response.user));
       toast.success("Login successful");

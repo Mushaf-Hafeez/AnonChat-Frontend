@@ -2,26 +2,28 @@ import { lazy, Suspense, useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import LazyLoadingPage from "./pages/LazyLoadingPage";
+// import LazyLoadingPage from "./pages/LazyLoadingPage";
 
-// importing reducers
 import { checkAuth } from "./redux/slices/authSlice";
-import DashboardPage from "./pages/DashboardPage";
-import { toast } from "react-toastify";
 
 // importing pages
-const HomePage = lazy(() => import("./pages/HomePage"));
-const LoginPage = lazy(() => import("./pages/LoginPage"));
-const SignupPage = lazy(() => import("./pages/SignupPage"));
-const VerifyOTPPage = lazy(() => import("./pages/VerifyOTPPage"));
-const ForgotPasswordPage = lazy(() => import("./pages/ForgotPasswordPage"));
-const ResetPasswordPage = lazy(() => import("./pages/ResetPasswordPage"));
-const AdminLoginPage = lazy(() => import("./pages/AdminLoginPage"));
-const UnauthorizedPage = lazy(() => import("./pages/UnauthorizedPage"));
+import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
+import SignupPage from "./pages/SignupPage";
+import VerifyOTPPage from "./pages/VerifyOTPPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
+import AdminLoginPage from "./pages/AdminLoginPage";
+import UnauthorizedPage from "./pages/UnauthorizedPage";
+import ErrorPage from "./pages/ErrorPage";
+import LazyLoadingPage from "./pages/LazyLoadingPage";
+
+// importing lazy components
+const DashboardPage = lazy(() => import("./pages/DashboardPage"));
 const AdminProtectedRoute = lazy(() => import("./pages/AdminProtectedRoute"));
-const ErrorPage = lazy(() => import("./pages/ErrorPage"));
 
 const App = () => {
+  const { isAuth } = useSelector((state) => state.Auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -36,72 +38,29 @@ const App = () => {
         <Route
           index
           path="/"
-          element={
-            <Suspense fallback={<LazyLoadingPage />}>
-              <HomePage />
-            </Suspense>
-          }
+          element={isAuth ? <HomePage /> : <Navigate to={"/login"} />}
         ></Route>
 
         {/* Login page route */}
-        <Route
-          path="/login"
-          element={
-            <Suspense fallback={<LazyLoadingPage />}>
-              <LoginPage />
-            </Suspense>
-          }
-        ></Route>
+        <Route path="/login" element={<LoginPage />}></Route>
 
         {/* Signup page route */}
-        <Route
-          path="/signup"
-          element={
-            <Suspense fallback={<LazyLoadingPage />}>
-              <SignupPage />
-            </Suspense>
-          }
-        ></Route>
+        <Route path="/signup" element={<SignupPage />}></Route>
 
         {/* Verify OTP page route */}
-        <Route
-          path="/verify-otp"
-          element={
-            <Suspense fallback={<LazyLoadingPage />}>
-              <VerifyOTPPage />
-            </Suspense>
-          }
-        ></Route>
+        <Route path="/verify-otp" element={<VerifyOTPPage />}></Route>
 
         {/* Forgot password page route */}
-        <Route
-          path="/forgot-password"
-          element={
-            <Suspense fallback={<LazyLoadingPage />}>
-              <ForgotPasswordPage />
-            </Suspense>
-          }
-        ></Route>
+        <Route path="/forgot-password" element={<ForgotPasswordPage />}></Route>
 
         {/* Reset password page route */}
         <Route
           path="/reset-password/:resetPasswordToken"
-          element={
-            <Suspense fallback={<LazyLoadingPage />}>
-              <ResetPasswordPage />
-            </Suspense>
-          }
+          element={<ResetPasswordPage />}
         ></Route>
 
         {/* Admin login page route */}
-        <Route
-          path="/admin"
-          element={
-            <Suspense fallback={<LazyLoadingPage />}>
-              <AdminLoginPage />
-            </Suspense>
-          }
-        ></Route>
+        <Route path="/admin" element={<AdminLoginPage />}></Route>
 
         {/* Dashboard page route */}
         <Route
@@ -116,24 +75,10 @@ const App = () => {
         ></Route>
 
         {/* Unauthorized page route */}
-        <Route
-          path="/unauthorized"
-          element={
-            <Suspense fallback={<LazyLoadingPage />}>
-              <UnauthorizedPage />
-            </Suspense>
-          }
-        ></Route>
+        <Route path="/unauthorized" element={<UnauthorizedPage />}></Route>
 
         {/* Error page route */}
-        <Route
-          path="*"
-          element={
-            <Suspense fallback={<LazyLoadingPage />}>
-              <ErrorPage />
-            </Suspense>
-          }
-        ></Route>
+        <Route path="*" element={<ErrorPage />}></Route>
       </Routes>
     </main>
   );

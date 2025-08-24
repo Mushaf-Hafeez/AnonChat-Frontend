@@ -1,5 +1,5 @@
 import Spinner from "@/custom_components/Spinner";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 
 const AdminProtectedRoute = ({ children }) => {
