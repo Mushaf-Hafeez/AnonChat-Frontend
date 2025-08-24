@@ -31,7 +31,7 @@ const App = () => {
   }, [dispatch]);
 
   return (
-    <main>
+    <main className="font-poppins">
       {/* routes */}
       <Routes>
         {/* Homepage route */}

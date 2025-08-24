@@ -2,7 +2,6 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 // importing custom component
-import Spinner from "@/custom_components/Spinner";
 import { logout } from "@/services/auth";
 import { setIsAuth } from "@/redux/slices/authSlice";
 import { clearUser } from "@/redux/slices/userSlice";
