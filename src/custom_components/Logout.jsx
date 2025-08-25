@@ -44,7 +44,7 @@ const Logout = () => {
         }
       >
         <LogOut />
-        Logout
+        <span className="hidden lg:block">Logout</span>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

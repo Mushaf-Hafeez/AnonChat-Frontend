@@ -10,7 +10,7 @@ const DashboardPage = () => {
       <DashboardSidebar />
 
       {/* Nested components will be rendered here */}
-      <div className="h-full w-full bg-white rounded-xl p-4 flex flex-col gap-8">
+      <div className="h-full w-full bg-white rounded-xl p-4 flex flex-col gap-8 overflow-y-auto">
         <AdminGreet />
         <Outlet />
       </div>
