@@ -69,7 +69,7 @@ const LoginPage = () => {
       dispatch(setUser(response.user));
       toast.success("Login successful");
       reset();
-      navigate("/");
+      navigate("/chat");
     } else {
       toast.error(response.message);
       console.log("error is: ", response);

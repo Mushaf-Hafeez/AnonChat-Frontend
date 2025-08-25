@@ -26,3 +26,16 @@ export const semesters = [
 ];
 
 export const sessions = [{ value: "Spring" }, { value: "Fall" }];
+
+export const AdminDashboardSidebarLinks = [
+  {
+    title: "Departments",
+    link: "departments",
+    icon: "Building",
+  },
+  {
+    title: "Add Admins",
+    link: "add-admins",
+    icon: "UserRoundPlus",
+  },
+];

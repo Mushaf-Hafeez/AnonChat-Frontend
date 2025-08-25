@@ -88,7 +88,7 @@ const VerifyOTPPage = () => {
       dispatch(setIsAuth(response.success));
       dispatch(setUser(response.user));
       toast.success(response.message);
-      navigate("/");
+      navigate("/chat");
     } else {
       toast.error(response.message);
     }

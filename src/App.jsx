@@ -14,6 +14,9 @@ import VerifyOTPPage from "./pages/VerifyOTPPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import AdminLoginPage from "./pages/AdminLoginPage";
+import ChatPage from "./pages/ChatPage";
+import DepartmentPage from "./pages/DepartmentPage";
+import AddAdminsPage from "./pages/AddAdminsPage";
 import UnauthorizedPage from "./pages/UnauthorizedPage";
 import ErrorPage from "./pages/ErrorPage";
 import LazyLoadingPage from "./pages/LazyLoadingPage";
@@ -38,7 +41,7 @@ const App = () => {
         <Route
           index
           path="/"
-          element={isAuth ? <HomePage /> : <Navigate to={"/login"} />}
+          element={isAuth ? <ChatPage /> : <HomePage />}
         ></Route>
 
         {/* Login page route */}
@@ -59,6 +62,9 @@ const App = () => {
           element={<ResetPasswordPage />}
         ></Route>
 
+        {/* Chat page route */}
+        <Route path="/chat" element={<ChatPage />}></Route>
+
         {/* Admin login page route */}
         <Route path="/admin" element={<AdminLoginPage />}></Route>
 
@@ -72,7 +78,11 @@ const App = () => {
               </AdminProtectedRoute>
             </Suspense>
           }
-        ></Route>
+        >
+          <Route index element={<DepartmentPage />}></Route>
+          <Route path="departments" element={<DepartmentPage />}></Route>
+          <Route path="add-admins" element={<AddAdminsPage />}></Route>
+        </Route>
 
         {/* Unauthorized page route */}
         <Route path="/unauthorized" element={<UnauthorizedPage />}></Route>
