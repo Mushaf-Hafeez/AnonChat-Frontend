@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 // import LazyLoadingPage from "./pages/LazyLoadingPage";
@@ -20,18 +20,38 @@ import AddAdminsPage from "./pages/AddAdminsPage";
 import UnauthorizedPage from "./pages/UnauthorizedPage";
 import ErrorPage from "./pages/ErrorPage";
 import LazyLoadingPage from "./pages/LazyLoadingPage";
+import SectionPage from "./pages/SectionPage";
 
 // importing lazy components
 const DashboardPage = lazy(() => import("./pages/DashboardPage"));
 const AdminProtectedRoute = lazy(() => import("./pages/AdminProtectedRoute"));
 
+// importing api call functions
+import { getDepartments } from "./services/department";
+
+// importing reducers
+import { setDepartments } from "./redux/slices/dataSlice";
+
 const App = () => {
   const { isAuth } = useSelector((state) => state.Auth);
   const dispatch = useDispatch();
 
+  // fetchDepartments function
+  const fetchDepartments = async () => {
+    const response = await getDepartments();
+
+    if (response.success) {
+      dispatch(setDepartments(response.departments));
+    }
+  };
+
   useEffect(() => {
     dispatch(checkAuth());
   }, [dispatch]);
+
+  useEffect(() => {
+    fetchDepartments();
+  }, []);
 
   return (
     <main className="font-poppins">
@@ -81,6 +101,7 @@ const App = () => {
         >
           <Route index element={<DepartmentPage />}></Route>
           <Route path="departments" element={<DepartmentPage />}></Route>
+          <Route path="sections" element={<SectionPage />}></Route>
           <Route path="add-admins" element={<AddAdminsPage />}></Route>
         </Route>
 

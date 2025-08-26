@@ -35,19 +35,19 @@ import { Button } from "../components/ui/button";
 import Spinner from "@/custom_components/Spinner";
 
 // importing api call functions
-import { getDepartments } from "@/services/department";
 import { getSections } from "@/services/section";
 import { sendOTP } from "@/services/auth";
 
 // importing constant data
 import { semesters, sessions } from "@/constants/data";
+import { setDepartments } from "@/redux/slices/dataSlice";
 
 const SignupPage = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [departments, setDepartments] = useState([]);
   const [sections, setSections] = useState([]);
 
   const { isAuthLoading } = useSelector((state) => state.Auth);
+  const { departments } = useSelector((state) => state.Data);
   const dispatch = useDispatch();
 
   const {
@@ -73,15 +73,6 @@ const SignupPage = () => {
   // Todo: add functionality
   const handleForgotPassword = () => {};
 
-  // function to get the departments
-  const fetchDepartments = async () => {
-    const response = await getDepartments();
-
-    if (response.success) {
-      setDepartments(response.departments);
-    }
-  };
-
   // function to fetch the sections
   const fetchSections = useCallback(async () => {
     // if department, semester and session is selected then only fetch the data
@@ -102,7 +93,6 @@ const SignupPage = () => {
     }
   }, [selectedDepartment, selectedSemester, selectedSession]);
 
-  // Todo: set the data in the state and when the user clicks on the signup button. you need to make the api call to send the mail to the user's email and redirect the user to the otp input page and then get the otp and add the otp with the signup data in state and then when the user click on the verify otp then call the singup api in the backend
   const onSubmit = async (data) => {
     // destructure the data
     const {
@@ -149,10 +139,6 @@ const SignupPage = () => {
     }
     dispatch(setIsAuthLoading(false));
   };
-
-  useEffect(() => {
-    fetchDepartments();
-  }, []);
 
   useEffect(() => {
     fetchSections();
@@ -351,7 +337,7 @@ const SignupPage = () => {
                         {departments &&
                           departments.length > 0 &&
                           departments.map((dept, index) => (
-                            <SelectItem key={index} value={dept.code}>
+                            <SelectItem key={index} value={dept.name}>
                               {dept.name}
                             </SelectItem>
                           ))}

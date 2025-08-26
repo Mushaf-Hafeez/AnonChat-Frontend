@@ -16,3 +16,18 @@ export const getSections = async (data) => {
     return error.response.data;
   }
 };
+
+// add section function
+export const addSection = async (data) => {
+  try {
+    const response = await api.post("/section/create", data);
+
+    return response.data;
+  } catch (error) {
+    console.log(
+      "Error in the add section axios function is: ",
+      error.response.data.message
+    );
+    return error.response.data;
+  }
+};

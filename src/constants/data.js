@@ -34,6 +34,11 @@ export const AdminDashboardSidebarLinks = [
     icon: "Building",
   },
   {
+    title: "Sections",
+    link: "sections",
+    icon: "Section",
+  },
+  {
     title: "Add Admins",
     link: "add-admins",
     icon: "UserRoundPlus",
