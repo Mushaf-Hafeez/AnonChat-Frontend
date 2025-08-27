@@ -21,6 +21,7 @@ import { Button } from "../components/ui/button";
 
 // importing custom components
 import Spinner from "@/custom_components/Spinner";
+import DeleteSection from "@/components/ui/DeleteSection";
 
 const SectionPage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -188,6 +189,7 @@ const SectionPage = () => {
       </div>
 
       {/* add the section to get the sections of the department, semester and session */}
+      <DeleteSection departments={departments} />
     </section>
   );
 };

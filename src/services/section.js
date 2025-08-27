@@ -31,3 +31,18 @@ export const addSection = async (data) => {
     return error.response.data;
   }
 };
+
+// delete section function
+export const deleteSection = async (data) => {
+  try {
+    const response = await api.delete("/section/delete", { data });
+
+    return response.data;
+  } catch (error) {
+    console.log(
+      "Error in the delete section axios function is: ",
+      error.response.data.message
+    );
+    return error.response.data;
+  }
+};
