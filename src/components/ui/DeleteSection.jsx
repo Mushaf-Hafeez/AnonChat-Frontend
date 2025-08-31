@@ -239,9 +239,11 @@ const DeleteSection = ({ departments }) => {
                 </TableRow>
               ))
             ) : (
-              <div className="w-full whitespace-nowrap flex-center">
-                No department found
-              </div>
+              <TableRow>
+                <TableCell className="w-full whitespace-nowrap flex-center">
+                  No department found
+                </TableCell>
+              </TableRow>
             )}
           </TableBody>
         </Table>

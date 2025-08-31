@@ -25,6 +25,17 @@ export const semesters = [
   },
 ];
 
+export const roles = [
+  {
+    title: "CR",
+    value: "CR",
+  },
+  {
+    title: "GR",
+    value: "GR",
+  },
+];
+
 export const sessions = [{ value: "Spring" }, { value: "Fall" }];
 
 export const AdminDashboardSidebarLinks = [
