@@ -61,7 +61,7 @@ const LoginPage = () => {
     const response = await login(loginData);
 
     if (response.success) {
-      // console.log("data is: ", response);
+      console.log("login response is: ", response);
       // set to the local storage
       localStorage.setItem("isAuth", JSON.stringify(response.success));
       localStorage.setItem("user", JSON.stringify(response.user));

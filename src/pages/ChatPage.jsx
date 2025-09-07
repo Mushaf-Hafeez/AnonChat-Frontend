@@ -1,29 +1,28 @@
-import { LogOut } from "lucide-react";
 import React from "react";
+
+import ChatSidebar from "@/custom_components/ChatSidebar";
+
+import DefaultChatPage from "./DefaultChatPage";
+import SelectedGroupPage from "./SelectedGroupPage";
+
 import { useSelector } from "react-redux";
 
 const ChatPage = () => {
-  const { user } = useSelector((state) => state.User);
-
-  console.log("user is: ", user);
+  const { isSelected } = useSelector((state) => state.Group);
 
   return (
-    <section className="h-screen w-full flex gap-4 bg-neutral-200">
-      <aside className="w-fit lg:w-2/12 h-full bg-white rounded-r-xl col-center justify-between lg:items-start">
-        <div className="w-full p-4">
-          <h2 className="hidden lg:block text-xl font-semibold mb-4">Chat</h2>
-          <div className="col-center gap-2 items-start">
-            here all the joined groups will be displayed
-          </div>
-        </div>
+    <section className="h-screen w-full flex gap-4 bg-neutral-200 overflow-auto">
+      {/* This is the sidebar of the chatpage */}
 
-        {/* Logout */}
-        <div className="p-4">
-          <LogOut />
-        </div>
-      </aside>
-      <div className="bg-white w-full p-4 rounded-s-xl">
-        this is the message container
+      <ChatSidebar />
+
+      <div
+        className={`${
+          isSelected ? "block" : "hidden md:block"
+        } bg-white w-full rounded-s-xl`}
+      >
+        {/* if there is a selected group then show the selected group page else show the default chatpage */}
+        {isSelected ? <SelectedGroupPage /> : <DefaultChatPage />}
       </div>
     </section>
   );

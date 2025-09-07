@@ -21,7 +21,7 @@ import { clearUser } from "@/redux/slices/userSlice";
 import { setIsAuth } from "@/redux/slices/authSlice";
 import { useNavigate } from "react-router-dom";
 
-const Logout = () => {
+const Logout = ({ isChatSidebar }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -44,7 +44,9 @@ const Logout = () => {
         }
       >
         <LogOut />
-        <span className="hidden lg:block">Logout</span>
+        <span className={`${isChatSidebar ? "block" : "hidden lg:block"}`}>
+          Logout
+        </span>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
