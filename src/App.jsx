@@ -25,6 +25,9 @@ import SectionPage from "./pages/SectionPage";
 // importing lazy components
 const DashboardPage = lazy(() => import("./pages/DashboardPage"));
 const AdminProtectedRoute = lazy(() => import("./pages/AdminProtectedRoute"));
+const StudentProtectedRoute = lazy(() =>
+  import("./pages/StudentProtectedRoute")
+);
 
 // importing api call functions
 import { getDepartments } from "./services/department";
@@ -83,7 +86,16 @@ const App = () => {
         ></Route>
 
         {/* Chat page route */}
-        <Route path="/chat" element={<ChatPage />}></Route>
+        <Route
+          path="/chat"
+          element={
+            <Suspense fallback={<LazyLoadingPage />}>
+              <StudentProtectedRoute>
+                <ChatPage />
+              </StudentProtectedRoute>
+            </Suspense>
+          }
+        ></Route>
 
         {/* Admin login page route */}
         <Route path="/admin" element={<AdminLoginPage />}></Route>
