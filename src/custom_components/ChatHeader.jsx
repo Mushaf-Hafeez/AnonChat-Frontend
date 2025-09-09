@@ -75,7 +75,7 @@ const ChatHeader = () => {
           }`}
         >
           <Dialog>
-            <DialogTrigger>
+            <DialogTrigger asChild>
               <Button
                 variant={"ghost"}
                 className="flex items-center gap-2 cursor-pointer text-neutral-600"

@@ -1,0 +1,15 @@
+import { api } from ".";
+
+export const getGroupData = async (id) => {
+  try {
+    const response = await api.get(`/group/details/${id}`);
+
+    return response.data;
+  } catch (error) {
+    console.log(
+      "Error in the get group data axios function: ",
+      error.response.data.message
+    );
+    return error.response.data;
+  }
+};
