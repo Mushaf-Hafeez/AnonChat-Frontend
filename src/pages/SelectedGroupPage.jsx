@@ -30,10 +30,19 @@ const SelectedGroupPage = () => {
     const response = await removeMember(selectedGroup._id, memberID);
 
     if (response.success) {
-      const filteredMembers = filteredRollnos.filter(
+      const updatedMembers = groupDetails.members.filter(
         (member) => member._id !== memberID
       );
-      setFilteredRollnos([...filteredMembers]);
+
+      setGroupDetails((prev) => ({
+        ...prev,
+        members: updatedMembers,
+      }));
+
+      const updatedFiltered = filteredRollnos.filter(
+        (member) => member._id !== memberID
+      );
+      setFilteredRollnos(updatedFiltered);
       toast.success(`Member has been removed`);
     }
 
