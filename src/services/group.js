@@ -27,3 +27,18 @@ export const leaveGroup = async (groupID) => {
     return error.response.data;
   }
 };
+
+// removeMember function
+export const removeMember = async (id, userId) => {
+  try {
+    const response = await api.delete(`/group/remove/${id}?userId=${userId}`);
+
+    return response.data;
+  } catch (error) {
+    console.log(
+      "Error in the remove member axios function: ",
+      error.response.data.message
+    );
+    return error.response.data;
+  }
+};

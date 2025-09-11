@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import ChatHeader from "@/custom_components/ChatHeader";
 
-import { getGroupData } from "@/services/group";
+import { getGroupData, removeMember } from "@/services/group";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -26,8 +26,16 @@ const SelectedGroupPage = () => {
   };
 
   // handleMemberRemove function
-  const handleMemberRemove = (memberID) => {
-    toast.success(`Member removed ${memberID}`);
+  const handleMemberRemove = async (memberID) => {
+    const response = await removeMember(selectedGroup._id, memberID);
+
+    if (response.success) {
+      const filteredMembers = filteredRollnos.filter(
+        (member) => member._id !== memberID
+      );
+      setFilteredRollnos([...filteredMembers]);
+      toast.success(`Member has been removed`);
+    }
 
     // Todo: remove the member from the groupDetails.members and filteredRollnos and then make the api call to remove the member from this group
   };
