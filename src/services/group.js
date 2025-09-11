@@ -13,3 +13,17 @@ export const getGroupData = async (id) => {
     return error.response.data;
   }
 };
+
+// leaveGroup function
+export const leaveGroup = async (groupID) => {
+  try {
+    const response = await api.delete(`/group/leave/${groupID}`);
+    return response.data;
+  } catch (error) {
+    console.log(
+      "Error in the leave group axios function: ",
+      error.response.data.message
+    );
+    return error.response.data;
+  }
+};

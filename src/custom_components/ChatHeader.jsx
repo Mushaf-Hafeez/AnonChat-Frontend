@@ -16,11 +16,15 @@ import {
 import { Button } from "@/components/ui/button";
 import { toast } from "react-toastify";
 
+import { leaveGroup } from "@/services/group";
+import { removeGroup } from "@/redux/slices/userSlice";
+
 const ChatHeader = () => {
   const [iseMenuOpen, setIsMeunOpen] = useState(false);
   const menuRef = useRef(null);
 
   const { selectedGroup } = useSelector((state) => state.Group);
+  const { user } = useSelector((state) => state.User);
   const dispatch = useDispatch();
 
   const handleClick = () => {
@@ -39,11 +43,18 @@ const ChatHeader = () => {
     }
   };
 
-  const handleGroupLeave = () => {
-    dispatch(setIsSelected(false));
-    dispatch(setSelectedGroup(null));
-    toast.success("Group leaved");
-    // Todo: add the group leave functionality
+  const handleGroupLeave = async () => {
+    const response = await leaveGroup(selectedGroup._id);
+
+    if (response.success) {
+      dispatch(removeGroup(selectedGroup._id));
+      dispatch(setIsSelected(false));
+      dispatch(setSelectedGroup(null));
+
+      toast.success("Group leaved");
+    } else {
+      toast.error(response.message);
+    }
   };
 
   return (
