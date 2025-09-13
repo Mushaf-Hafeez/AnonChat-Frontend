@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 
 import { X } from "lucide-react";
 import { toast } from "react-toastify";
+import Chat from "@/custom_components/Chat";
 
 const SelectedGroupPage = () => {
   const [groupDetails, setGroupDetails] = useState(null);
@@ -139,9 +140,7 @@ const SelectedGroupPage = () => {
           </ul>
         </div>
 
-        <div className="bg-white h-full w-full p-4 rounded-xl shadow-xl overflow-y-auto">
-          here is all the messages of the group.
-        </div>
+        <Chat />
       </div>
     </section>
   );
