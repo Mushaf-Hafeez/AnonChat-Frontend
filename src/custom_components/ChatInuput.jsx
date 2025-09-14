@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 
-import { useForm } from "react-hook-form";
-
 import { ImageOff, Plus, Send } from "lucide-react";
 
 import { toast } from "react-toastify";
@@ -19,27 +17,29 @@ import Spinner from "./Spinner";
 const ChatInuput = () => {
   leoProfanity.loadDictionary("en");
 
-  const [filesPreview, setFilePreview] = useState([]);
+  const [message, setMessage] = useState("");
+  const [files, setFiles] = useState([]);
+  const [filesPreview, setFilesPreview] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const {
-    register,
-    watch,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-    reset,
-  } = useForm();
+  // handleMessageChange function
+  const handleMessageChange = (e) => {
+    setMessage(e.target.value);
+  };
 
   //   handleFileChange function
-  const handleFileChange = (e) => {
+  const handleFileChange = async (e) => {
     const fileArray = Array.from(e.target.files);
+
+    setFiles(fileArray);
+
     const preview = fileArray.map((file, index) => ({
       id: index,
       name: file.name,
       url: URL.createObjectURL(file),
       type: file.type,
     }));
-    setFilePreview(preview);
+    setFilesPreview(preview);
   };
 
   //   handleSelectedFileClick function
@@ -48,15 +48,43 @@ const ChatInuput = () => {
   };
 
   //   submit function
-  const onSubmit = (data) => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
     setIsLoading(true);
 
-    const cleanMessage = leoProfanity.clean(data.message);
-    toast(cleanMessage);
+    let updatedMessage;
 
-    // Todo: check if the selected file is not 18+
+    if (!message && files.length === 0) {
+      toast.error("cannot send empty message");
+      setIsLoading(false);
+      return;
+    }
+
+    if (message) {
+      const cleanMessage = leoProfanity.clean(message);
+      updatedMessage = cleanMessage;
+    }
+
+    // Todo: create the formdata
+    const formData = new FormData();
+
+    if (message) {
+      formData.append("message", updatedMessage);
+    }
+
+    if (files && files.length > 0) {
+      files.map((file) => formData.append("file", file));
+    }
+
+    console.log("Formdata is: ", formData.get("message"), formData.get("file"));
+
+    // Todo: call the function to send message to backend
 
     setIsLoading(false);
+    setMessage("");
+    setFiles([]);
+    setFilesPreview([]);
   };
 
   return (
@@ -81,13 +109,14 @@ const ChatInuput = () => {
           ))}
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="flex gap-2 w-full">
+      <form onSubmit={handleSubmit} className="flex gap-2 w-full">
         {/* Input for the message */}
 
         <div className="relative flex w-full">
           <Input
-            {...register("message")}
             type={"text"}
+            value={message}
+            onChange={handleMessageChange}
             placeholder={"Send a message..."}
             className={"bg-neutral-200 border-2 border-neutral-300"}
           />
@@ -99,7 +128,6 @@ const ChatInuput = () => {
             <Plus className="bg-neutral-300 rounded-full p-1 text-neutral-600 cursor-pointer" />
           </Label>
           <Input
-            {...register("file")}
             id={"file"}
             type={"file"}
             className={"hidden"}
@@ -108,11 +136,7 @@ const ChatInuput = () => {
           />
         </div>
 
-        <Button
-          disabled={isSubmitting}
-          size={"icon"}
-          className={"cursor-pointer"}
-        >
+        <Button disabled={isLoading} size={"icon"} className={"cursor-pointer"}>
           {isLoading ? <Spinner /> : <Send />}
         </Button>
       </form>
