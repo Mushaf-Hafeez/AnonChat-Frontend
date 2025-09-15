@@ -13,9 +13,13 @@ import { Button } from "@/components/ui/button";
 
 // importing custom components
 import Spinner from "./Spinner";
+import { useSelector } from "react-redux";
+import { sendMessage } from "@/services/message";
 
 const ChatInuput = () => {
   leoProfanity.loadDictionary("en");
+
+  const { selectedGroup } = useSelector((state) => state.Group);
 
   const [message, setMessage] = useState("");
   const [files, setFiles] = useState([]);
@@ -48,7 +52,7 @@ const ChatInuput = () => {
   };
 
   //   submit function
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     setIsLoading(true);
@@ -80,11 +84,15 @@ const ChatInuput = () => {
     console.log("Formdata is: ", formData.get("message"), formData.get("file"));
 
     // Todo: call the function to send message to backend
+    const response = await sendMessage(selectedGroup._id, formData);
+
+    if (response.success) {
+      setMessage("");
+      setFiles([]);
+      setFilesPreview([]);
+    }
 
     setIsLoading(false);
-    setMessage("");
-    setFiles([]);
-    setFilesPreview([]);
   };
 
   return (

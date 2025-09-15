@@ -46,8 +46,6 @@ const SelectedGroupPage = () => {
       setFilteredRollnos(updatedFiltered);
       toast.success(`Member has been removed`);
     }
-
-    // Todo: remove the member from the groupDetails.members and filteredRollnos and then make the api call to remove the member from this group
   };
 
   // fetchGroupData function
