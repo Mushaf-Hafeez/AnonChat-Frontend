@@ -20,6 +20,7 @@ import { useDispatch } from "react-redux";
 import { clearUser } from "@/redux/slices/userSlice";
 import { setIsAuth } from "@/redux/slices/authSlice";
 import { useNavigate } from "react-router-dom";
+import { setIsSelected, setSelectedGroup } from "@/redux/slices/groupSlice";
 
 const Logout = ({ isChatSidebar }) => {
   const dispatch = useDispatch();
@@ -32,6 +33,8 @@ const Logout = ({ isChatSidebar }) => {
       localStorage.clear();
       dispatch(clearUser());
       dispatch(setIsAuth(false));
+      dispatch(setIsSelected(false));
+      dispatch(setSelectedGroup(null));
       toast.success("Logout successful");
       navigate("/");
     }

@@ -78,10 +78,14 @@ const ChatInuput = () => {
     }
 
     if (files && files.length > 0) {
-      files.map((file) => formData.append("file", file));
+      files.map((file) => formData.append("attachment", file));
     }
 
-    console.log("Formdata is: ", formData.get("message"), formData.get("file"));
+    console.log(
+      "Formdata is: ",
+      formData.get("message"),
+      formData.get("attachment")
+    );
 
     // Todo: call the function to send message to backend
     const response = await sendMessage(selectedGroup._id, formData);
@@ -97,7 +101,7 @@ const ChatInuput = () => {
 
   return (
     <div className="w-full">
-      <div className="mb-2 flex gap-1">
+      <div className="max-w-full mb-2 flex gap-1 overflow-x-auto">
         {filesPreview &&
           filesPreview.length > 0 &&
           filesPreview.map((file, index) => (

@@ -1,12 +1,10 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-// import moment from "moment/moment";
+import FileRenderer from "./FileRenderer";
 
 const Message = ({ message }) => {
   const { user } = useSelector((state) => state.User);
-
-  //   const time = moment(message.createdAt).fromNow();
 
   const isoString = message.createdAt;
 
@@ -26,11 +24,6 @@ const Message = ({ message }) => {
   // Format using toLocaleString
   const formatted = date.toLocaleString("en-PK", options);
 
-  // handleFileClick function
-  const handleFileClick = (URL) => {
-    window.open(URL, "_blank");
-  };
-
   return (
     <div
       className={`flex gap-2 ${
@@ -43,7 +36,7 @@ const Message = ({ message }) => {
         className="size-12 rounded-full object-cover shadow-md shadow-neutral-500"
       />
 
-      <div className="max-w-xs p-2 rounded space-y-2 bg-neutral-100 shadow-md shadow-neutral-400">
+      <div className="max-w-60 sm:max-w-80 lg:max-w-xs p-2 rounded space-y-2 bg-neutral-100 shadow-md shadow-neutral-400">
         <h2 className="text-sm">
           {user.role === "CR" || user.role === "GR"
             ? message.sender.rollno
@@ -52,19 +45,13 @@ const Message = ({ message }) => {
             : "Anonymous user"}
         </h2>
         {message.content && <p className="text-sm">{message.content}</p>}
-        <p className="text-xs text-neutral-600">{formatted}</p>
 
         <div className="flex flex-col gap-2">
           {message?.attachment?.map((file, index) => (
-            <img
-              key={index}
-              src={file}
-              alt="Error"
-              className="w-full object-contain cursor-pointer"
-              onClick={() => handleFileClick(file)}
-            />
+            <FileRenderer key={index} url={file} />
           ))}
         </div>
+        <p className="text-xs text-neutral-600">{formatted}</p>
       </div>
     </div>
   );
