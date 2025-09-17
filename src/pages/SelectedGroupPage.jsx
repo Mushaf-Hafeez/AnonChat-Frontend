@@ -12,6 +12,12 @@ import { X } from "lucide-react";
 import { toast } from "react-toastify";
 import Chat from "@/custom_components/Chat";
 
+import { io } from "socket.io-client";
+
+// socket.connection
+const backendURL = import.meta.env.VITE_BACKEND_URL;
+let socket;
+
 const SelectedGroupPage = () => {
   const [groupDetails, setGroupDetails] = useState(null);
 
@@ -74,7 +80,14 @@ const SelectedGroupPage = () => {
     if (filteredData) setFilteredRollnos(filteredData);
   }, [searchedRollno]);
 
-  // Todo: get the details of the selected group from the backend and display all the members in the left side container
+  // useEffect for the socket
+  useEffect(() => {
+    socket = io(backendURL, { query: { groupID: selectedGroup._id } });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
 
   return (
     <section className="bg-neutral-200 h-full w-full">

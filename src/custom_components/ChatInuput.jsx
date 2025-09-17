@@ -87,7 +87,6 @@ const ChatInuput = () => {
       formData.get("attachment")
     );
 
-    // Todo: call the function to send message to backend
     const response = await sendMessage(selectedGroup._id, formData);
 
     if (response.success) {
@@ -98,6 +97,8 @@ const ChatInuput = () => {
 
     setIsLoading(false);
   };
+
+  // Todo: implement real time communication using Socket.io
 
   return (
     <div className="w-full">
