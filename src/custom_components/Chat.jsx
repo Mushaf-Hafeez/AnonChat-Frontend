@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 // importing custom components
-import ChatInuput from "./ChatInuput";
+import ChatInput from "./ChatInput";
 import ChatMessages from "./ChatMessages";
 import Spinner from "./Spinner";
 
@@ -12,7 +12,7 @@ const Chat = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState([]);
 
-  const { selectedGroup } = useSelector((state) => state.Group);
+  const { selectedGroup, socket } = useSelector((state) => state.Group);
 
   // fetch messages function
   const fetchMessages = async () => {
@@ -31,11 +31,18 @@ const Chat = () => {
     fetchMessages();
   }, []);
 
+  // for socket
+  useEffect(() => {
+    socket.on("receive-message", (message) => {
+      setMessages([...messages, message]);
+    });
+  }, []);
+
   return (
     <div className="bg-white h-full w-full p-4 rounded-xl shadow-xl overflow-y-auto flex flex-col justify-between">
       {isLoading ? <Spinner /> : <ChatMessages messages={messages} />}
       {/* Chat Input */}
-      <ChatInuput />
+      <ChatInput />
     </div>
   );
 };

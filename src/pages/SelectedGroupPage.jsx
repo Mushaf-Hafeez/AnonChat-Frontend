@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 import ChatHeader from "@/custom_components/ChatHeader";
 
@@ -11,12 +11,6 @@ import { Badge } from "@/components/ui/badge";
 import { X } from "lucide-react";
 import { toast } from "react-toastify";
 import Chat from "@/custom_components/Chat";
-
-import { io } from "socket.io-client";
-
-// socket.connection
-const backendURL = import.meta.env.VITE_BACKEND_URL;
-let socket;
 
 const SelectedGroupPage = () => {
   const [groupDetails, setGroupDetails] = useState(null);
@@ -79,15 +73,6 @@ const SelectedGroupPage = () => {
 
     if (filteredData) setFilteredRollnos(filteredData);
   }, [searchedRollno]);
-
-  // useEffect for the socket
-  useEffect(() => {
-    socket = io(backendURL, { query: { groupID: selectedGroup._id } });
-
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
 
   return (
     <section className="bg-neutral-200 h-full w-full">

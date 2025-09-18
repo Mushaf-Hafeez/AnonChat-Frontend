@@ -18,7 +18,7 @@ const FileRenderer = ({ url }) => {
       <img
         src={url}
         alt="Error"
-        className="w-full object-contain cursor-pointer"
+        className="w-full rounded-md object-contain cursor-pointer"
         onClick={handleClick}
       />
     );

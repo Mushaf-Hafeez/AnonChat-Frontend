@@ -1,14 +1,37 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import ChatSidebar from "@/custom_components/ChatSidebar";
 
 import DefaultChatPage from "./DefaultChatPage";
 import SelectedGroupPage from "./SelectedGroupPage";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
+import { io } from "socket.io-client";
+import { setSocket } from "@/redux/slices/groupSlice";
+
+const backendURL = import.meta.env.VITE_BACKEND_URL;
+let client;
 
 const ChatPage = () => {
-  const { isSelected } = useSelector((state) => state.Group);
+  const { isSelected, socket } = useSelector((state) => state.Group);
+  const { user } = useSelector((state) => state.User);
+
+  const dispatch = useDispatch();
+
+  // socket connection
+  useEffect(() => {
+    if (user) {
+      client = io(backendURL);
+      dispatch(setSocket(client));
+
+      client.emit("join-room", user.joinedGroups);
+    }
+
+    return () => {
+      client.disconnect();
+    };
+  }, [user]);
 
   return (
     <section className="h-screen w-full flex gap-4 bg-neutral-200 overflow-auto">

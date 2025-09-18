@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   isSelected: false,
   selectedGroup: null,
+  socket: null,
 };
 
 const groupSlice = createSlice({
@@ -15,8 +16,12 @@ const groupSlice = createSlice({
     setSelectedGroup: (state, action) => {
       state.selectedGroup = action.payload;
     },
+    setSocket: (state, action) => {
+      state.socket = action.payload;
+    },
   },
 });
 
-export const { setIsSelected, setSelectedGroup } = groupSlice.actions;
+export const { setIsSelected, setSelectedGroup, setSocket } =
+  groupSlice.actions;
 export default groupSlice.reducer;

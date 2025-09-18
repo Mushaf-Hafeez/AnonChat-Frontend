@@ -6,16 +6,16 @@ import Message from "./Message";
 const ChatMessages = ({ messages }) => {
   const chatContainer = useRef();
 
-  // Todo: need to fix why the container is not scrolled to the end
+  // Todo: need to fix why sometime there is only one message in the messages array and when the user receive the new message the sender of that message is not visible
 
   useEffect(() => {
     if (chatContainer.current) {
       chatContainer.current.scrollTo({
-        top: chatContainer.current.scrollHeight,
+        top: chatContainer.current.scrollHeight + 100,
         behavior: "smooth",
       });
     }
-  }, []);
+  }, [messages]);
 
   return (
     <div ref={chatContainer} className="h-full w-full overflow-y-auto">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { ImageOff, Plus, Send } from "lucide-react";
 
@@ -16,7 +16,7 @@ import Spinner from "./Spinner";
 import { useSelector } from "react-redux";
 import { sendMessage } from "@/services/message";
 
-const ChatInuput = () => {
+const ChatInput = () => {
   leoProfanity.loadDictionary("en");
 
   const { selectedGroup } = useSelector((state) => state.Group);
@@ -157,4 +157,4 @@ const ChatInuput = () => {
   );
 };
 
-export default ChatInuput;
+export default ChatInput;

@@ -16,13 +16,19 @@ import {
 import { Button } from "@/components/ui/button";
 import { logout } from "@/services/auth";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "@/redux/slices/userSlice";
 import { setIsAuth } from "@/redux/slices/authSlice";
 import { useNavigate } from "react-router-dom";
-import { setIsSelected, setSelectedGroup } from "@/redux/slices/groupSlice";
+import {
+  setIsSelected,
+  setSelectedGroup,
+  setSocket,
+} from "@/redux/slices/groupSlice";
 
 const Logout = ({ isChatSidebar }) => {
+  const { socket } = useSelector((state) => state.Group);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -35,6 +41,10 @@ const Logout = ({ isChatSidebar }) => {
       dispatch(setIsAuth(false));
       dispatch(setIsSelected(false));
       dispatch(setSelectedGroup(null));
+
+      socket.disconnect();
+      dispatch(setSocket(null));
+
       toast.success("Logout successful");
       navigate("/");
     }
