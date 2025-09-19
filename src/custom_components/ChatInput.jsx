@@ -81,12 +81,6 @@ const ChatInput = () => {
       files.map((file) => formData.append("attachment", file));
     }
 
-    console.log(
-      "Formdata is: ",
-      formData.get("message"),
-      formData.get("attachment")
-    );
-
     const response = await sendMessage(selectedGroup._id, formData);
 
     if (response.success) {

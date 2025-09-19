@@ -34,7 +34,7 @@ const Chat = () => {
   // for socket
   useEffect(() => {
     socket.on("receive-message", (message) => {
-      setMessages([...messages, message]);
+      setMessages((prev) => [...prev, message]);
     });
   }, []);
 
