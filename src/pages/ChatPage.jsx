@@ -9,12 +9,15 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { io } from "socket.io-client";
 import { setSocket } from "@/redux/slices/groupSlice";
+import { toast } from "react-toastify";
 
 const backendURL = import.meta.env.VITE_BACKEND_URL;
 let client;
 
 const ChatPage = () => {
-  const { isSelected, socket } = useSelector((state) => state.Group);
+  const { isSelected, selectedGroup, socket } = useSelector(
+    (state) => state.Group
+  );
   const { user } = useSelector((state) => state.User);
 
   const dispatch = useDispatch();
@@ -32,6 +35,21 @@ const ChatPage = () => {
       client.disconnect();
     };
   }, [user]);
+
+  // Todo: fix notification issue
+
+  useEffect(() => {
+    if (!socket) return;
+
+    const handleNewMessage = (message) => {
+      if (message.group._id !== selectedGroup?._id)
+        toast.info(`New message in ${message.group.groupName}`);
+    };
+
+    socket.on("new-message", handleNewMessage);
+
+    return () => socket.off("new-message", handleNewMessage);
+  }, [selectedGroup, socket]);
 
   return (
     <section className="h-screen w-full flex gap-4 bg-neutral-200 overflow-auto">

@@ -7,6 +7,7 @@ import Spinner from "./Spinner";
 
 import { getMessages } from "@/services/message";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const Chat = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -33,9 +34,13 @@ const Chat = () => {
 
   // for socket
   useEffect(() => {
-    socket.on("receive-message", (message) => {
-      setMessages((prev) => [...prev, message]);
+    socket.on("new-message", (message) => {
+      if (selectedGroup && message.group._id === selectedGroup._id) {
+        setMessages((prev) => [...prev, message]);
+      }
     });
+
+    return () => socket.off("new-message");
   }, []);
 
   return (

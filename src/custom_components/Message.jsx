@@ -36,7 +36,9 @@ const Message = ({ message }) => {
         className="size-12 rounded-full object-cover shadow-md shadow-neutral-500"
       />
 
-      <div className="max-w-60 sm:max-w-80 lg:max-w-xs p-2 rounded space-y-2 bg-neutral-100 shadow-md shadow-neutral-400">
+      <div
+        className={`max-w-60 sm:max-w-80 lg:max-w-xs p-2 rounded space-y-2 bg-neutral-100 shadow-md shadow-neutral-400`}
+      >
         <h2 className="text-sm">
           {user.role === "CR" || user.role === "GR"
             ? message.sender.rollno
