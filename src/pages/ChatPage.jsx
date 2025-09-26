@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { io } from "socket.io-client";
 import { setSocket } from "@/redux/slices/groupSlice";
 import { toast } from "react-toastify";
+import { MailCheck } from "lucide-react";
 
 const backendURL = import.meta.env.VITE_BACKEND_URL;
 let client;
@@ -43,7 +44,9 @@ const ChatPage = () => {
 
     const handleNewMessage = (message) => {
       if (message.group._id !== selectedGroup?._id)
-        toast.info(`New message in ${message.group.groupName}`);
+        toast.success(`New message in ${message.group.groupName}`, {
+          icon: ({ theme, type }) => <MailCheck color="green" />,
+        });
     };
 
     socket.on("new-message", handleNewMessage);
