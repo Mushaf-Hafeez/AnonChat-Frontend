@@ -18,7 +18,10 @@ const ChatMessages = ({ messages }) => {
   }, [messages]);
 
   return (
-    <div ref={chatContainer} className="h-full w-full overflow-y-auto">
+    <div
+      ref={chatContainer}
+      className="h-full w-full overflow-y-auto scrollbar-none"
+    >
       {messages && messages.length > 0 ? (
         <div className="flex flex-col gap-2">
           {messages.map((message, index) => (

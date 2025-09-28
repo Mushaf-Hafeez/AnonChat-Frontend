@@ -7,7 +7,6 @@ import Spinner from "./Spinner";
 
 import { getMessages } from "@/services/message";
 import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
 
 const Chat = () => {
   const [isLoading, setIsLoading] = useState(false);
