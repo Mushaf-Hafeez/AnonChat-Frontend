@@ -39,11 +39,11 @@ const Message = ({ message }) => {
       <div
         className={`max-w-60 sm:max-w-80 lg:max-w-xs p-2 rounded space-y-2 bg-neutral-100 shadow-md shadow-neutral-400`}
       >
-        <h2 className="text-sm">
-          {user.role === "CR" || user.role === "GR"
-            ? message.sender.rollno
-            : user._id === message.sender._id
+        <h2 className="text-sm font-medium">
+          {user.rollno === message.sender.rollno
             ? "You"
+            : user.role === "CR" || user.role === "GR"
+            ? message.sender.rollno
             : "Anonymous user"}
         </h2>
         {message.content && <p className="text-sm">{message.content}</p>}
