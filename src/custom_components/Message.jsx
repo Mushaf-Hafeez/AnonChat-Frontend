@@ -2,6 +2,18 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 import FileRenderer from "./FileRenderer";
+import { EllipsisVertical, ShieldAlert, Trash2 } from "lucide-react";
+
+// importing components
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { toast } from "react-toastify";
 
 const Message = ({ message }) => {
   const { user } = useSelector((state) => state.User);
@@ -24,6 +36,19 @@ const Message = ({ message }) => {
   // Format using toLocaleString
   const formatted = date.toLocaleString("en-PK", options);
 
+  // handleMessageDelete function
+  const handleMessageDelete = (messageId, groupId) => {
+    toast.success(`Message deleted ${messageId} ${groupId}`);
+
+    // call the backend api to delete the message and also use websocket to delete it in realtime.
+  };
+
+  // handleMessageReport function
+  const handleMessageReport = (messageId, groupId) => {
+    // call the report message api
+
+    toast.success("Message has been reported.");
+  };
   return (
     <div
       className={`flex gap-2 ${
@@ -39,13 +64,50 @@ const Message = ({ message }) => {
       <div
         className={`max-w-60 sm:max-w-80 lg:max-w-xs p-2 rounded space-y-2 bg-neutral-100 shadow-md shadow-neutral-400`}
       >
-        <h2 className="text-sm font-medium">
-          {user.rollno === message.sender.rollno
-            ? "You"
-            : user.role === "CR" || user.role === "GR"
-            ? message.sender.rollno
-            : "Anonymous user"}
-        </h2>
+        <div className="flex items-center justify-between gap-10">
+          <h2 className="text-sm font-medium">
+            {user.rollno === message.sender.rollno
+              ? "You"
+              : user.role === "CR" || user.role === "GR"
+              ? message.sender.rollno
+              : "Anonymous user"}
+          </h2>
+
+          {/* options for the message */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <EllipsisVertical size={16} className="cursor-pointer" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              {/* Show the delete option if user is the sender of that message and to the CR and GR */}
+              {(message.sender._id === user._id ||
+                user.role === "CR" ||
+                user.role === "GR") && (
+                <DropdownMenuItem
+                  className={
+                    "flex items-center gap-2 hover:bg-neutral-200 cursor-pointer"
+                  }
+                  onClick={() =>
+                    handleMessageDelete(message._id, message.group)
+                  }
+                >
+                  <Trash2 className="text-neutral-600" />
+                  Delete
+                </DropdownMenuItem>
+              )}
+
+              <DropdownMenuItem
+                className={
+                  "flex items-center gap-2 hover:bg-neutral-200 cursor-pointer"
+                }
+                onClick={() => handleMessageReport(message._id, message.group)}
+              >
+                <ShieldAlert className="text-neutral-600" />
+                Report
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
         {message.content && <p className="text-sm">{message.content}</p>}
 
         <div className="flex flex-col gap-2">
