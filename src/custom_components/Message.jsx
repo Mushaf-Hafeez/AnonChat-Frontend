@@ -14,6 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { toast } from "react-toastify";
+import { deleteMessage } from "@/services/message";
 
 const Message = ({ message }) => {
   const { user } = useSelector((state) => state.User);
@@ -37,8 +38,14 @@ const Message = ({ message }) => {
   const formatted = date.toLocaleString("en-PK", options);
 
   // handleMessageDelete function
-  const handleMessageDelete = (messageId, groupId) => {
-    toast.success(`Message deleted ${messageId} ${groupId}`);
+  const handleMessageDelete = async (messageId, groupId) => {
+    const response = await deleteMessage(messageId, groupId);
+
+    if (response.success) {
+      toast.success("Message has been deleted");
+    } else {
+      toast.error(response.message);
+    }
 
     // call the backend api to delete the message and also use websocket to delete it in realtime.
   };

@@ -27,3 +27,18 @@ export const sendMessage = async (id, data) => {
     return error.response.data;
   }
 };
+
+// delete message function
+export const deleteMessage = async (messageId, groupId) => {
+  try {
+    const response = await api.delete(`message/delete/${groupId}/${messageId}`);
+
+    return response.data;
+  } catch (error) {
+    console.log(
+      "Error in the delete message axios function: ",
+      error.response.data.message
+    );
+    return error.repsonse.data;
+  }
+};
