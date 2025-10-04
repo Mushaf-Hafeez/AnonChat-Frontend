@@ -24,6 +24,10 @@ const ChatSidebar = () => {
     >
       <div className="h-fit overflow-y-auto w-full p-4">
         <h2 className="block text-xl font-semibold mb-4">Chat</h2>
+
+        {/* group search functionality */}
+        {/* Todo: add the search joined groups feature */}
+
         <div className="col-center gap-2 items-start text-neutral-600">
           {user &&
             user.joinedGroups &&
