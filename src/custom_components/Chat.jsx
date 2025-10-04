@@ -12,7 +12,9 @@ const Chat = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState([]);
 
-  const { selectedGroup, socket } = useSelector((state) => state.Group);
+  const { isSelected, selectedGroup, socket } = useSelector(
+    (state) => state.Group
+  );
 
   // fetch messages function
   const fetchMessages = async () => {
@@ -39,7 +41,22 @@ const Chat = () => {
       }
     });
 
-    return () => socket.off("new-message");
+    // listen to the delete message event
+    socket.on("delete-message", (data) => {
+      console.log("data in delete message event: ", data);
+
+      if (isSelected && selectedGroup._id === data.groupId) {
+        const filteredMessages = messages.filter(
+          (message) => message._id !== data.messageId
+        );
+        setMessages(filteredMessages);
+      }
+    });
+
+    return () => {
+      socket.off("new-message");
+      socket.off("delete-message");
+    };
   }, []);
 
   return (
