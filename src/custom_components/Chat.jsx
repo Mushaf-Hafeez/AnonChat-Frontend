@@ -6,7 +6,8 @@ import ChatMessages from "./ChatMessages";
 import Spinner from "./Spinner";
 
 import { getMessages } from "@/services/message";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setGroups } from "@/redux/slices/userSlice";
 
 const Chat = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -15,6 +16,7 @@ const Chat = () => {
   const { isSelected, selectedGroup, socket } = useSelector(
     (state) => state.Group
   );
+  const dispatch = useDispatch();
 
   // fetch messages function
   const fetchMessages = async () => {
@@ -35,9 +37,12 @@ const Chat = () => {
 
   // for socket
   useEffect(() => {
-    socket.on("new-message", (message) => {
+    socket.on("new-message", ({ message, joinedGroups }) => {
       if (selectedGroup && message.group._id === selectedGroup._id) {
         setMessages((prev) => [...prev, message]);
+
+        // place the group to the front of the joinedGroups in the state
+        dispatch(setGroups(joinedGroups));
       }
     });
 

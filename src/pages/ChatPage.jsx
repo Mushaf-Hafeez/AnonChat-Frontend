@@ -11,6 +11,7 @@ import { io } from "socket.io-client";
 import { setSocket } from "@/redux/slices/groupSlice";
 import { toast } from "react-toastify";
 import { MailCheck } from "lucide-react";
+import { setGroups } from "@/redux/slices/userSlice";
 
 const backendURL = import.meta.env.VITE_BACKEND_URL;
 let client;
@@ -42,11 +43,12 @@ const ChatPage = () => {
   useEffect(() => {
     if (!socket) return;
 
-    const handleNewMessage = (message) => {
+    const handleNewMessage = ({ message, joinedGroups }) => {
       if (message.group._id !== selectedGroup?._id)
         toast.success(`New message in ${message.group.groupName}`, {
           icon: ({ theme, type }) => <MailCheck color="green" />,
         });
+      dispatch(setGroups(joinedGroups));
     };
 
     socket.on("new-message", handleNewMessage);

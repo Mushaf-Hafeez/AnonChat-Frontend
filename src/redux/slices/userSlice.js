@@ -29,8 +29,11 @@ const userSlice = createSlice({
         state.user = { ...state.user, joinedGroups: [...updatedJoindedGroups] };
       }
     },
+    setGroups: (state, action) => {
+      state.user.joinedGroups = action.payload;
+    },
   },
 });
 
-export const { setUser, clearUser, removeGroup } = userSlice.actions;
+export const { setUser, clearUser, removeGroup, setGroups } = userSlice.actions;
 export default userSlice.reducer;
