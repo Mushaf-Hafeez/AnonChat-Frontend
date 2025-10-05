@@ -1,3 +1,7 @@
+import { useState } from "react";
+
+import { Plus } from "lucide-react";
+
 import {
   Dialog,
   DialogContent,
@@ -7,19 +11,28 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-import { Plus } from "lucide-react";
+// importing custom components
+import CreateGroup from "./CreateGroup";
+import JoinGroup from "./JoinGroup";
 
 const Group = () => {
+  const [isCreateGroup, setIsCreateGroup] = useState(false);
+
+  const toggleMode = () => {
+    setIsCreateGroup((prev) => !prev);
+  };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Plus size={16} className="font-medium cursor-pointer" />
       </DialogTrigger>
       <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Join group</DialogTitle>
-          <DialogDescription>List of groups</DialogDescription>
-        </DialogHeader>
+        {isCreateGroup ? (
+          <CreateGroup toggleMode={toggleMode} />
+        ) : (
+          <JoinGroup toggleMode={toggleMode} />
+        )}
       </DialogContent>
     </Dialog>
   );
