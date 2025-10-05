@@ -4,23 +4,16 @@ import { useDispatch, useSelector } from "react-redux";
 import Logout from "@/custom_components/Logout";
 import { EllipsisVertical, LogOut, Plus, Users } from "lucide-react";
 import { setIsSelected, setSelectedGroup } from "@/redux/slices/groupSlice";
+
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import LogoutDropDown from "./LogoutDropDown";
 
 const ChatSidebar = () => {
   const { user } = useSelector((state) => state.User);
@@ -43,29 +36,21 @@ const ChatSidebar = () => {
         <div className="flex items-center justify-between mb-4">
           <h2 className="block text-xl font-semibold">Groups</h2>
           <div className="flex items-center gap-2">
-            <Plus size={16} className="font-medium cursor-pointer" />
+            {/* button to create/join groups */}
+            <Dialog>
+              <DialogTrigger asChild>
+                <Plus size={16} className="font-medium cursor-pointer" />
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Join group</DialogTitle>
+                  <DialogDescription>List of groups</DialogDescription>
+                </DialogHeader>
+              </DialogContent>
+            </Dialog>
 
             {/* Dropdown that show the logout button on the smaller screens */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild className="block md:hidden">
-                <button
-                  aria-label="More options"
-                  className="hover:bg-gray-100 p-1 rounded transition-colors"
-                >
-                  <EllipsisVertical size={16} />
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem
-                  className="p-0"
-                  onSelect={(e) => {
-                    e.preventDefault(); // This prevents the dropdown from closing
-                  }}
-                >
-                  <Logout isChatSidebar={true} />
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <LogoutDropDown />
           </div>
         </div>
 
