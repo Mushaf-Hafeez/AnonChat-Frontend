@@ -14,7 +14,7 @@ const JoinGroup = ({ toggleMode }) => {
   const { user } = useSelector((state) => state.User);
 
   return (
-    <DialogContent>
+    <>
       <DialogHeader>
         <DialogTitle>Join group</DialogTitle>
         <DialogDescription>List of groups</DialogDescription>
@@ -24,11 +24,15 @@ const JoinGroup = ({ toggleMode }) => {
 
       {/* render if the user is the CR/GR */}
       {(user.role === "CR" || user.role === "GR") && (
-        <Button className={"rounded-full cursor-pointer"} onClick={toggleMode}>
+        <Button
+          variant={"ghost"}
+          className={"cursor-pointer"}
+          onClick={toggleMode}
+        >
           Create group
         </Button>
       )}
-    </DialogContent>
+    </>
   );
 };
 

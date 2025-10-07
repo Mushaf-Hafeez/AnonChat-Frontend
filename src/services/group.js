@@ -14,6 +14,20 @@ export const getGroupData = async (id) => {
   }
 };
 
+export const createGroup = async (data) => {
+  try {
+    const response = await api.post("group/create", data);
+
+    return response.data;
+  } catch (error) {
+    console.log(
+      "Error in the create group axios function: ",
+      error.response.data.message
+    );
+    return error.response.data;
+  }
+};
+
 // leaveGroup function
 export const leaveGroup = async (groupID) => {
   try {
