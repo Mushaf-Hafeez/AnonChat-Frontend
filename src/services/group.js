@@ -56,3 +56,17 @@ export const removeMember = async (id, userId) => {
     return error.response.data;
   }
 };
+
+// searchGroup function
+export const searchGroup = async (groupName) => {
+  try {
+    const response = await api.get(`/group?groupName=${groupName}`);
+    return response.data;
+  } catch (error) {
+    console.log(
+      "Error in the search group axios function: ",
+      error.response.data.message
+    );
+    return error.response.data;
+  }
+};
