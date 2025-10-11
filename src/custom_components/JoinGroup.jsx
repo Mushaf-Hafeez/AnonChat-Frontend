@@ -48,7 +48,9 @@ const JoinGroup = ({ toggleMode }) => {
   return (
     <>
       <DialogHeader>
-        <DialogTitle>Join group</DialogTitle>
+        <DialogTitle className={"self-start md:self-center"}>
+          Join group
+        </DialogTitle>
         <DialogDescription>
           <form
             onSubmit={handleSubmit(onSubmit)}
