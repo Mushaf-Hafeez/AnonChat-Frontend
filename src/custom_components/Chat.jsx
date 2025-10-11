@@ -33,7 +33,7 @@ const Chat = () => {
 
   useEffect(() => {
     fetchMessages();
-  }, []);
+  }, [selectedGroup]);
 
   // for socket
   useEffect(() => {
