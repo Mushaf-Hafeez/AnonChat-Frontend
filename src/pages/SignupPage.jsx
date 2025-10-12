@@ -103,6 +103,7 @@ const SignupPage = () => {
       confirmPassword,
       section,
       semester,
+      department,
     } = data;
 
     // create the signup data
@@ -114,6 +115,7 @@ const SignupPage = () => {
       confirmPassword,
       section,
       semester,
+      department,
     };
 
     // return if both passwords are not same
@@ -150,7 +152,7 @@ const SignupPage = () => {
     <section className="min-h-screen w-full col-center">
       <Card
         className={
-          "w-11/12 my-20 md:w-4/12 mx-auto shadow-xl border-2 border-neutral-200"
+          "w-11/12 my-20 md:w-5/12 mx-auto shadow-xl border-2 border-neutral-200"
         }
       >
         <CardHeader className={"flex-center gap-4"}>
@@ -352,7 +354,7 @@ const SignupPage = () => {
             </div>
 
             {/* Semester label and dropdown */}
-            <div className="container flex space-x-4">
+            <div className="container flex flex-wrap space-x-4">
               <div className="space-y-2">
                 <Label htmlFor="semester">Semester</Label>
                 <Controller
@@ -463,7 +465,7 @@ const SignupPage = () => {
               onClick={handleForgotPassword}
               className={"cursor-pointer"}
             >
-              Already have an account? <Link to="/login">Login</Link>
+              <Link to="/login">Already have an account?</Link>
             </Button>
           </form>
         </CardContent>
