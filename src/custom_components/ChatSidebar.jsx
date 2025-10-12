@@ -25,7 +25,7 @@ const ChatSidebar = () => {
         isSelected && "hidden md:flex"
       } w-full md:w-2/12 h-full bg-white rounded-r-xl col-center justify-between items-start`}
     >
-      <div className="h-fit overflow-y-auto w-full p-4">
+      <div className="h-fit overflow-y-auto scrollbar-none w-full p-4">
         <div className="flex items-center justify-between mb-4">
           <h2 className="block text-xl font-semibold">Groups</h2>
           <div className="flex items-center gap-2">
@@ -40,7 +40,7 @@ const ChatSidebar = () => {
         {/* group search functionality */}
         {/* Todo: add the search joined groups feature */}
 
-        <div className="col-center gap-2 items-start text-neutral-600">
+        <div className="col-center gap-2 items-start text-neutral-600 overflow-x-none">
           {user &&
             user.joinedGroups &&
             user.joinedGroups.length > 0 &&
@@ -55,8 +55,15 @@ const ChatSidebar = () => {
                   "bg-neutral-800 text-white font-medium rounded"
                 }`}
               >
-                <Users />
-                <p className="text-lg">{group.groupName}</p>
+                <span>
+                  <Users size={22} />
+                </span>
+                {/* <p className="text-lg w-full shrink-0 overflow-x-auto">
+                  Here is the name of the group
+                </p> */}
+                <p className="text-md leading-6 overflow-x-auto scrollbar-none">
+                  {group.groupName}
+                </p>
               </span>
             ))}
         </div>
