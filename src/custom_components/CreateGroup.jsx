@@ -41,6 +41,7 @@ const CreateGroup = ({ toggleMode }) => {
       description: data.description.replace(/(\n|\r)/gm, ""),
       semester: user.semester,
       section: user.section,
+      department: user.department,
     };
 
     // call the create group axios function
