@@ -83,7 +83,7 @@ const LoginPage = () => {
     <section className="h-screen w-full col-center">
       <Card
         className={
-          "w-11/12 md:w-4/12 mx-auto shadow-xl border-2 border-neutral-200"
+          "w-11/12 sm:w-8/12 lg:w-4/12 mx-auto shadow-xl border-2 border-neutral-200"
         }
       >
         <CardHeader className={"flex-center text-center gap-4"}>

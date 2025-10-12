@@ -97,6 +97,11 @@ const JoinGroup = ({ toggleMode }) => {
                       variant={"ghost"}
                       disabled={hasAlreadyJoined(group._id)}
                       size={"icon"}
+                      className={`${
+                        hasAlreadyJoined(group._id)
+                          ? "cursor-not-allowed"
+                          : "cursor-pointer"
+                      }`}
                     >
                       {hasAlreadyJoined(group._id) ? <Check /> : <Plus />}
                     </Button>
