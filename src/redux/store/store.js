@@ -12,4 +12,11 @@ export const store = configureStore({
     Data: dataReducer,
     Group: groupReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: ["Group/setSocket"],
+        ignoredPaths: ["Group.socket"],
+      },
+    }),
 });
