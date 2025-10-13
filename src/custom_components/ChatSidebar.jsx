@@ -34,7 +34,7 @@ const ChatSidebar = () => {
   useEffect(() => {
     const filtered =
       search && search.length > 0
-        ? filteredGroups.filter((group) =>
+        ? user.joinedGroups.filter((group) =>
             group.groupName.toLowerCase().includes(search.toLowerCase())
           )
         : structuredClone(user.joinedGroups);
