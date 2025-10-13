@@ -70,3 +70,17 @@ export const searchGroup = async (groupName) => {
     return error.response.data;
   }
 };
+
+// join group request function
+export const joinGroup = async (groupId) => {
+  try {
+    const response = await api.post(`/group/join/${groupId}`);
+    return response.data;
+  } catch (error) {
+    console.log(
+      "Error in the join group axios function: ",
+      error.response.data.message
+    );
+    return error.response.data;
+  }
+};

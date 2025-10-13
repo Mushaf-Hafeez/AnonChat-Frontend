@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Check, Plus, Search, Users } from "lucide-react";
 import { useForm } from "react-hook-form";
 import Spinner from "./Spinner";
-import { searchGroup } from "@/services/group";
+import { joinGroup, searchGroup } from "@/services/group";
 import { toast } from "react-toastify";
 
 const JoinGroup = ({ toggleMode }) => {
@@ -35,8 +35,14 @@ const JoinGroup = ({ toggleMode }) => {
   };
 
   // handleJoinGroup function
-  const handleJoinGroup = (groupId) => {
-    toast.success(groupId);
+  const handleJoinGroup = async (groupId) => {
+    const response = await joinGroup(groupId);
+
+    if (response.success) {
+      toast.success(response.message);
+    } else {
+      toast.error(response.message);
+    }
   };
 
   // onSubmit handler function
@@ -91,7 +97,7 @@ const JoinGroup = ({ toggleMode }) => {
 
           {groups &&
             (Array.isArray(groups) && groups.length > 0 ? (
-              <ul>
+              <ul className="mt-2">
                 {groups.map((group) => (
                   <li className="flex items-center justify-between pe-2">
                     <div className="flex items-center gap-2">
