@@ -1,23 +1,45 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import Logout from "@/custom_components/Logout";
 import { Users } from "lucide-react";
 import { setIsSelected, setSelectedGroup } from "@/redux/slices/groupSlice";
 
-import LogoutDropDown from "./LogoutDropDown";
 import Group from "./Group";
+import LogoutDropDown from "./LogoutDropDown";
+import { Input } from "@/components/ui/input";
 
 const ChatSidebar = () => {
   const { user } = useSelector((state) => state.User);
   const { isSelected, selectedGroup } = useSelector((state) => state.Group);
   const dispatch = useDispatch();
 
+  const [search, setSearch] = useState("");
+  const [filteredGroups, setFilteredGroups] = useState(
+    structuredClone(user.joinedGroups)
+  );
   // handleClick function
   const handleClick = (group) => {
     dispatch(setIsSelected(true));
     dispatch(setSelectedGroup(group));
+    setSearch("");
   };
+
+  // handleSearchChange function
+  const handleSearchChange = (e) => {
+    setSearch(e.target.value);
+    console.log(e.target.value);
+  };
+
+  useEffect(() => {
+    const filtered =
+      search && search.length > 0
+        ? filteredGroups.filter((group) =>
+            group.groupName.toLowerCase().includes(search.toLowerCase())
+          )
+        : structuredClone(user.joinedGroups);
+    setFilteredGroups([...filtered]);
+  }, [search]);
 
   return (
     <aside
@@ -38,13 +60,20 @@ const ChatSidebar = () => {
         </div>
 
         {/* group search functionality */}
-        {/* Todo: add the search joined groups feature */}
+        <Input
+          type={"text"}
+          value={search}
+          placeholder={"Search..."}
+          className={"bg-neutral-200/90 my-2"}
+          onChange={handleSearchChange}
+        />
 
         <div className="col-center gap-2 items-start text-neutral-600 overflow-x-none">
-          {user &&
-            user.joinedGroups &&
-            user.joinedGroups.length > 0 &&
-            user.joinedGroups.map((group, index) => (
+          {/* change the user.joinedGroups to groups */}
+
+          {filteredGroups &&
+            filteredGroups.length > 0 &&
+            filteredGroups.map((group, index) => (
               <span
                 //   add the onclick event and add the id to the state in the redux
                 key={index}

@@ -14,6 +14,7 @@ import { Check, Plus, Search, Users } from "lucide-react";
 import { useForm } from "react-hook-form";
 import Spinner from "./Spinner";
 import { searchGroup } from "@/services/group";
+import { toast } from "react-toastify";
 
 const JoinGroup = ({ toggleMode }) => {
   const { user } = useSelector((state) => state.User);
@@ -31,6 +32,11 @@ const JoinGroup = ({ toggleMode }) => {
   const hasAlreadyJoined = (groupId) => {
     const index = user.joinedGroups.findIndex((group) => group._id == groupId);
     return index === -1 ? false : true;
+  };
+
+  // handleJoinGroup function
+  const handleJoinGroup = (groupId) => {
+    toast.success(groupId);
   };
 
   // onSubmit handler function
@@ -87,7 +93,7 @@ const JoinGroup = ({ toggleMode }) => {
             (Array.isArray(groups) && groups.length > 0 ? (
               <ul>
                 {groups.map((group) => (
-                  <li className="flex items-center justify-between ">
+                  <li className="flex items-center justify-between pe-2">
                     <div className="flex items-center gap-2">
                       <Users size="18" />
                       <h3>{group.groupName}</h3>
@@ -97,13 +103,18 @@ const JoinGroup = ({ toggleMode }) => {
                       variant={"ghost"}
                       disabled={hasAlreadyJoined(group._id)}
                       size={"icon"}
-                      className={`${
+                      className={`size-4 ${
                         hasAlreadyJoined(group._id)
                           ? "cursor-not-allowed"
                           : "cursor-pointer"
                       }`}
+                      asChild
                     >
-                      {hasAlreadyJoined(group._id) ? <Check /> : <Plus />}
+                      {hasAlreadyJoined(group._id) ? (
+                        <Check />
+                      ) : (
+                        <Plus onClick={() => handleJoinGroup(group._id)} />
+                      )}
                     </Button>
                   </li>
                 ))}
