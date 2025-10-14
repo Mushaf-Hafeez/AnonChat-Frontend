@@ -15,6 +15,7 @@ import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import AdminLoginPage from "./pages/AdminLoginPage";
 import ChatPage from "./pages/ChatPage";
+import GroupManagementPage from "./pages/GroupManagementPage";
 import DepartmentPage from "./pages/DepartmentPage";
 import AddAdminsPage from "./pages/AddAdminsPage";
 import UnauthorizedPage from "./pages/UnauthorizedPage";
@@ -27,6 +28,9 @@ const DashboardPage = lazy(() => import("./pages/DashboardPage"));
 const AdminProtectedRoute = lazy(() => import("./pages/AdminProtectedRoute"));
 const StudentProtectedRoute = lazy(() =>
   import("./pages/StudentProtectedRoute")
+);
+const GroupAdminProtectedRoute = lazy(() =>
+  import("./pages/GroupAdminProtectedRoute")
 );
 
 // importing api call functions
@@ -93,6 +97,18 @@ const App = () => {
               <StudentProtectedRoute>
                 <ChatPage />
               </StudentProtectedRoute>
+            </Suspense>
+          }
+        ></Route>
+
+        {/* Group management page route */}
+        <Route
+          path="/group/:groupId/manage"
+          element={
+            <Suspense fallback={<LazyLoadingPage />}>
+              <GroupAdminProtectedRoute>
+                <GroupManagementPage />
+              </GroupAdminProtectedRoute>
             </Suspense>
           }
         ></Route>
