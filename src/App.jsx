@@ -29,9 +29,7 @@ const AdminProtectedRoute = lazy(() => import("./pages/AdminProtectedRoute"));
 const StudentProtectedRoute = lazy(() =>
   import("./pages/StudentProtectedRoute")
 );
-const GroupAdminProtectedRoute = lazy(() =>
-  import("./pages/GroupAdminProtectedRoute")
-);
+import GroupAdminProtectedRoute from "./pages/GroupAdminProtectedRoute";
 
 // importing api call functions
 import { getDepartments } from "./services/department";
