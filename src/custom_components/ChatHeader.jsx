@@ -1,5 +1,5 @@
 import { setIsSelected, setSelectedGroup } from "@/redux/slices/groupSlice";
-import { ArrowLeft, EllipsisVertical, LogOut } from "lucide-react";
+import { ArrowLeft, EllipsisVertical, LogOut, Settings } from "lucide-react";
 import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -18,6 +18,7 @@ import { toast } from "react-toastify";
 
 import { leaveGroup } from "@/services/group";
 import { removeGroup } from "@/redux/slices/userSlice";
+import { Link } from "react-router-dom";
 
 const ChatHeader = () => {
   const [iseMenuOpen, setIsMeunOpen] = useState(false);
@@ -86,6 +87,17 @@ const ChatHeader = () => {
           }`}
         >
           <Dialog>
+            {(user.role === "CR" || user.role === "GR") && (
+              <Link to={"/alksjdksjkld"}>
+                <Button
+                  variant={"ghost"}
+                  className="flex items-center gap-2 cursor-pointer text-neutral-600"
+                >
+                  <Settings size={18} />
+                  Manage group
+                </Button>
+              </Link>
+            )}
             <DialogTrigger asChild>
               <Button
                 variant={"ghost"}
