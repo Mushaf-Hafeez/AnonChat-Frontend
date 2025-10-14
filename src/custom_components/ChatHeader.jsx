@@ -88,7 +88,7 @@ const ChatHeader = () => {
         >
           <Dialog>
             {(user.role === "CR" || user.role === "GR") && (
-              <Link to={"/alksjdksjkld"}>
+              <Link to={`/group/${selectedGroup._id}/manage`}>
                 <Button
                   variant={"ghost"}
                   className="flex items-center gap-2 cursor-pointer text-neutral-600"
