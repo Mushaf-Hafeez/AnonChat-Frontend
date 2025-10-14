@@ -25,16 +25,28 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+
 import { EllipsisVertical, Pencil, Trash2 } from "lucide-react";
+import { toast } from "react-toastify";
 
 const GroupManagementHeader = ({ groupData }) => {
+  // Todo: add the onClick listeners on edit and delete
+
+  //   handleDelete function
+  const handleDelete = () => {
+    toast.success("Group deleted ", groupData._id);
+
+    // Todo: add the delete functionality
+    // remove the group from the user.joinedGroups and user.myGroups
+    // make the api call to delete the group
+  };
+
   return (
     <div className="flex items-center gap-2">
       {/* dropdown for smaller screens */}
@@ -59,19 +71,19 @@ const GroupManagementHeader = ({ groupData }) => {
                   </DialogHeader>
                   <div className="grid gap-4">
                     <div className="grid gap-3">
-                      <Label htmlFor="name-1">Name</Label>
+                      <Label htmlFor="groupName">Group name</Label>
                       <Input
-                        id="name-1"
-                        name="name"
-                        defaultValue="Pedro Duarte"
+                        id="groupName"
+                        name="groupName"
+                        defaultValue={groupData.groupName}
                       />
                     </div>
                     <div className="grid gap-3">
-                      <Label htmlFor="username-1">Username</Label>
-                      <Input
-                        id="username-1"
-                        name="username"
-                        defaultValue="@peduarte"
+                      <Label htmlFor="description">Desription</Label>
+                      <Textarea
+                        id="description"
+                        name="description"
+                        defaultValue={groupData.description}
                       />
                     </div>
                   </div>
@@ -103,7 +115,10 @@ const GroupManagementHeader = ({ groupData }) => {
                   <AlertDialogCancel className={"cursor-pointer"}>
                     Cancel
                   </AlertDialogCancel>
-                  <AlertDialogAction className={"cursor-pointer"}>
+                  <AlertDialogAction
+                    onClick={handleDelete}
+                    className={"cursor-pointer"}
+                  >
                     Delete
                   </AlertDialogAction>
                 </AlertDialogFooter>
@@ -131,15 +146,19 @@ const GroupManagementHeader = ({ groupData }) => {
             </DialogHeader>
             <div className="grid gap-4">
               <div className="grid gap-3">
-                <Label htmlFor="name-1">Name</Label>
-                <Input id="name-1" name="name" defaultValue="Pedro Duarte" />
+                <Label htmlFor="groupName">Group name</Label>
+                <Input
+                  id="groupName"
+                  name="groupName"
+                  defaultValue={groupData.groupName}
+                />
               </div>
               <div className="grid gap-3">
-                <Label htmlFor="username-1">Username</Label>
-                <Input
-                  id="username-1"
-                  name="username"
-                  defaultValue="@peduarte"
+                <Label htmlFor="description">Description</Label>
+                <Textarea
+                  id="description"
+                  name="description"
+                  defaultValue={groupData.description}
                 />
               </div>
             </div>
@@ -170,7 +189,10 @@ const GroupManagementHeader = ({ groupData }) => {
             <AlertDialogCancel className={"cursor-pointer"}>
               Cancel
             </AlertDialogCancel>
-            <AlertDialogAction className={"cursor-pointer"}>
+            <AlertDialogAction
+              onClick={handleDelete}
+              className={"cursor-pointer"}
+            >
               Delete
             </AlertDialogAction>
           </AlertDialogFooter>
