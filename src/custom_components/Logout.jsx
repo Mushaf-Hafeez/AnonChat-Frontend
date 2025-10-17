@@ -56,7 +56,7 @@ const Logout = ({ isChatSidebar }) => {
           "p-2 text-neutral-600 flex items-center gap-2 cursor-pointer"
         }
       >
-        <LogOut />
+        <LogOut size={20} />
         <span className={`${isChatSidebar ? "block" : "hidden lg:block"}`}>
           Logout
         </span>
