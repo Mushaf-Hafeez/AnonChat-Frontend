@@ -1,10 +1,19 @@
 // importing components
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
-const GroupManagementTab = () => {
+const GroupManagementTab = ({ groupData }) => {
   return (
     <div className="h-full w-full bg-neutral-100 rounded-lg shadow-lg shadow-neutral-400/70 px-5 py-3">
-      <Tabs defaultValue="account">
+      <Tabs defaultValue="members">
         <div className="w-full overflow-x-auto scrollbar-none">
           <TabsList>
             <TabsTrigger
@@ -33,9 +42,30 @@ const GroupManagementTab = () => {
             </TabsTrigger>
           </TabsList>
         </div>
+
+        {/* table of the group members */}
         <TabsContent value="members">
-          Here you will show the table of the group members with CTA buttons.
+          <Table>
+            <TableCaption>A list of your recent invoices.</TableCaption>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-[100px]">Invoice</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Method</TableHead>
+                <TableHead className="text-right">Amount</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              <TableRow>
+                <TableCell className="font-medium">INV001</TableCell>
+                <TableCell>Paid</TableCell>
+                <TableCell>Credit Card</TableCell>
+                <TableCell className="text-right">$250.00</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
         </TabsContent>
+
         <TabsContent value="join-requests">
           Here you will show the join requests.
         </TabsContent>
