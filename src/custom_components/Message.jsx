@@ -14,7 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { toast } from "react-toastify";
-import { deleteMessage } from "@/services/message";
+import { deleteMessage, reportMessage } from "@/services/message";
 
 const Message = ({ message }) => {
   const { user } = useSelector((state) => state.User);
@@ -51,10 +51,13 @@ const Message = ({ message }) => {
   };
 
   // handleMessageReport function
-  const handleMessageReport = (messageId, groupId) => {
+  const handleMessageReport = async (messageId, groupId) => {
     // call the report message api
+    const response = await reportMessage(groupId, messageId);
 
-    toast.success("Message has been reported.");
+    if (response.success) {
+      toast.success(response.message);
+    }
   };
   return (
     <div
