@@ -12,7 +12,7 @@ import {
 import { Check, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-toastify";
-import { removeMember } from "@/services/group";
+import { addMember, removeMember } from "@/services/group";
 
 const GroupManagementTab = ({ groupData, setGroupData }) => {
   // handleRemoveMember function
@@ -34,10 +34,27 @@ const GroupManagementTab = ({ groupData, setGroupData }) => {
   };
 
   // acceptRequest handler function
-  const handleAcceptRequest = (request) => {
-    toast.success(`Request accepted ${request._id}`);
+  const handleAcceptRequest = async (requestedMember) => {
     // Todo: remove the ID from the groupData.joinRequests and add the object into the groupData.members
     // Todo: make the api call to remove the ID from the group.joinRequests and add the member ID in the group.members
+    const response = await addMember(groupData._id, requestedMember._id);
+
+    if (response.success) {
+      const members = [...groupData.members, requestedMember];
+      const requests = groupData.requests.filter(
+        (request) => request._id !== requestedMember._id
+      );
+
+      setGroupData({
+        ...groupData,
+        members,
+        requests,
+      });
+
+      toast.success(response.message);
+    } else {
+      toast.error(response.message);
+    }
   };
 
   // rejectRequest handler function

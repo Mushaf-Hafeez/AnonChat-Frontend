@@ -42,6 +42,20 @@ export const leaveGroup = async (groupID) => {
   }
 };
 
+// addMember function
+export const addMember = async (groupId, userId) => {
+  try {
+    const response = await api.put(`/group/add/${groupId}/${userId}`);
+    return response.data;
+  } catch (error) {
+    console.log(
+      "Error in the add member axios function: ",
+      error.response.data.message
+    );
+    return error.response.data;
+  }
+};
+
 // removeMember function
 export const removeMember = async (id, userId) => {
   try {
