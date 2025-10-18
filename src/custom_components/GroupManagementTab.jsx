@@ -12,8 +12,27 @@ import {
 import { Check, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-toastify";
+import { removeMember } from "@/services/group";
 
-const GroupManagementTab = ({ groupData }) => {
+const GroupManagementTab = ({ groupData, setGroupData }) => {
+  // handleRemoveMember function
+  const handleRemoveMember = async (member) => {
+    const response = await removeMember(groupData._id, member._id);
+
+    if (response.success) {
+      // remove the user from the groupData.members
+      const filteredMembers = groupData.members.filter(
+        (joinedMember) => joinedMember._id !== member._id
+      );
+
+      setGroupData({ ...groupData, members: [...filteredMembers] });
+
+      toast.success(response.message);
+    } else {
+      toast.error(response.message);
+    }
+  };
+
   // acceptRequest handler function
   const handleAcceptRequest = (request) => {
     toast.success(`Request accepted ${request._id}`);
@@ -104,6 +123,7 @@ const GroupManagementTab = ({ groupData }) => {
                       <X
                         size={16}
                         className="absolute top-1/2 -translate-y-1/2 right-6 cursor-pointer"
+                        onClick={() => handleRemoveMember(member)}
                       />
                     </TableCell>
                   </TableRow>

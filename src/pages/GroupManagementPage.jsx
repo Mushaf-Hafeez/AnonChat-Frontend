@@ -73,7 +73,7 @@ const GroupManagementPage = () => {
       </div>
 
       {/* Tab component */}
-      <GroupManagementTab groupData={groupData} />
+      <GroupManagementTab groupData={groupData} setGroupData={setGroupData} />
     </section>
   );
 };
