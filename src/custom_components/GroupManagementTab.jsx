@@ -9,9 +9,26 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { X } from "lucide-react";
+import { Check, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { toast } from "react-toastify";
 
 const GroupManagementTab = ({ groupData }) => {
+  // acceptRequest handler function
+  const handleAcceptRequest = (request) => {
+    toast.success(`Request accepted ${request._id}`);
+    // Todo: remove the ID from the groupData.joinRequests and add the object into the groupData.members
+    // Todo: make the api call to remove the ID from the group.joinRequests and add the member ID in the group.members
+  };
+
+  // rejectRequest handler function
+  const handleRejectRequest = (request) => {
+    toast.success(`Request rejected ${request._id}`);
+
+    // Todo: remove the ID from the groupData.joinRequests
+    // Todo: make the api call to remove the ID from the group.joinRequests
+  };
+
   return (
     <div className="max-h-full overflow-auto w-full bg-neutral-100 rounded-lg shadow-lg shadow-neutral-400/70 px-5 py-3">
       <Tabs defaultValue="members" className={"h-full"}>
@@ -107,10 +124,24 @@ const GroupManagementTab = ({ groupData }) => {
                       {/* Todo: Replace the icon with two buttons
                       one for accept the join request
                       other to reject the join request */}
-                      <X
-                        size={16}
-                        className="absolute top-1/2 -translate-y-1/2 right-6 cursor-pointer"
-                      />
+                      <div className="absolute top-1/2 -translate-y-1/2 right-3 flex items-center gap-2">
+                        <Button
+                          variant={"ghost"}
+                          size={"icon"}
+                          className={"cursor-pointer"}
+                          onClick={() => handleAcceptRequest(member)}
+                        >
+                          <Check />
+                        </Button>
+                        <Button
+                          variant={"ghost"}
+                          size={"icon"}
+                          className={"cursor-pointer"}
+                          onClick={() => handleRejectRequest(member)}
+                        >
+                          <X />
+                        </Button>
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))}
