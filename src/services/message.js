@@ -42,3 +42,18 @@ export const deleteMessage = async (messageId, groupId) => {
     return error.repsonse.data;
   }
 };
+
+// reportMessage function
+export const reportMessage = async (groupId, messageId) => {
+  try {
+    const response = await api.put(`/message/report/${groupId}/${messageId}`);
+
+    return response.data;
+  } catch (error) {
+    console.log(
+      "Error in the report message axios function: ",
+      error.repsonse.data.message
+    );
+    return error.repsonse.data;
+  }
+};
