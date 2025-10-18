@@ -29,6 +29,20 @@ const GroupManagementTab = ({ groupData }) => {
     // Todo: make the api call to remove the ID from the group.joinRequests
   };
 
+  // deleteReported Message handler function
+  const handleDeleteReportedMessage = (message) => {
+    toast.success(`Message deleted ${message._id}`);
+
+    // Todo: make the api call and remove it from the groupData
+  };
+
+  // dismissReported Message handler function
+  const handleDismissReportedMessage = (message) => {
+    toast.success(`Message dismissed ${message._id}`);
+
+    // Todo: make the api call and remove it from the groupData
+  };
+
   return (
     <div className="max-h-full overflow-auto w-full bg-neutral-100 rounded-lg shadow-lg shadow-neutral-400/70 px-5 py-3">
       <Tabs defaultValue="members" className={"h-full"}>
@@ -61,7 +75,7 @@ const GroupManagementTab = ({ groupData }) => {
           </TabsList>
         </div>
 
-        {/* table of the group members */}
+        {/* table for the group members */}
         <TabsContent
           value="members"
           className={"h-full overflow-auto scrollbar-none"}
@@ -98,7 +112,7 @@ const GroupManagementTab = ({ groupData }) => {
           </Table>
         </TabsContent>
 
-        {/* table of the join requests */}
+        {/* table for the join requests */}
         <TabsContent value="join-requests">
           <Table className={"h-full overflow-auto scrollbar-none"}>
             <TableCaption>A list of join requests</TableCaption>
@@ -149,7 +163,56 @@ const GroupManagementTab = ({ groupData }) => {
           </Table>
         </TabsContent>
 
-        <TabsContent value="reported-messages"></TabsContent>
+        {/* Table for the reportedMessages */}
+        <TabsContent value="reported-messages">
+          <Table className={"h-full overflow-auto scrollbar-none"}>
+            <TableCaption>A list of reported messages</TableCaption>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-[100px]">No.</TableHead>
+                <TableHead>Sender rollno</TableHead>
+                <TableHead>Sender name</TableHead>
+                <TableHead>Message</TableHead>
+                <TableHead className="text-right">Delete/Dismiss</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody className={"h-full overflow-y-auto"}>
+              {groupData.reportedMessages &&
+                groupData.reportedMessages.length > 0 &&
+                groupData.reportedMessages.map((message, index) => (
+                  <TableRow key={message._id}>
+                    <TableCell className="font-medium">{index + 1}</TableCell>
+                    <TableCell>{message.sender.rollno}</TableCell>
+                    <TableCell>{message.sender.name}</TableCell>
+                    <TableCell>{message.content}</TableCell>
+                    <TableCell className="relative">
+                      {/* Todo: Replace the icon with two buttons
+                      one for accept the join request
+                      other to reject the join request */}
+                      <div className="absolute top-1/2 -translate-y-1/2 right-3 flex items-center gap-2">
+                        <Button
+                          variant={"ghost"}
+                          size={"icon"}
+                          className={"cursor-pointer"}
+                          onClick={() => handleDeleteReportedMessage(message)}
+                        >
+                          <Check />
+                        </Button>
+                        <Button
+                          variant={"ghost"}
+                          size={"icon"}
+                          className={"cursor-pointer"}
+                          onClick={() => handleDismissReportedMessage(message)}
+                        >
+                          <X />
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+        </TabsContent>
       </Tabs>
     </div>
   );

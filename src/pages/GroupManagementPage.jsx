@@ -8,7 +8,6 @@ import LazyLoadingPage from "./LazyLoadingPage";
 
 import GroupManagementHeader from "@/custom_components/GroupManagementHeader";
 import GroupManagementGrids from "@/custom_components/GroupManagementTab";
-import { getMessages } from "@/services/message";
 import GroupManagementTab from "@/custom_components/GroupManagementTab";
 import { ArrowLeft } from "lucide-react";
 
@@ -23,6 +22,8 @@ const GroupManagementPage = () => {
     setIsLoading(true);
 
     const response = await getGroupData(groupId);
+
+    console.log(response);
 
     if (response.success) {
       setGroupData(response.groupData);
@@ -61,7 +62,7 @@ const GroupManagementPage = () => {
               {groupData.groupName}
             </h2>
             <p className="text-neutral-600 text-sm">
-              {groupData.description.endsWith(".")
+              {groupData.description?.endsWith(".")
                 ? groupData.description
                 : groupData.description + "."}
             </p>
