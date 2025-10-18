@@ -73,3 +73,19 @@ export const dismissReportedMessage = async (groupId, messageId) => {
     return error.repsonse.data;
   }
 };
+
+// deleteReportedMessage function
+export const deleteReportedMessage = async (groupId, messageId) => {
+  try {
+    const response = await api.put(
+      `/message/deleteReportedMessage/${groupId}/${messageId}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log(
+      "Error in the delete reported message axios function: ",
+      error.response.data.message
+    );
+    return error.repsonse.data;
+  }
+};
