@@ -1,8 +1,8 @@
 import { api } from ".";
 
-export const getGroupData = async (id) => {
+export const getGroupData = async (groupId) => {
   try {
-    const response = await api.get(`/group/details/${id}`);
+    const response = await api.get(`/group/details/${groupId}`);
 
     return response.data;
   } catch (error) {
@@ -29,9 +29,9 @@ export const createGroup = async (data) => {
 };
 
 // leaveGroup function
-export const leaveGroup = async (groupID) => {
+export const leaveGroup = async (groupId) => {
   try {
-    const response = await api.delete(`/group/leave/${groupID}`);
+    const response = await api.delete(`/group/leave/${groupId}`);
     return response.data;
   } catch (error) {
     console.log(
@@ -57,9 +57,11 @@ export const addMember = async (groupId, userId) => {
 };
 
 // removeMember function
-export const removeMember = async (id, userId) => {
+export const removeMember = async (groupId, userId) => {
   try {
-    const response = await api.delete(`/group/remove/${id}?userId=${userId}`);
+    const response = await api.delete(
+      `/group/remove/${groupId}?userId=${userId}`
+    );
 
     return response.data;
   } catch (error) {
@@ -93,6 +95,20 @@ export const joinGroup = async (groupId) => {
   } catch (error) {
     console.log(
       "Error in the join group axios function: ",
+      error.response.data.message
+    );
+    return error.response.data;
+  }
+};
+
+// reject request function
+export const rejectRequest = async (groupId, userId) => {
+  try {
+    const response = await api.put(`/group/reject/${groupId}/${userId}`);
+    return response.data;
+  } catch (error) {
+    console.log(
+      "Error in the reject request axios function: ",
       error.response.data.message
     );
     return error.response.data;
