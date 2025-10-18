@@ -13,6 +13,10 @@ import { Check, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-toastify";
 import { addMember, rejectRequest, removeMember } from "@/services/group";
+import {
+  deleteReportedMessage,
+  dismissReportedMessage,
+} from "@/services/message";
 
 const GroupManagementTab = ({ groupData, setGroupData }) => {
   // handleRemoveMember function
@@ -80,17 +84,52 @@ const GroupManagementTab = ({ groupData, setGroupData }) => {
   };
 
   // deleteReported Message handler function
-  const handleDeleteReportedMessage = (message) => {
-    toast.success(`Message deleted ${message._id}`);
-
+  const handleDeleteReportedMessage = async (reportedMessage) => {
     // Todo: make the api call and remove it from the groupData
+    const response = await deleteReportedMessage(
+      groupData._id,
+      reportedMessage._id
+    );
+
+    if (response.success) {
+      const reportedMessages = groupData.reportedMessages.filter(
+        (message) => message._id !== reportedMessage._id
+      );
+
+      setGroupData({
+        ...groupData,
+        reportedMessages,
+      });
+
+      toast.success(response.message);
+    } else {
+      toast.error(response.message);
+    }
   };
 
   // dismissReported Message handler function
-  const handleDismissReportedMessage = (message) => {
-    toast.success(`Message dismissed ${message._id}`);
-
+  const handleDismissReportedMessage = async (reportedMessage) => {
     // Todo: make the api call and remove it from the groupData
+
+    const response = await dismissReportedMessage(
+      groupData._id,
+      reportedMessage._id
+    );
+
+    if (response.success) {
+      const reportedMessages = groupData.reportedMessages.filter(
+        (message) => message._id !== reportedMessage._id
+      );
+
+      setGroupData({
+        ...groupData,
+        reportedMessages,
+      });
+
+      toast.success(response.message);
+    } else {
+      toast.error(response.message);
+    }
   };
 
   return (
