@@ -57,3 +57,19 @@ export const reportMessage = async (groupId, messageId) => {
     return error.repsonse.data;
   }
 };
+
+// dismissReportedMessage function
+export const dismissReportedMessage = async (groupId, messageId) => {
+  try {
+    const response = await api.put(
+      `/message/dismissReportedMessage/${groupId}/${messageId}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log(
+      "Error in the dismiss reported message axios function: ",
+      error.response.data.message
+    );
+    return error.repsonse.data;
+  }
+};
