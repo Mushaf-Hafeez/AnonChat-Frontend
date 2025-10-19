@@ -13,7 +13,7 @@ const LogoutDropDown = () => {
       <DropdownMenuTrigger asChild className="block md:hidden">
         <button
           aria-label="More options"
-          className="hover:bg-gray-100 p-1 rounded transition-colors"
+          className="hover:bg-gray-100 p-1 rounded transition-colors cursor-pointer"
         >
           <EllipsisVertical size={16} />
         </button>
