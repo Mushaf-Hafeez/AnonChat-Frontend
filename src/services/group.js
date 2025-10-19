@@ -16,12 +16,26 @@ export const getGroupData = async (groupId) => {
 
 export const createGroup = async (data) => {
   try {
-    const response = await api.post("group/create", data);
+    const response = await api.post("/group/create", data);
 
     return response.data;
   } catch (error) {
     console.log(
       "Error in the create group axios function: ",
+      error.response.data.message
+    );
+    return error.response.data;
+  }
+};
+
+// deleteGroup function
+export const deleteGroup = async (groupId) => {
+  try {
+    const response = await api.delete(`group/delete/${groupId}`);
+    return response.data;
+  } catch (error) {
+    console.log(
+      "Error in the delete group axios function: ",
       error.response.data.message
     );
     return error.response.data;
