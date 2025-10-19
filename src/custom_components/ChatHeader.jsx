@@ -66,9 +66,9 @@ const ChatHeader = () => {
       <div className="flex items-center gap-2">
         <ArrowLeft onClick={handleClick} className="cursor-pointer" size={18} />
         <div>
-          <h2 className="text-xl font-medium">{selectedGroup.groupName}</h2>
+          <h2 className="text-xl font-medium">{selectedGroup?.groupName}</h2>
           <p className="text-sm text-neutral-500">
-            {selectedGroup.description.slice(0, 40) + "..."}
+            {selectedGroup?.description.slice(0, 40) + "..."}
           </p>
         </div>
       </div>

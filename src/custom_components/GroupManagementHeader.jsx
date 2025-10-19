@@ -34,17 +34,35 @@ import { Button } from "@/components/ui/button";
 
 import { EllipsisVertical, Pencil, Trash2 } from "lucide-react";
 import { toast } from "react-toastify";
+import { deleteGroup } from "@/services/group";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setSelectedGroup } from "@/redux/slices/groupSlice";
 
-const GroupManagementHeader = ({ groupData }) => {
-  // Todo: add the onClick listeners on edit and delete
+const GroupManagementHeader = ({ groupData, setGroupData }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   //   handleDelete function
-  const handleDelete = () => {
-    toast.success("Group deleted ", groupData._id);
-
+  const handleDelete = async () => {
     // Todo: add the delete functionality
     // remove the group from the user.joinedGroups and user.myGroups
     // make the api call to delete the group
+
+    const response = await deleteGroup(groupData._id);
+
+    console.log(response);
+
+    if (response.success) {
+      setGroupData(null);
+      dispatch(setSelectedGroup(null));
+      toast.success(response.message);
+
+      // redirect user to chatpage
+      navigate("/chat");
+    } else {
+      toast.error(response.message);
+    }
   };
 
   return (
