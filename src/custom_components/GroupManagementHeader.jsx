@@ -37,7 +37,7 @@ import { toast } from "react-toastify";
 import { deleteGroup, updateGroup } from "@/services/group";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setSelectedGroup } from "@/redux/slices/groupSlice";
+import { setIsSelected, setSelectedGroup } from "@/redux/slices/groupSlice";
 import { useForm } from "react-hook-form";
 import Spinner from "./Spinner";
 
@@ -64,11 +64,12 @@ const GroupManagementHeader = ({ groupData, setGroupData }) => {
 
     if (response.success) {
       setGroupData(null);
+      dispatch(setIsSelected(false));
       dispatch(setSelectedGroup(null));
       toast.success(response.message);
 
       // redirect user to chatpage
-      navigate("/chat");
+      navigate("/");
     } else {
       toast.error(response.message);
     }
