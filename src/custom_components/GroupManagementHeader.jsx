@@ -34,12 +34,21 @@ import { Button } from "@/components/ui/button";
 
 import { EllipsisVertical, Pencil, Trash2 } from "lucide-react";
 import { toast } from "react-toastify";
-import { deleteGroup } from "@/services/group";
+import { deleteGroup, updateGroup } from "@/services/group";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setSelectedGroup } from "@/redux/slices/groupSlice";
+import { useForm } from "react-hook-form";
+import Spinner from "./Spinner";
 
 const GroupManagementHeader = ({ groupData, setGroupData }) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting, errors },
+    reset,
+  } = useForm();
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -65,6 +74,27 @@ const GroupManagementHeader = ({ groupData, setGroupData }) => {
     }
   };
 
+  // onSubmit function
+  const onSubmit = async (data) => {
+    const response = await updateGroup(
+      groupData._id,
+      data.groupName,
+      data.description
+    );
+
+    if (response.success) {
+      setGroupData({
+        ...groupData,
+        groupName: data.groupName,
+        description: data.description,
+      });
+
+      toast.success(response.message);
+    } else {
+      toast.error(response.message);
+    }
+  };
+
   return (
     <div className="flex items-center gap-2">
       {/* dropdown for smaller screens */}
@@ -75,12 +105,12 @@ const GroupManagementHeader = ({ groupData, setGroupData }) => {
         <DropdownMenuContent className={"flex-col gap-1"}>
           <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
             <Dialog className="w-full">
-              <form>
-                <DialogTrigger className="flex items-center gap-2">
-                  <Pencil />
-                  Edit
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-[425px]">
+              <DialogTrigger className="flex items-center gap-2">
+                <Pencil />
+                Edit
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <form onSubmit={handleSubmit(onSubmit)}>
                   <DialogHeader>
                     <DialogTitle>Edit group</DialogTitle>
                     <DialogDescription>
@@ -94,7 +124,23 @@ const GroupManagementHeader = ({ groupData, setGroupData }) => {
                         id="groupName"
                         name="groupName"
                         defaultValue={groupData.groupName}
+                        {...register("groupName", {
+                          required: {
+                            value: true,
+                            message: "Group name is required.",
+                          },
+                          maxLength: {
+                            value: 50,
+                            message:
+                              "Group name cannot contain more than 50 characters.",
+                          },
+                        })}
                       />
+                      {errors && errors.groupName && (
+                        <span className="text-sm text-red-500">
+                          {errors.groupName.message}
+                        </span>
+                      )}
                     </div>
                     <div className="grid gap-3">
                       <Label htmlFor="description">Desription</Label>
@@ -102,17 +148,41 @@ const GroupManagementHeader = ({ groupData, setGroupData }) => {
                         id="description"
                         name="description"
                         defaultValue={groupData.description}
+                        {...register("description", {
+                          maxLength: {
+                            value: 100,
+                            message:
+                              "Description cannot be longer than 100 characters.",
+                          },
+                        })}
                       />
+                      {errors && errors.description && (
+                        <span className="text-sm text-red-500">
+                          {errors.description.message}
+                        </span>
+                      )}
                     </div>
                   </div>
-                  <DialogFooter>
+                  <DialogFooter className={"my-4"}>
                     <DialogClose asChild>
-                      <Button variant="outline">Cancel</Button>
+                      <Button
+                        onClick={() =>
+                          reset({
+                            groupName: groupData.groupName,
+                            description: groupData.description,
+                          })
+                        }
+                        variant="outline"
+                      >
+                        Cancel
+                      </Button>
                     </DialogClose>
-                    <Button type="submit">Save changes</Button>
+                    <Button type="submit" disabled={isSubmitting}>
+                      {isSubmitting ? <Spinner /> : "Save changes"}
+                    </Button>
                   </DialogFooter>
-                </DialogContent>
-              </form>
+                </form>
+              </DialogContent>
             </Dialog>
           </DropdownMenuItem>
           <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
@@ -148,16 +218,16 @@ const GroupManagementHeader = ({ groupData, setGroupData }) => {
 
       {/* Edit CTA for desktop screens */}
       <Dialog>
-        <form>
-          <DialogTrigger asChild>
-            <Button
-              variant="outline"
-              className={"hidden md:block cursor-pointer"}
-            >
-              Edit
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
+        <DialogTrigger asChild>
+          <Button
+            variant="outline"
+            className={"hidden md:block cursor-pointer"}
+          >
+            Edit
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[425px]">
+          <form onSubmit={handleSubmit(onSubmit)}>
             <DialogHeader>
               <DialogTitle>Edit group</DialogTitle>
               <DialogDescription>{groupData.description}</DialogDescription>
@@ -169,7 +239,23 @@ const GroupManagementHeader = ({ groupData, setGroupData }) => {
                   id="groupName"
                   name="groupName"
                   defaultValue={groupData.groupName}
+                  {...register("groupName", {
+                    required: {
+                      value: true,
+                      message: "Group name is required.",
+                    },
+                    maxLength: {
+                      value: 50,
+                      message:
+                        "Group name cannot contain more than 50 characters.",
+                    },
+                  })}
                 />
+                {errors && errors.groupName && (
+                  <span className="text-red-500 text-sm">
+                    {errors.groupName.message}
+                  </span>
+                )}
               </div>
               <div className="grid gap-3">
                 <Label htmlFor="description">Description</Label>
@@ -177,17 +263,41 @@ const GroupManagementHeader = ({ groupData, setGroupData }) => {
                   id="description"
                   name="description"
                   defaultValue={groupData.description}
+                  {...register("description", {
+                    maxLength: {
+                      value: 100,
+                      message:
+                        "Description cannot be longer than 100 characters.",
+                    },
+                  })}
                 />
+                {errors && errors.description && (
+                  <span className="text-sm text-red-500">
+                    {errors.description.message}
+                  </span>
+                )}
               </div>
             </div>
-            <DialogFooter>
+            <DialogFooter className={"my-4"}>
               <DialogClose asChild>
-                <Button variant="outline">Cancel</Button>
+                <Button
+                  onClick={() =>
+                    reset({
+                      groupName: groupData.groupName,
+                      description: groupData.description,
+                    })
+                  }
+                  variant="outline"
+                >
+                  Cancel
+                </Button>
               </DialogClose>
-              <Button type="submit">Save changes</Button>
+              <Button type="submit" disabled={isSubmitting}>
+                {isSubmitting ? <Spinner /> : "Save changes"}
+              </Button>
             </DialogFooter>
-          </DialogContent>
-        </form>
+          </form>
+        </DialogContent>
       </Dialog>
 
       {/* Delete dialog for desktop screens */}

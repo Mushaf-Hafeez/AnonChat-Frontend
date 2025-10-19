@@ -42,6 +42,24 @@ export const deleteGroup = async (groupId) => {
   }
 };
 
+// updateGroup function
+export const updateGroup = async (groupId, groupName, description) => {
+  try {
+    const response = await api.put(`group/update/${groupId}`, {
+      groupName,
+      description,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log(
+      "Error in the update group axios function: ",
+      error.response.data.message
+    );
+    return error.response.data;
+  }
+};
+
 // leaveGroup function
 export const leaveGroup = async (groupId) => {
   try {

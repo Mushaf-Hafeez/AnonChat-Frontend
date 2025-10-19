@@ -23,8 +23,6 @@ const GroupManagementPage = () => {
 
     const response = await getGroupData(groupId);
 
-    console.log(response);
-
     if (response.success) {
       setGroupData(response.groupData);
     }
