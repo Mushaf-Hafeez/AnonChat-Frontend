@@ -35,7 +35,7 @@ const Chat = () => {
 
   // for socket
   useEffect(() => {
-    socket.on("new-message", ({ message }) => {
+    socket.on("new-message", (message) => {
       if (selectedGroup && message.group._id === selectedGroup._id) {
         setMessages((prev) => [...prev, message]);
       }

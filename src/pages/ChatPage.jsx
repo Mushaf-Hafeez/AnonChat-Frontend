@@ -37,7 +37,7 @@ const ChatPage = () => {
   useEffect(() => {
     if (!socket) return;
 
-    const handleNewMessage = ({ message }) => {
+    const handleNewMessage = (message) => {
       if (message.group._id !== selectedGroup?._id)
         toast.success(`New message in ${message.group.groupName}`, {
           icon: ({ theme, type }) => <MailCheck color="green" />,
