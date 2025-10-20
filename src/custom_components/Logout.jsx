@@ -1,5 +1,5 @@
 import React from "react";
-
+import { socket } from "@/utils/socket";
 import { LogOut } from "lucide-react";
 
 // importing components
@@ -20,15 +20,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "@/redux/slices/userSlice";
 import { setIsAuth } from "@/redux/slices/authSlice";
 import { useNavigate } from "react-router-dom";
-import {
-  setIsSelected,
-  setSelectedGroup,
-  setSocket,
-} from "@/redux/slices/groupSlice";
+import { setIsSelected, setSelectedGroup } from "@/redux/slices/groupSlice";
 
 const Logout = ({ isChatSidebar }) => {
-  const { socket } = useSelector((state) => state.Group);
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -43,7 +37,6 @@ const Logout = ({ isChatSidebar }) => {
       dispatch(setSelectedGroup(null));
 
       socket.disconnect();
-      dispatch(setSocket(null));
 
       toast.success("Logout successful");
       navigate("/");

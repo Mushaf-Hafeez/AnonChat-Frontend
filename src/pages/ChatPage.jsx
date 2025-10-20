@@ -5,36 +5,30 @@ import ChatSidebar from "@/custom_components/ChatSidebar";
 import DefaultChatPage from "./DefaultChatPage";
 import SelectedGroupPage from "./SelectedGroupPage";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
-import { io } from "socket.io-client";
-import { setSocket } from "@/redux/slices/groupSlice";
+import { socket } from "@/utils/socket";
 import { toast } from "react-toastify";
 import { MailCheck } from "lucide-react";
-import { setGroups } from "@/redux/slices/userSlice";
-
-const backendURL = import.meta.env.VITE_BACKEND_URL;
-let client;
 
 const ChatPage = () => {
-  const { isSelected, selectedGroup, socket } = useSelector(
-    (state) => state.Group
-  );
+  const { isSelected, selectedGroup } = useSelector((state) => state.Group);
   const { user } = useSelector((state) => state.User);
-
-  const dispatch = useDispatch();
 
   // socket connection
   useEffect(() => {
-    if (user) {
-      client = io(backendURL);
-      dispatch(setSocket(client));
+    socket.connect();
 
-      client.emit("join-room", user.joinedGroups);
-    }
+    const handleConnect = () => {
+      if (user?.joinedGroups.length > 0) {
+        socket.emit("join-room", user.joinedGroups);
+      }
+    };
+
+    socket.on("connect", handleConnect);
 
     return () => {
-      client.disconnect();
+      socket.off("connect", handleConnect);
     };
   }, [user]);
 
@@ -43,18 +37,17 @@ const ChatPage = () => {
   useEffect(() => {
     if (!socket) return;
 
-    const handleNewMessage = ({ message, joinedGroups }) => {
+    const handleNewMessage = ({ message }) => {
       if (message.group._id !== selectedGroup?._id)
         toast.success(`New message in ${message.group.groupName}`, {
           icon: ({ theme, type }) => <MailCheck color="green" />,
         });
-      dispatch(setGroups(joinedGroups));
     };
 
-    socket.on("new-message", handleNewMessage);
+    socket && socket.on("new-message", handleNewMessage);
 
     return () => socket.off("new-message", handleNewMessage);
-  }, [selectedGroup, socket]);
+  }, []); // for testing remove selectedGroup, socket from the dependency array
 
   return (
     <section className="h-screen w-full flex gap-4 bg-neutral-200 overflow-auto">

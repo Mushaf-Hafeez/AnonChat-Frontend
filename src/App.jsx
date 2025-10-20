@@ -39,6 +39,7 @@ import { setDepartments } from "./redux/slices/dataSlice";
 
 const App = () => {
   const { isAuth } = useSelector((state) => state.Auth);
+  const { user } = useSelector((state) => state.User);
   const dispatch = useDispatch();
 
   // fetchDepartments function

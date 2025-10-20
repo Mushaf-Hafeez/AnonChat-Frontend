@@ -6,17 +6,15 @@ import ChatMessages from "./ChatMessages";
 import Spinner from "./Spinner";
 
 import { getMessages } from "@/services/message";
-import { useDispatch, useSelector } from "react-redux";
-import { setGroups } from "@/redux/slices/userSlice";
+import { useSelector } from "react-redux";
+
+import { socket } from "@/utils/socket";
 
 const Chat = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState([]);
 
-  const { isSelected, selectedGroup, socket } = useSelector(
-    (state) => state.Group
-  );
-  const dispatch = useDispatch();
+  const { isSelected, selectedGroup } = useSelector((state) => state.Group);
 
   // fetch messages function
   const fetchMessages = async () => {
@@ -37,12 +35,9 @@ const Chat = () => {
 
   // for socket
   useEffect(() => {
-    socket.on("new-message", ({ message, joinedGroups }) => {
+    socket.on("new-message", ({ message }) => {
       if (selectedGroup && message.group._id === selectedGroup._id) {
         setMessages((prev) => [...prev, message]);
-
-        // place the group to the front of the joinedGroups in the state
-        dispatch(setGroups(joinedGroups));
       }
     });
 
@@ -62,7 +57,7 @@ const Chat = () => {
       socket.off("new-message");
       socket.off("delete-message");
     };
-  }, []);
+  }, [socket]);
 
   return (
     <div className="bg-white h-full w-full p-4 rounded-xl shadow-xl overflow-y-auto flex flex-col justify-between">
