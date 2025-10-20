@@ -9,6 +9,8 @@ import { getMessages } from "@/services/message";
 import { useSelector } from "react-redux";
 
 import { socket } from "@/utils/socket";
+import { toast } from "react-toastify";
+import { MailCheck } from "lucide-react";
 
 const Chat = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -38,6 +40,10 @@ const Chat = () => {
     socket.on("new-message", (message) => {
       if (selectedGroup && message.group._id === selectedGroup._id) {
         setMessages((prev) => [...prev, message]);
+      } else {
+        toast.success(`New message in ${message.group.groupName}`, {
+          icon: ({ theme, type }) => <MailCheck color="green " />,
+        });
       }
     });
 
@@ -57,7 +63,7 @@ const Chat = () => {
       socket.off("new-message");
       socket.off("delete-message");
     };
-  }, [socket]);
+  }, []);
 
   return (
     <div className="bg-white h-full w-full p-4 rounded-xl shadow-xl overflow-y-auto flex flex-col justify-between">
