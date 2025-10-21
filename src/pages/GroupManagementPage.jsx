@@ -11,6 +11,7 @@ import GroupManagementTab from "@/custom_components/GroupManagementTab";
 import { ArrowLeft, LucideChartGantt } from "lucide-react";
 import { socket } from "@/utils/socket";
 import { useSelector } from "react-redux";
+import { reportMessage } from "@/services/message";
 
 const GroupManagementPage = () => {
   const [groupData, setGroupData] = useState({});
@@ -46,6 +47,11 @@ const GroupManagementPage = () => {
   useEffect(() => {
     const handleReportedMessage = (message) => {
       console.log(message);
+
+      setGroupData((prev) => ({
+        ...prev,
+        reportedMessages: [...prev.reportedMessages, message],
+      }));
     };
 
     socket.on("report-message", handleReportedMessage);
