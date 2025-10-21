@@ -28,7 +28,7 @@ const ChatPage = () => {
     return () => {
       socket.off("connect", handleConnect);
     };
-  }, [user]);
+  }, []); // remove user from the dependency array for testing
 
   return (
     <section className="h-screen w-full flex gap-4 bg-neutral-200 overflow-auto">

@@ -31,7 +31,7 @@ const Chat = () => {
 
   useEffect(() => {
     fetchMessages();
-  }, [selectedGroup]);
+  }, [selectedGroup._id]);
 
   // for socket
   useEffect(() => {
@@ -44,7 +44,7 @@ const Chat = () => {
     // listen to the delete message event
     socket.on("delete-message", ({ messageId, groupId }) => {
       if (selectedGroup && selectedGroup._id == groupId) {
-        setMessages((prev) => prev.filter((msg) => msg._id !== messageId));
+        setMessages((prev) => prev.filter((msg) => msg._id != messageId));
       }
     });
 
@@ -52,7 +52,7 @@ const Chat = () => {
       socket.off("new-message");
       socket.off("delete-message");
     };
-  }, [selectedGroup?._id, socket]);
+  }, [selectedGroup._id]); // remove selectedGroup._id and socket from the dependency array for testing
 
   return (
     <div className="bg-white h-full w-full p-4 rounded-xl shadow-xl overflow-y-auto flex flex-col justify-between">

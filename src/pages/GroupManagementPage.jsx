@@ -7,13 +7,16 @@ import { getGroupData } from "@/services/group";
 import LazyLoadingPage from "./LazyLoadingPage";
 
 import GroupManagementHeader from "@/custom_components/GroupManagementHeader";
-import GroupManagementGrids from "@/custom_components/GroupManagementTab";
 import GroupManagementTab from "@/custom_components/GroupManagementTab";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, LucideChartGantt } from "lucide-react";
+import { socket } from "@/utils/socket";
+import { useSelector } from "react-redux";
 
 const GroupManagementPage = () => {
   const [groupData, setGroupData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+
+  const { selectedGroup } = useSelector((state) => state.Group);
 
   const navigate = useNavigate();
   const { groupId } = useParams();
@@ -39,6 +42,18 @@ const GroupManagementPage = () => {
   useEffect(() => {
     getGroupDetails();
   }, [groupId]);
+
+  useEffect(() => {
+    const handleReportedMessage = (message) => {
+      console.log(message);
+    };
+
+    socket.on("report-message", handleReportedMessage);
+
+    return () => {
+      socket.off("report-message", handleReportedMessage);
+    };
+  }, [groupData?._id, socket, selectedGroup?._id]);
 
   if (isLoading) {
     return <LazyLoadingPage />;

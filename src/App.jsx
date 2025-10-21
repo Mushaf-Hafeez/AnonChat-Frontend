@@ -85,7 +85,7 @@ const App = () => {
     return () => {
       socket.off("new-message", handleNewMessage);
     };
-  }, [selectedGroup]);
+  }, [selectedGroup?._id]);
 
   return (
     <main className="font-poppins">

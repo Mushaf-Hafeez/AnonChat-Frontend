@@ -16,7 +16,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { logout } from "@/services/auth";
 import { toast } from "react-toastify";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { clearUser } from "@/redux/slices/userSlice";
 import { setIsAuth } from "@/redux/slices/authSlice";
 import { useNavigate } from "react-router-dom";
