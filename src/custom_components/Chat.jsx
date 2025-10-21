@@ -36,20 +36,15 @@ const Chat = () => {
   // for socket
   useEffect(() => {
     socket.on("new-message", (message) => {
-      if (selectedGroup && message.group._id === selectedGroup._id) {
+      if (selectedGroup && message.group._id == selectedGroup._id) {
         setMessages((prev) => [...prev, message]);
       }
     });
 
     // listen to the delete message event
-    socket.on("delete-message", (data) => {
-      console.log("data in delete message event: ", data);
-
-      if (isSelected && selectedGroup._id === data.groupId) {
-        const filteredMessages = messages.filter(
-          (message) => message._id !== data.messageId
-        );
-        setMessages(filteredMessages);
+    socket.on("delete-message", ({ messageId, groupId }) => {
+      if (selectedGroup && selectedGroup._id == groupId) {
+        setMessages((prev) => prev.filter((msg) => msg._id !== messageId));
       }
     });
 
@@ -57,7 +52,7 @@ const Chat = () => {
       socket.off("new-message");
       socket.off("delete-message");
     };
-  }, []);
+  }, [selectedGroup?._id, socket]);
 
   return (
     <div className="bg-white h-full w-full p-4 rounded-xl shadow-xl overflow-y-auto flex flex-col justify-between">
