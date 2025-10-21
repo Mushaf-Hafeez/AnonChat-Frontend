@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect } from "react";
+import { lazy, Suspense, useEffect, useRef } from "react";
 import { Routes, Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -36,11 +36,17 @@ import { getDepartments } from "./services/department";
 
 // importing reducers
 import { setDepartments } from "./redux/slices/dataSlice";
+import { socket } from "./utils/socket";
+import { toast } from "react-toastify";
+import { MailCheck } from "lucide-react";
 
 const App = () => {
   const { isAuth } = useSelector((state) => state.Auth);
   const { user } = useSelector((state) => state.User);
+  const { selectedGroup } = useSelector((state) => state.Group);
   const dispatch = useDispatch();
+
+  const notificationRef = useRef();
 
   // fetchDepartments function
   const fetchDepartments = async () => {
@@ -58,6 +64,28 @@ const App = () => {
   useEffect(() => {
     fetchDepartments();
   }, []);
+
+  useEffect(() => {
+    const handleNewMessage = (message) => {
+      // notification sound
+      if (message.sender._id != user._id) {
+        notificationRef.current.play();
+      }
+
+      // show notification for new message
+      if (!selectedGroup || selectedGroup._id != message.group._id) {
+        toast.success(`New message in ${message.group.groupName}`, {
+          icon: () => <MailCheck color="green" />,
+        });
+      }
+    };
+
+    socket.on("new-message", handleNewMessage);
+
+    return () => {
+      socket.off("new-message", handleNewMessage);
+    };
+  }, [selectedGroup]);
 
   return (
     <main className="font-poppins">
@@ -138,6 +166,8 @@ const App = () => {
         {/* Error page route */}
         <Route path="*" element={<ErrorPage />}></Route>
       </Routes>
+
+      <audio ref={notificationRef} src="/notification.mp3"></audio>
     </main>
   );
 };
