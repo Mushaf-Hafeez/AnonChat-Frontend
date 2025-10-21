@@ -28,7 +28,6 @@ const ChatSidebar = () => {
   // handleSearchChange function
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
-    console.log(e.target.value);
   };
 
   useEffect(() => {
