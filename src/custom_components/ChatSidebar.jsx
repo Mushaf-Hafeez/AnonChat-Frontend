@@ -39,13 +39,13 @@ const ChatSidebar = () => {
           )
         : structuredClone(user.joinedGroups);
     setFilteredGroups([...filtered]);
-  }, [search, user.joinedGroups]);
+  }, [search, user.joinedGroups, user.myGroups]);
 
   return (
     <aside
       className={`${
         isSelected && "hidden md:flex"
-      } w-full md:w-2/12 h-full bg-white rounded-r-xl col-center justify-between items-start`}
+      } w-full md:w-2/12 h-full bg-white rounded-r-xl col-center justify-between items-start shadow-lg shadow-neutral-400/70`}
     >
       <div className="h-fit overflow-y-auto scrollbar-none w-full p-4">
         <div className="flex items-center justify-between mb-4">

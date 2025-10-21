@@ -9,7 +9,11 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { socket } from "@/utils/socket";
 import { setIsSelected, setSelectedGroup } from "@/redux/slices/groupSlice";
-import { addJoinGroup, removeGroup } from "@/redux/slices/userSlice";
+import {
+  addJoinGroup,
+  removeGroup,
+  removeMyGroup,
+} from "@/redux/slices/userSlice";
 import { toast } from "react-toastify";
 
 const ChatPage = () => {
@@ -54,6 +58,17 @@ const ChatPage = () => {
       toast.error(message);
     };
 
+    // handleDeleteGroup handler function
+    const handleDeleteGroup = (groupId) => {
+      if (selectedGroup && selectedGroup._id == groupId) {
+        dispatch(setIsSelected(false));
+        dispatch(setSelectedGroup(null));
+      }
+
+      dispatch(removeGroup(groupId));
+      dispatch(removeMyGroup(groupId));
+    };
+
     socket.on("connect", handleConnect);
 
     socket.on("add-member", handleAddMember);
@@ -62,13 +77,16 @@ const ChatPage = () => {
 
     socket.on("reject-request", handleRejectRequest);
 
+    socket.on("delete-group", handleDeleteGroup);
+
     return () => {
       socket.off("connect", handleConnect);
       socket.off("add-member", handleAddMember);
       socket.off("remove-member", handleRemoveMember);
       socket.off("reject-request", handleRejectRequest);
+      socket.off("delete-group", handleDeleteGroup);
     };
-  }, [dispatch, user?.joinedGroups]); // remove user from the dependency array for testing
+  }, [dispatch, user?.joinedGroups, isSelected]); // remove user from the dependency array for testing
 
   return (
     <section className="h-screen w-full flex gap-4 bg-neutral-200 overflow-auto">
