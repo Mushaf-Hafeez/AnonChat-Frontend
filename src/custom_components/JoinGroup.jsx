@@ -97,7 +97,7 @@ const JoinGroup = ({ toggleMode }) => {
 
           {groups &&
             (Array.isArray(groups) && groups.length > 0 ? (
-              <ul className="mt-2">
+              <ul className="mt-4">
                 {groups.map((group) => (
                   <li className="flex items-center justify-between pe-2">
                     <div className="flex items-center gap-2">
