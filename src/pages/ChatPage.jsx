@@ -8,13 +8,18 @@ import SelectedGroupPage from "./SelectedGroupPage";
 import { useDispatch, useSelector } from "react-redux";
 
 import { socket } from "@/utils/socket";
-import { setIsSelected, setSelectedGroup } from "@/redux/slices/groupSlice";
+import {
+  setIsSelected,
+  setSelectedGroup,
+  updateSelectedGroup,
+} from "@/redux/slices/groupSlice";
 import {
   addJoinGroup,
   removeGroup,
   removeMyGroup,
 } from "@/redux/slices/userSlice";
 import { toast } from "react-toastify";
+import { updateGroup } from "@/services/group";
 
 const ChatPage = () => {
   const { isSelected, selectedGroup } = useSelector((state) => state.Group);
@@ -69,6 +74,17 @@ const ChatPage = () => {
       dispatch(removeMyGroup(groupId));
     };
 
+    // handleUpdateGroup handler function
+    const handleUpdateGroup = ({ id, groupName, description }) => {
+      console.log(id, groupName, description);
+
+      if (selectedGroup && selectedGroup._id == id) {
+        dispatch(updateSelectedGroup({ groupName, description }));
+      }
+
+      dispatch(updateGroup({ id, groupName, description }));
+    };
+
     socket.on("connect", handleConnect);
 
     socket.on("add-member", handleAddMember);
@@ -79,12 +95,15 @@ const ChatPage = () => {
 
     socket.on("delete-group", handleDeleteGroup);
 
+    socket.on("update-group", handleUpdateGroup);
+
     return () => {
       socket.off("connect", handleConnect);
       socket.off("add-member", handleAddMember);
       socket.off("remove-member", handleRemoveMember);
       socket.off("reject-request", handleRejectRequest);
       socket.off("delete-group", handleDeleteGroup);
+      socket.off("update-group", handleUpdateGroup);
     };
   }, [dispatch, user?.joinedGroups, isSelected]); // remove user from the dependency array for testing
 

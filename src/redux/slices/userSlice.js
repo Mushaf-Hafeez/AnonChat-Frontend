@@ -25,6 +25,19 @@ const userSlice = createSlice({
       state.user.myGroups = [...state.user.myGroups, action.payload];
       localStorage.setItem("user", JSON.stringify(state.user));
     },
+    updateGroup: (state, action) => {
+      const groupIndex = state.user.joinedGroups.findIndex(
+        (group) => group._id === action.payload.id
+      );
+
+      if (groupIndex !== -1) {
+        const joinedGroups = structuredClone(state.user.joinedGroups);
+        joinedGroups[groupIndex].groupName = action.payload.groupName;
+        joinedGroups[groupIndex].description = action.payload.description;
+
+        state.user.joinedGroups = joinedGroups;
+      }
+    },
     removeGroup: (state, action) => {
       const groupIndex = state.user.joinedGroups.findIndex(
         (group) => group._id === action.payload
@@ -65,6 +78,7 @@ export const {
   clearUser,
   addJoinGroup,
   addMyGroup,
+  updateGroup,
   removeGroup,
   removeMyGroup,
   setGroups,

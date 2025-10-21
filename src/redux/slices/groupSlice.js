@@ -15,8 +15,16 @@ const groupSlice = createSlice({
     setSelectedGroup: (state, action) => {
       state.selectedGroup = action.payload;
     },
+    updateSelectedGroup: (state, action) => {
+      state.selectedGroup = {
+        ...state.selectedGroup,
+        groupName: action.payload.groupName,
+        description: action.payload.description,
+      };
+    },
   },
 });
 
-export const { setIsSelected, setSelectedGroup } = groupSlice.actions;
+export const { setIsSelected, setSelectedGroup, updateSelectedGroup } =
+  groupSlice.actions;
 export default groupSlice.reducer;
