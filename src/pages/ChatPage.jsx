@@ -8,7 +8,7 @@ import SelectedGroupPage from "./SelectedGroupPage";
 import { useDispatch, useSelector } from "react-redux";
 
 import { socket } from "@/utils/socket";
-import { setSelectedGroup } from "@/redux/slices/groupSlice";
+import { setIsSelected, setSelectedGroup } from "@/redux/slices/groupSlice";
 import { addJoinGroup, removeGroup } from "@/redux/slices/userSlice";
 import { toast } from "react-toastify";
 
@@ -42,6 +42,7 @@ const ChatPage = () => {
       // set the selectedGroup to null if the user selectedGroup = groupId
       if (selectedGroup && selectedGroup._id == groupId) {
         dispatch(setSelectedGroup(null));
+        dispatch(setIsSelected(false));
       }
 
       // remove group from the users->joinedGroups
