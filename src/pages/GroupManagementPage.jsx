@@ -54,10 +54,21 @@ const GroupManagementPage = () => {
       }));
     };
 
+    const handleJoinRequest = ({ groupId, user }) => {
+      if (groupId != groupData._id) return;
+
+      setGroupData((prev) => ({
+        ...prev,
+        requests: [...prev.requests, user],
+      }));
+    };
+
     socket.on("report-message", handleReportedMessage);
+    socket.on("join-request", handleJoinRequest);
 
     return () => {
       socket.off("report-message", handleReportedMessage);
+      socket.off("join-request", handleJoinRequest);
     };
   }, [groupData?._id, socket, selectedGroup?._id]);
 
