@@ -39,7 +39,7 @@ const ChatSidebar = () => {
           )
         : structuredClone(user.joinedGroups);
     setFilteredGroups([...filtered]);
-  }, [search]);
+  }, [search, user.joinedGroups]);
 
   return (
     <aside

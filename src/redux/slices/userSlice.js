@@ -12,15 +12,18 @@ const userSlice = createSlice({
   reducers: {
     setUser: (state, action) => {
       state.user = action.payload;
+      localStorage.setItem("user", JSON.stringify(state.user));
     },
     clearUser: (state) => {
       state.user = null;
     },
     addJoinGroup: (state, action) => {
       state.user.joinedGroups = [...state.user.joinedGroups, action.payload];
+      localStorage.setItem("user", JSON.stringify(state.user));
     },
     addMyGroup: (state, action) => {
       state.user.myGroups = [...state.user.myGroups, action.payload];
+      localStorage.setItem("user", JSON.stringify(state.user));
     },
     removeGroup: (state, action) => {
       const groupIndex = state.user.joinedGroups.findIndex(
@@ -34,9 +37,11 @@ const userSlice = createSlice({
 
         state.user = { ...state.user, joinedGroups: [...updatedJoindedGroups] };
       }
+      localStorage.setItem("user", JSON.stringify(state.user));
     },
     setGroups: (state, action) => {
       state.user.joinedGroups = action.payload;
+      localStorage.setItem("user", JSON.stringify(state.user));
     },
   },
 });
