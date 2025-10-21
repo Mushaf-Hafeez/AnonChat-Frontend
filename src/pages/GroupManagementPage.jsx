@@ -46,8 +46,6 @@ const GroupManagementPage = () => {
 
   useEffect(() => {
     const handleReportedMessage = (message) => {
-      console.log(message);
-
       setGroupData((prev) => ({
         ...prev,
         reportedMessages: [...prev.reportedMessages, message],
@@ -70,7 +68,7 @@ const GroupManagementPage = () => {
       socket.off("report-message", handleReportedMessage);
       socket.off("join-request", handleJoinRequest);
     };
-  }, [groupData?._id, socket, selectedGroup?._id]);
+  }, [groupData, groupData?._id, socket, selectedGroup?._id]);
 
   if (isLoading) {
     return <LazyLoadingPage />;
