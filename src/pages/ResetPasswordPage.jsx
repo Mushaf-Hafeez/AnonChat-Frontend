@@ -17,6 +17,7 @@ import Spinner from "@/custom_components/Spinner";
 
 // importing icons
 import { Eye, EyeClosed } from "lucide-react";
+import { motion } from "motion/react";
 
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
@@ -81,7 +82,23 @@ const ResetPasswordPage = () => {
   };
 
   return (
-    <section className="h-screen w-full col-center">
+    <motion.section
+      initial={{
+        opacity: 0,
+      }}
+      animate={{
+        opacity: 1,
+      }}
+      exit={{
+        opacity: 0,
+      }}
+      transition={{
+        duration: 0.8,
+        delay: 0.5,
+        ease: [0, 0.71, 0.2, 1.01],
+      }}
+      className="h-screen w-full col-center"
+    >
       <Card
         className={
           "w-11/12 md:w-4/12 mx-auto shadow-xl border-2 border-neutral-200"
@@ -183,7 +200,7 @@ const ResetPasswordPage = () => {
           </form>
         </CardContent>
       </Card>
-    </section>
+    </motion.section>
   );
 };
 

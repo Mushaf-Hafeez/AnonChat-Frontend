@@ -1,10 +1,27 @@
 import React from "react";
+import { motion } from "motion/react";
 
 const ErrorPage = () => {
   return (
-    <section className="h-screen w-full flex-center">
+    <motion.section
+      initial={{
+        opacity: 0,
+      }}
+      animate={{
+        opacity: 1,
+      }}
+      exit={{
+        opacity: 0,
+      }}
+      transition={{
+        duration: 0.8,
+        delay: 0.5,
+        ease: [0, 0.71, 0.2, 1.01],
+      }}
+      className="h-screen w-full flex-center"
+    >
       <h1 className="text-4xl font-semibold">404 - Page not found</h1>
-    </section>
+    </motion.section>
   );
 };
 

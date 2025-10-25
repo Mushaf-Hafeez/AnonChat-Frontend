@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { Eye, EyeClosed } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { motion } from "motion/react";
 
 // importing reducers
 import { setIsAuthLoading, setSignupData } from "@/redux/slices/authSlice";
@@ -149,7 +150,23 @@ const SignupPage = () => {
   // Todo: uncomment the email and password patterns
 
   return (
-    <section className="min-h-screen w-full col-center">
+    <motion.section
+      initial={{
+        opacity: 0,
+      }}
+      animate={{
+        opacity: 1,
+      }}
+      exit={{
+        opacity: 0,
+      }}
+      transition={{
+        duration: 0.8,
+        delay: 0.5,
+        ease: [0, 0.71, 0.2, 1.01],
+      }}
+      className="min-h-screen w-full col-center"
+    >
       <Card
         className={
           "w-11/12 my-20 sm:w-8/12 lg:w-4/12 mx-auto shadow-xl border-2 border-neutral-200"
@@ -470,7 +487,7 @@ const SignupPage = () => {
           </form>
         </CardContent>
       </Card>
-    </section>
+    </motion.section>
   );
 };
 

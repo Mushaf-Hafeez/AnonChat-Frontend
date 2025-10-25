@@ -17,6 +17,7 @@ import {
 import { Trash, Trash2 } from "lucide-react";
 
 import { useForm } from "react-hook-form";
+import { motion } from "motion/react";
 
 // importing api call functions
 import {
@@ -84,7 +85,22 @@ const DepartmentPage = () => {
   }, []);
 
   return (
-    <section>
+    <motion.section
+      initial={{
+        opacity: 0,
+      }}
+      animate={{
+        opacity: 1,
+      }}
+      exit={{
+        opacity: 0,
+      }}
+      transition={{
+        duration: 0.8,
+        delay: 0.5,
+        ease: [0, 0.71, 0.2, 1.01],
+      }}
+    >
       <div className="overflow-y-auto col-center lg:items-start gap-2">
         <h2 className="text-lg font-medium">Add Department</h2>
 
@@ -185,7 +201,7 @@ const DepartmentPage = () => {
           </TableBody>
         </Table>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

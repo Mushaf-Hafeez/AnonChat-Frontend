@@ -22,6 +22,7 @@ import { setIsAuthLoading } from "@/redux/slices/authSlice";
 
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { motion } from "motion/react";
 
 // importing api call functions
 import { forgotPassword } from "../services/auth";
@@ -63,7 +64,23 @@ const ForgotPasswordPage = () => {
   //   Todo: uncomment the email pattern
 
   return (
-    <section className="h-screen w-full col-center">
+    <motion.section
+      initial={{
+        opacity: 0,
+      }}
+      animate={{
+        opacity: 1,
+      }}
+      exit={{
+        opacity: 0,
+      }}
+      transition={{
+        duration: 0.8,
+        delay: 0.5,
+        ease: [0, 0.71, 0.2, 1.01],
+      }}
+      className="h-screen w-full col-center"
+    >
       <Card
         className={
           "w-11/12 md:w-4/12 mx-auto shadow-xl border-2 border-neutral-200"
@@ -119,7 +136,7 @@ const ForgotPasswordPage = () => {
           </form>
         </CardContent>
       </Card>
-    </section>
+    </motion.section>
   );
 };
 
