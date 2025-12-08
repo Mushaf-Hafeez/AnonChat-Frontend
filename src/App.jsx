@@ -87,6 +87,23 @@ const App = () => {
     };
   }, [selectedGroup?._id]);
 
+  // new feature: socket connection management
+  useEffect(() => {
+    // create socket connection if authenticated
+    if (isAuth && user?._id) {
+      socket.connect();
+
+      if (user?.joinedGroups.length > 0) {
+        socket.emit("join-room", user.joinedGroups);
+      }
+    }
+
+    // disconnect socket
+    return () => {
+      socket.disconnect();
+    };
+  }, [isAuth, socket]);
+
   return (
     <main className="font-poppins">
       {/* routes */}
