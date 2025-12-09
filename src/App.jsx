@@ -102,7 +102,7 @@ const App = () => {
     return () => {
       socket.disconnect();
     };
-  }, [isAuth, socket]);
+  }, [isAuth, socket, user]);
 
   return (
     <main className="font-poppins">

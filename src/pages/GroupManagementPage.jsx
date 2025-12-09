@@ -105,12 +105,12 @@ const GroupManagementPage = () => {
           />
           <div>
             <h2 className="text-lg md:text-2xl font-medium">
-              {groupData.groupName}
+              {groupData?.groupName}
             </h2>
             <p className="text-neutral-600 text-sm">
-              {groupData.description?.endsWith(".")
+              {groupData?.description && groupData.description.endsWith(".")
                 ? groupData.description
-                : groupData.description + "."}
+                : (groupData?.description || "") + "."}
             </p>
           </div>
         </div>

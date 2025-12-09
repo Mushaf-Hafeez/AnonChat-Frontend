@@ -181,9 +181,9 @@ const GroupManagementTab = ({ groupData, setGroupData }) => {
               </TableRow>
             </TableHeader>
             <TableBody className={"h-full overflow-y-auto"}>
-              {groupData.members &&
-                groupData.members.length > 0 &&
-                groupData.members.map((member, index) => (
+              {groupData?.members &&
+                groupData?.members.length > 0 &&
+                groupData?.members.map((member, index) => (
                   <TableRow key={member._id}>
                     <TableCell className="font-medium">{index + 1}</TableCell>
                     <TableCell>{member.rollno}</TableCell>
@@ -216,9 +216,9 @@ const GroupManagementTab = ({ groupData, setGroupData }) => {
               </TableRow>
             </TableHeader>
             <TableBody className={"h-full overflow-y-auto"}>
-              {groupData.requests &&
-                groupData.requests.length > 0 &&
-                groupData.requests.map((member, index) => (
+              {groupData?.requests &&
+                groupData?.requests.length > 0 &&
+                groupData?.requests.map((member, index) => (
                   <TableRow key={member._id}>
                     <TableCell className="font-medium">{index + 1}</TableCell>
                     <TableCell>{member.rollno}</TableCell>
@@ -267,9 +267,9 @@ const GroupManagementTab = ({ groupData, setGroupData }) => {
               </TableRow>
             </TableHeader>
             <TableBody className={"h-full overflow-y-auto"}>
-              {groupData.reportedMessages &&
-                groupData.reportedMessages.length > 0 &&
-                groupData.reportedMessages.map((message, index) => (
+              {groupData?.reportedMessages &&
+                groupData?.reportedMessages.length > 0 &&
+                groupData?.reportedMessages.map((message, index) => (
                   <TableRow key={message._id}>
                     <TableCell className="font-medium">{index + 1}</TableCell>
                     <TableCell>{message.sender.rollno}</TableCell>

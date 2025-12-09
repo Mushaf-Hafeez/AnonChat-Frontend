@@ -63,73 +63,76 @@ const JoinGroup = ({ toggleMode }) => {
         <DialogTitle className={"self-start md:self-center"}>
           Join group
         </DialogTitle>
-        <DialogDescription>
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="my-2 flex flex-col gap-2"
-          >
-            <div className="flex items-center gap-2">
-              <Input
-                type={"text"}
-                placeholder={"Search for a group..."}
-                className={"text-neutral-800"}
-                {...register("groupName", {
-                  required: { value: true, message: "Group name is required." },
-                  maxLength: {
-                    value: 50,
-                    message: "Name cannot contain more than 50 characters.",
-                  },
-                })}
-              />
-              <Button
-                type="submit"
-                size={"icon"}
-                disabled={isSubmitting}
-                className={"cursor-pointer rounded-full"}
-              >
-                {isSubmitting ? <Spinner /> : <Search />}
-              </Button>
-            </div>
-            {errors && errors.groupName && (
-              <p className="text-red-500 text-xs">{errors.groupName.message}</p>
-            )}
-          </form>
-
-          {groups &&
-            (Array.isArray(groups) && groups.length > 0 ? (
-              <ul className="mt-4">
-                {groups.map((group) => (
-                  <li className="flex items-center justify-between pe-2">
-                    <div className="flex items-center gap-2">
-                      <Users size="18" />
-                      <h3>{group.groupName}</h3>
-                    </div>
-
-                    <Button
-                      variant={"ghost"}
-                      disabled={hasAlreadyJoined(group._id)}
-                      size={"icon"}
-                      className={`size-4 ${
-                        hasAlreadyJoined(group._id)
-                          ? "cursor-not-allowed"
-                          : "cursor-pointer"
-                      }`}
-                      asChild
-                    >
-                      {hasAlreadyJoined(group._id) ? (
-                        <Check />
-                      ) : (
-                        <Plus onClick={() => handleJoinGroup(group._id)} />
-                      )}
-                    </Button>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              "No group found"
-            ))}
-        </DialogDescription>
       </DialogHeader>
+      <div className="space-y-4">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="my-2 flex flex-col gap-2"
+        >
+          <div className="flex items-center gap-2">
+            <Input
+              type={"text"}
+              placeholder={"Search for a group..."}
+              className={"text-neutral-800"}
+              {...register("groupName", {
+                required: { value: true, message: "Group name is required." },
+                maxLength: {
+                  value: 50,
+                  message: "Name cannot contain more than 50 characters.",
+                },
+              })}
+            />
+            <Button
+              type="submit"
+              size={"icon"}
+              disabled={isSubmitting}
+              className={"cursor-pointer rounded-full"}
+            >
+              {isSubmitting ? <Spinner /> : <Search />}
+            </Button>
+          </div>
+          {errors && errors.groupName && (
+            <p className="text-red-500 text-xs">{errors.groupName.message}</p>
+          )}
+        </form>
+
+        {groups &&
+          (Array.isArray(groups) && groups.length > 0 ? (
+            <ul className="mt-4">
+              {groups.map((group) => (
+                <li
+                  key={group._id}
+                  className="flex items-center justify-between pe-2"
+                >
+                  <div className="flex items-center gap-2">
+                    <Users size="18" />
+                    <h3>{group.groupName}</h3>
+                  </div>
+
+                  <Button
+                    variant={"ghost"}
+                    disabled={hasAlreadyJoined(group._id)}
+                    size={"icon"}
+                    className={`size-4 ${
+                      hasAlreadyJoined(group._id)
+                        ? "cursor-not-allowed"
+                        : "cursor-pointer"
+                    }`}
+                    asChild
+                  >
+                    {hasAlreadyJoined(group._id) ? (
+                      <Check />
+                    ) : (
+                      <Plus onClick={() => handleJoinGroup(group._id)} />
+                    )}
+                  </Button>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            "No group found"
+          ))}
+      </div>
 
       {/* render if the user is the CR/GR */}
       {(user.role === "CR" || user.role === "GR") && (
