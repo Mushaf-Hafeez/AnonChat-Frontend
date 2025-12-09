@@ -15,9 +15,7 @@ const ChatSidebar = () => {
   const dispatch = useDispatch();
 
   const [search, setSearch] = useState("");
-  const [filteredGroups, setFilteredGroups] = useState(
-    structuredClone(user.joinedGroups)
-  );
+  const [filteredGroups, setFilteredGroups] = useState([]);
   // handleClick function
   const handleClick = (group) => {
     dispatch(setIsSelected(true));
@@ -36,9 +34,9 @@ const ChatSidebar = () => {
         ? user.joinedGroups.filter((group) =>
             group.groupName.toLowerCase().includes(search.toLowerCase())
           )
-        : structuredClone(user.joinedGroups);
+        : user.joinedGroups;
     setFilteredGroups([...filtered]);
-  }, [search, user.joinedGroups, user.myGroups]);
+  }, [search, user.joinedGroups]);
 
   return (
     <aside

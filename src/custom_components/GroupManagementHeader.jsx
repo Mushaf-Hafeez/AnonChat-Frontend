@@ -37,11 +37,19 @@ import { toast } from "react-toastify";
 import { deleteGroup, updateGroup } from "@/services/group";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setIsSelected, setSelectedGroup } from "@/redux/slices/groupSlice";
+import {
+  setIsSelected,
+  setSelectedGroup,
+  updateSelectedGroup,
+} from "@/redux/slices/groupSlice";
 import { useForm } from "react-hook-form";
 import Spinner from "./Spinner";
 
-import { removeGroup, removeMyGroup } from "@/redux/slices/userSlice";
+import {
+  removeGroup,
+  removeMyGroup,
+  updateGroup as updateUserGroup,
+} from "@/redux/slices/userSlice";
 
 const GroupManagementHeader = ({ groupData, setGroupData }) => {
   const {
@@ -100,6 +108,23 @@ const GroupManagementHeader = ({ groupData, setGroupData }) => {
         groupName: data.groupName,
         description: data.description,
       });
+
+      // update the group in the user joinedGroups in the redux
+      // dispatch(
+      //   updateUserGroup({
+      //     id: groupData._id,
+      //     groupName: data.groupName,
+      //     description: data.description,
+      //   })
+      // );
+
+      // update the selectedGroup in the redux
+      dispatch(
+        updateSelectedGroup({
+          groupName: data.groupName,
+          description: data.description,
+        })
+      );
 
       toast.success(response.message);
     } else {
