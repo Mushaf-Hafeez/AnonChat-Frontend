@@ -39,8 +39,8 @@ const HomePage = () => {
       <div className="mt-[25vh] col-center gap-4 max-w-11/12 md:max-w-1/2 mx-auto text-center">
         {/* main heading */}
         <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-6xl font-bold">
-          <h2 className="whitespace-nowrap">Connect Anonoymously</h2>
-          <h2>Chat Securely</h2>
+          <p className="whitespace-nowrap">Connect Anonoymously</p>
+          <p>Chat Securely</p>
         </h1>
         {/* main description */}
         <p className="text-neutral-600 max-w-3/4">
