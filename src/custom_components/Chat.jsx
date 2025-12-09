@@ -56,7 +56,11 @@ const Chat = () => {
 
   return (
     <div className="bg-white h-full w-full p-4 rounded-xl shadow-xl overflow-y-auto flex flex-col justify-between">
-      {isLoading ? <Spinner /> : <ChatMessages messages={messages} />}
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <ChatMessages messages={messages} setMessages={setMessages} />
+      )}
       {/* Chat Input */}
       <ChatInput />
     </div>
