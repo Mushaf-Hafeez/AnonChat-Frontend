@@ -93,7 +93,7 @@ const App = () => {
     if (isAuth && user?._id) {
       socket.connect();
 
-      if (user?.joinedGroups.length > 0) {
+      if (user?.joinedGroups?.length > 0) {
         socket.emit("join-room", user.joinedGroups);
       }
     }
