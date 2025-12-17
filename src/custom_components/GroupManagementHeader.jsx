@@ -37,9 +37,19 @@ import { toast } from "react-toastify";
 import { deleteGroup, updateGroup } from "@/services/group";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setIsSelected, setSelectedGroup } from "@/redux/slices/groupSlice";
+import {
+  setIsSelected,
+  setSelectedGroup,
+  updateSelectedGroup,
+} from "@/redux/slices/groupSlice";
 import { useForm } from "react-hook-form";
 import Spinner from "./Spinner";
+
+import {
+  removeGroup,
+  removeMyGroup,
+  updateGroup as updateUserGroup,
+} from "@/redux/slices/userSlice";
 
 const GroupManagementHeader = ({ groupData, setGroupData }) => {
   const {
@@ -66,6 +76,15 @@ const GroupManagementHeader = ({ groupData, setGroupData }) => {
       setGroupData(null);
       dispatch(setIsSelected(false));
       dispatch(setSelectedGroup(null));
+
+      // remove the group from the user state in the redux
+
+      // 1. remove the group from the user.myGroups
+      dispatch(removeMyGroup(groupData._id));
+      // 1. remove the group from the user.joinedGroups
+      dispatch(removeGroup(groupData._id));
+
+      // success toast
       toast.success(response.message);
 
       // redirect user to chatpage
@@ -89,6 +108,23 @@ const GroupManagementHeader = ({ groupData, setGroupData }) => {
         groupName: data.groupName,
         description: data.description,
       });
+
+      // update the group in the user joinedGroups in the redux
+      // dispatch(
+      //   updateUserGroup({
+      //     id: groupData._id,
+      //     groupName: data.groupName,
+      //     description: data.description,
+      //   })
+      // );
+
+      // update the selectedGroup in the redux
+      dispatch(
+        updateSelectedGroup({
+          groupName: data.groupName,
+          description: data.description,
+        })
+      );
 
       toast.success(response.message);
     } else {
@@ -115,7 +151,7 @@ const GroupManagementHeader = ({ groupData, setGroupData }) => {
                   <DialogHeader>
                     <DialogTitle>Edit group</DialogTitle>
                     <DialogDescription>
-                      {groupData.description}
+                      {groupData?.description && groupData.description}
                     </DialogDescription>
                   </DialogHeader>
                   <div className="grid gap-4">
@@ -124,7 +160,7 @@ const GroupManagementHeader = ({ groupData, setGroupData }) => {
                       <Input
                         id="groupName"
                         name="groupName"
-                        defaultValue={groupData.groupName}
+                        defaultValue={groupData?.groupName}
                         {...register("groupName", {
                           required: {
                             value: true,
@@ -148,7 +184,7 @@ const GroupManagementHeader = ({ groupData, setGroupData }) => {
                       <Textarea
                         id="description"
                         name="description"
-                        defaultValue={groupData.description}
+                        defaultValue={groupData?.description}
                         {...register("description", {
                           maxLength: {
                             value: 100,
@@ -169,8 +205,8 @@ const GroupManagementHeader = ({ groupData, setGroupData }) => {
                       <Button
                         onClick={() =>
                           reset({
-                            groupName: groupData.groupName,
-                            description: groupData.description,
+                            groupName: groupData?.groupName,
+                            description: groupData?.description,
                           })
                         }
                         variant="outline"
@@ -231,7 +267,7 @@ const GroupManagementHeader = ({ groupData, setGroupData }) => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <DialogHeader>
               <DialogTitle>Edit group</DialogTitle>
-              <DialogDescription>{groupData.description}</DialogDescription>
+              <DialogDescription>{groupData?.description}</DialogDescription>
             </DialogHeader>
             <div className="grid gap-4">
               <div className="grid gap-3">
@@ -239,7 +275,7 @@ const GroupManagementHeader = ({ groupData, setGroupData }) => {
                 <Input
                   id="groupName"
                   name="groupName"
-                  defaultValue={groupData.groupName}
+                  defaultValue={groupData?.groupName}
                   {...register("groupName", {
                     required: {
                       value: true,
@@ -263,7 +299,7 @@ const GroupManagementHeader = ({ groupData, setGroupData }) => {
                 <Textarea
                   id="description"
                   name="description"
-                  defaultValue={groupData.description}
+                  defaultValue={groupData?.description}
                   {...register("description", {
                     maxLength: {
                       value: 100,
@@ -284,8 +320,8 @@ const GroupManagementHeader = ({ groupData, setGroupData }) => {
                 <Button
                   onClick={() =>
                     reset({
-                      groupName: groupData.groupName,
-                      description: groupData.description,
+                      groupName: groupData?.groupName,
+                      description: groupData?.description,
                     })
                   }
                   variant="outline"

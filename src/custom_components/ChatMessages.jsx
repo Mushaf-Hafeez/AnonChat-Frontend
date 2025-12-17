@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from "react";
 // importing custom components
 import Message from "./Message";
 
-const ChatMessages = ({ messages }) => {
+const ChatMessages = ({ messages, setMessages }) => {
   const chatContainer = useRef();
 
   // Todo: need to fix why sometime there is only one message in the messages array and when the user receive the new message the sender of that message is not visible
@@ -25,7 +25,7 @@ const ChatMessages = ({ messages }) => {
       {messages && messages.length > 0 ? (
         <div className="flex flex-col gap-2">
           {messages.map((message, index) => (
-            <Message key={index} message={message} />
+            <Message key={index} message={message} setMessages={setMessages} />
           ))}
         </div>
       ) : (

@@ -52,24 +52,24 @@ const userSlice = createSlice({
       }
       localStorage.setItem("user", JSON.stringify(state.user));
     },
-  },
-  removeMyGroup: (state, action) => {
-    const groupIndex = state.user.myGroups.findIndex(
-      (group) => group._id === action.payload
-    );
-
-    if (groupIndex !== -1) {
-      const updatedMyGroups = state.user.myGroups.filter(
-        (group) => group._id !== action.payload
+    removeMyGroup: (state, action) => {
+      const groupIndex = state.user.myGroups.findIndex(
+        (group) => group._id === action.payload
       );
 
-      state.user = { ...state.user, myGroups: [...updatedMyGroups] };
-    }
-    localStorage.setItem("user", JSON.stringify(state.user));
-  },
-  setGroups: (state, action) => {
-    state.user.joinedGroups = action.payload;
-    localStorage.setItem("user", JSON.stringify(state.user));
+      if (groupIndex !== -1) {
+        const updatedMyGroups = state.user.myGroups.filter(
+          (group) => group._id !== action.payload
+        );
+
+        state.user = { ...state.user, myGroups: [...updatedMyGroups] };
+      }
+      localStorage.setItem("user", JSON.stringify(state.user));
+    },
+    setGroups: (state, action) => {
+      state.user.joinedGroups = action.payload;
+      localStorage.setItem("user", JSON.stringify(state.user));
+    },
   },
 });
 

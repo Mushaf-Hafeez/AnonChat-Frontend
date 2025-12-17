@@ -1,11 +1,10 @@
 import { useSelector } from "react-redux";
 import { Controller, useForm } from "react-hook-form";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { semesters, sessions } from "@/constants/data";
 import { addSection } from "@/services/section";
 import { toast } from "react-toastify";
-import { motion } from "motion/react";
 
 import {
   Select,
@@ -55,22 +54,7 @@ const SectionPage = () => {
   };
 
   return (
-    <motion.section
-      initial={{
-        opacity: 0,
-      }}
-      animate={{
-        opacity: 1,
-      }}
-      exit={{
-        opacity: 0,
-      }}
-      transition={{
-        duration: 0.8,
-        delay: 0.5,
-        ease: [0, 0.71, 0.2, 1.01],
-      }}
-    >
+    <section>
       <div className="overflow-y-auto col-center lg:items-start gap-2">
         {/* This is add section */}
 
@@ -206,7 +190,7 @@ const SectionPage = () => {
 
       {/* add the section to get the sections of the department, semester and session */}
       <DeleteSection departments={departments} />
-    </motion.section>
+    </section>
   );
 };
 

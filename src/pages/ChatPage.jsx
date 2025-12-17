@@ -29,8 +29,6 @@ const ChatPage = () => {
 
   // socket connection
   useEffect(() => {
-    socket.connect();
-
     // connect handler function
     const handleConnect = () => {
       socket.emit("userId", user._id);

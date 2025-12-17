@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
 // importing components
 import { Label } from "../components/ui/label";
@@ -14,10 +15,9 @@ import {
   TableRow,
 } from "../components/ui/table";
 
-import { Trash, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 
 import { useForm } from "react-hook-form";
-import { motion } from "motion/react";
 
 // importing api call functions
 import {
@@ -28,8 +28,10 @@ import {
 
 import { toast } from "react-toastify";
 import Spinner from "@/custom_components/Spinner";
+import { setDepartments as setDepartmentsRedux } from "@/redux/slices/dataSlice";
 
 const DepartmentPage = () => {
+  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [departments, setDepartments] = useState([]);
 
@@ -50,7 +52,9 @@ const DepartmentPage = () => {
 
     if (response.success) {
       console.log("add department response is: ", response);
-      setDepartments([...departments, response.department]);
+      const updatedDepartments = [...departments, response.department];
+      setDepartments(updatedDepartments);
+      dispatch(setDepartmentsRedux(updatedDepartments));
       toast.success(response.message);
       reset();
     } else {
@@ -64,7 +68,9 @@ const DepartmentPage = () => {
     const response = await deleteDepartment(id);
 
     if (response.success) {
-      setDepartments(departments.filter((dept) => dept._id !== id));
+      const updatedDepartments = departments.filter((dept) => dept._id !== id);
+      setDepartments(updatedDepartments);
+      dispatch(setDepartmentsRedux(updatedDepartments));
       toast.success(response.message);
     } else {
       toast.error(response.message);
@@ -72,35 +78,21 @@ const DepartmentPage = () => {
   };
 
   // fetch departments
-  const fetchDepartments = async () => {
+  const fetchDepartments = useCallback(async () => {
     const response = await getDepartments();
 
     if (response.success) {
       setDepartments(response.departments);
+      dispatch(setDepartmentsRedux(response.departments));
     }
-  };
+  }, [dispatch]);
 
   useEffect(() => {
     fetchDepartments();
-  }, []);
+  }, [fetchDepartments]);
 
   return (
-    <motion.section
-      initial={{
-        opacity: 0,
-      }}
-      animate={{
-        opacity: 1,
-      }}
-      exit={{
-        opacity: 0,
-      }}
-      transition={{
-        duration: 0.8,
-        delay: 0.5,
-        ease: [0, 0.71, 0.2, 1.01],
-      }}
-    >
+    <section>
       <div className="overflow-y-auto col-center lg:items-start gap-2">
         <h2 className="text-lg font-medium">Add Department</h2>
 
@@ -180,7 +172,7 @@ const DepartmentPage = () => {
           <TableBody>
             {departments.length > 0 ? (
               departments.map((department, index) => (
-                <TableRow key={index}>
+                <TableRow key={department._id}>
                   <TableCell className="font-medium">{index + 1}</TableCell>
                   <TableCell>{department.code}</TableCell>
                   <TableCell>{department.name}</TableCell>
@@ -194,14 +186,16 @@ const DepartmentPage = () => {
                 </TableRow>
               ))
             ) : (
-              <div className="w-full whitespace-nowrap flex-center">
-                No department found
-              </div>
+              <TableRow className="w-full whitespace-nowrap flex-center">
+                <TableCell colSpan={4} className="text-center">
+                  No department found
+                </TableCell>
+              </TableRow>
             )}
           </TableBody>
         </Table>
       </div>
-    </motion.section>
+    </section>
   );
 };
 

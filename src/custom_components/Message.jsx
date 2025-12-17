@@ -16,7 +16,7 @@ import {
 import { toast } from "react-toastify";
 import { deleteMessage, reportMessage } from "@/services/message";
 
-const Message = ({ message }) => {
+const Message = ({ message, setMessages }) => {
   const { user } = useSelector((state) => state.User);
 
   const isoString = message.createdAt;
@@ -42,6 +42,8 @@ const Message = ({ message }) => {
     const response = await deleteMessage(messageId, groupId);
 
     if (response.success) {
+      // update the messages state to remove the deleted message
+      setMessages((prev) => prev.filter((msg) => msg._id !== messageId));
       toast.success("Message has been deleted");
     } else {
       toast.error(response.message);

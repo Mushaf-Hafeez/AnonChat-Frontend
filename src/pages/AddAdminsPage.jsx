@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { motion } from "motion/react";
 
 // importing components
 import {
@@ -114,22 +113,7 @@ const AddAdminsPage = () => {
   // Todo: uncomment the pattern for the rollno
 
   return (
-    <motion.section
-      initial={{
-        opacity: 0,
-      }}
-      animate={{
-        opacity: 1,
-      }}
-      exit={{
-        opacity: 0,
-      }}
-      transition={{
-        duration: 0.8,
-        delay: 0.5,
-        ease: [0, 0.71, 0.2, 1.01],
-      }}
-    >
+    <section>
       <div className="overflow-y-auto col-center lg:items-start gap-2">
         <h2 className="text-lg font-medium">Add Admins</h2>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-4">
@@ -261,7 +245,7 @@ const AddAdminsPage = () => {
           </TableBody>
         </Table>
       </div>
-    </motion.section>
+    </section>
   );
 };
 
