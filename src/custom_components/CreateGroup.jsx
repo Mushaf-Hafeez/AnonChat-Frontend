@@ -1,13 +1,6 @@
 import React from "react";
 
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -22,8 +15,6 @@ import { addJoinGroup, addMyGroup } from "@/redux/slices/userSlice";
 
 const CreateGroup = ({ toggleMode }) => {
   const { user } = useSelector((state) => state.User);
-
-  console.log("User is: ", user);
 
   const {
     register,

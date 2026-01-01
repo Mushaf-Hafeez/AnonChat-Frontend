@@ -6,12 +6,6 @@ import { AdminDashboardSidebarLinks } from "@/constants/data";
 
 import Logout from "./Logout";
 
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "../components/ui/tooltip";
-
 const DashboardSidebar = () => {
   return (
     <aside className="w-fit lg:w-2/12 h-full bg-white rounded-r-xl col-center justify-between lg:items-start">

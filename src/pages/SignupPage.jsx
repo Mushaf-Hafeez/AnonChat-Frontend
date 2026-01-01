@@ -4,7 +4,6 @@ import { toast } from "react-toastify";
 import { Eye, EyeClosed } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { motion } from "motion/react";
 
 // importing reducers
 import { setIsAuthLoading, setSignupData } from "@/redux/slices/authSlice";
@@ -12,12 +11,10 @@ import { setIsAuthLoading, setSignupData } from "@/redux/slices/authSlice";
 // importing Shadcn Components
 import {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-  CardFooter,
 } from "../components/ui/card";
 import {
   Select,
@@ -41,7 +38,6 @@ import { sendOTP } from "@/services/auth";
 
 // importing constant data
 import { semesters, sessions } from "@/constants/data";
-import { setDepartments } from "@/redux/slices/dataSlice";
 
 const SignupPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -150,23 +146,7 @@ const SignupPage = () => {
   // Todo: uncomment the email and password patterns
 
   return (
-    <motion.section
-      initial={{
-        opacity: 0,
-      }}
-      animate={{
-        opacity: 1,
-      }}
-      exit={{
-        opacity: 0,
-      }}
-      transition={{
-        duration: 0.8,
-        delay: 0.5,
-        ease: [0, 0.71, 0.2, 1.01],
-      }}
-      className="min-h-screen w-full col-center"
-    >
+    <section className="min-h-screen w-full col-center">
       <Card
         className={
           "w-11/12 my-20 sm:w-8/12 lg:w-4/12 mx-auto shadow-xl border-2 border-neutral-200"
@@ -200,7 +180,7 @@ const SignupPage = () => {
                 })}
               ></Input>
               {errors && errors.name && (
-                <p className="text-red-500">{errors.name.message}</p>
+                <p className="text-red-500 text-xs">{errors.name.message}</p>
               )}
             </div>
 
@@ -230,7 +210,7 @@ const SignupPage = () => {
               ></Input>
             </div>
             {errors && errors.rollno && (
-              <p className="text-red-500">{errors.rollno.message}</p>
+              <p className="text-red-500 text-xs">{errors.rollno.message}</p>
             )}
 
             {/* Email label and input */}
@@ -250,14 +230,14 @@ const SignupPage = () => {
                     value: true,
                     message: "Email is required.",
                   },
-                  // pattern: {
-                  //   value: /^[a-zA-Z0-9._%+-]+@iub.edu.pk$/,
-                  //   message: "Please use your university email.",
-                  // },
+                  pattern: {
+                    value: /^[a-zA-Z0-9._%+-]+@iub.edu.pk$/,
+                    message: "Please use your university email.",
+                  },
                 })}
               ></Input>
               {errors && errors.email && (
-                <p className="text-red-500">{errors.email.message}</p>
+                <p className="text-red-500  text-xs">{errors.email.message}</p>
               )}
             </div>
 
@@ -279,11 +259,11 @@ const SignupPage = () => {
                     value: 8,
                     message: "Password must be of 8 characters.",
                   },
-                  // pattern: {
-                  //   value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z0-9])\S+$/,
-                  //   message:
-                  //     "Password must contain Alphabets, Numbers and Special Characters.",
-                  // },
+                  pattern: {
+                    value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z0-9])\S+$/,
+                    message:
+                      "Password must contain Alphabets, Numbers and Special Characters.",
+                  },
                 })}
               ></Input>
 
@@ -295,7 +275,7 @@ const SignupPage = () => {
               </span>
             </div>
             {errors && errors.password && (
-              <p className="text-red-500">{errors.password.message}</p>
+              <p className="text-red-500 text-xs">{errors.password.message}</p>
             )}
 
             {/* confirmPassword label and input */}
@@ -319,11 +299,11 @@ const SignupPage = () => {
                     value: 8,
                     message: "Password must be of 8 characters.",
                   },
-                  // pattern: {
-                  //   value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z0-9])\S+$/,
-                  //   message:
-                  //     "Password must contain Alphabets, Numbers and Special Characters.",
-                  // },
+                  pattern: {
+                    value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z0-9])\S+$/,
+                    message:
+                      "Password must contain Alphabets, Numbers and Special Characters.",
+                  },
                 })}
               ></Input>
 
@@ -335,7 +315,9 @@ const SignupPage = () => {
               </span>
             </div>
             {errors && errors.confirmPassword && (
-              <p className="text-red-500">{errors.confirmPassword.message}</p>
+              <p className="text-red-500 text-xs">
+                {errors.confirmPassword.message}
+              </p>
             )}
 
             {/* department label and input */}
@@ -366,7 +348,9 @@ const SignupPage = () => {
                 )}
               />
               {errors.department && (
-                <p className="text-red-500">{errors.department.message}</p>
+                <p className="text-red-500 text-xs">
+                  {errors.department.message}
+                </p>
               )}
             </div>
 
@@ -399,7 +383,9 @@ const SignupPage = () => {
                   )}
                 />
                 {errors.semester && (
-                  <p className="text-red-500">{errors.semester.message}</p>
+                  <p className="text-red-500 text-xs">
+                    {errors.semester.message}
+                  </p>
                 )}
               </div>
 
@@ -431,7 +417,9 @@ const SignupPage = () => {
                   )}
                 />
                 {errors.session && (
-                  <p className="text-red-500">{errors.session.message}</p>
+                  <p className="text-red-500 text-xs">
+                    {errors.session.message}
+                  </p>
                 )}
               </div>
 
@@ -463,7 +451,9 @@ const SignupPage = () => {
                   )}
                 />
                 {errors.section && (
-                  <p className="text-red-500">{errors.section.message}</p>
+                  <p className="text-red-500 text-xs">
+                    {errors.section.message}
+                  </p>
                 )}
               </div>
             </div>
@@ -487,7 +477,7 @@ const SignupPage = () => {
           </form>
         </CardContent>
       </Card>
-    </motion.section>
+    </section>
   );
 };
 

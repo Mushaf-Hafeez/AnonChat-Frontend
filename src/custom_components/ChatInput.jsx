@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import { ImageOff, Plus, Send } from "lucide-react";
 
@@ -91,8 +91,6 @@ const ChatInput = () => {
 
     setIsLoading(false);
   };
-
-  // Todo: implement real time communication using Socket.io
 
   return (
     <div className="w-full">

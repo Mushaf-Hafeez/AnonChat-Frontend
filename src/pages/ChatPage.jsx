@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 
-import { motion } from "motion/react";
 import ChatSidebar from "@/custom_components/ChatSidebar";
 
 import DefaultChatPage from "./DefaultChatPage";
@@ -107,23 +106,7 @@ const ChatPage = () => {
   }, [dispatch, user?.joinedGroups, isSelected]); // remove user from the dependency array for testing
 
   return (
-    <motion.section
-      initial={{
-        opacity: 0,
-      }}
-      animate={{
-        opacity: 1,
-      }}
-      exit={{
-        opacity: 0,
-      }}
-      transition={{
-        duration: 0.8,
-        delay: 0.5,
-        ease: [0, 0.71, 0.2, 1.01],
-      }}
-      className="h-screen w-full flex gap-4 bg-neutral-200 overflow-auto"
-    >
+    <section className="h-screen w-full flex gap-4 bg-neutral-200 overflow-auto">
       {/* This is the sidebar of the chatpage */}
       <ChatSidebar />
       <div
@@ -134,7 +117,7 @@ const ChatPage = () => {
         {/* if there is a selected group then show the selected group page else show the default chatpage */}
         {isSelected ? <SelectedGroupPage /> : <DefaultChatPage />}
       </div>
-    </motion.section>
+    </section>
   );
 };
 

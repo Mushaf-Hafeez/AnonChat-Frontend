@@ -64,7 +64,6 @@ const GroupManagementHeader = ({ groupData, setGroupData }) => {
 
   //   handleDelete function
   const handleDelete = async () => {
-    // Todo: add the delete functionality
     // remove the group from the user.joinedGroups and user.myGroups
     // make the api call to delete the group
 
@@ -108,15 +107,6 @@ const GroupManagementHeader = ({ groupData, setGroupData }) => {
         groupName: data.groupName,
         description: data.description,
       });
-
-      // update the group in the user joinedGroups in the redux
-      // dispatch(
-      //   updateUserGroup({
-      //     id: groupData._id,
-      //     groupName: data.groupName,
-      //     description: data.description,
-      //   })
-      // );
 
       // update the selectedGroup in the redux
       dispatch(

@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { Eye, EyeClosed } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { motion } from "motion/react";
 
 // importing reducers
 import { setIsAuth, setIsAuthLoading } from "@/redux/slices/authSlice";
@@ -12,12 +11,10 @@ import { setUser } from "@/redux/slices/userSlice";
 // importing Shadcn Components
 import {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-  CardFooter,
 } from "../components/ui/card";
 import { Label } from "../components/ui/label";
 import { Input } from "../components/ui/input";
@@ -62,7 +59,7 @@ const LoginPage = () => {
     const response = await login(loginData);
 
     if (response.success) {
-      console.log("login response is: ", response);
+      // console.log("login response is: ", response);
       // set to the local storage
       localStorage.setItem("isAuth", JSON.stringify(response.success));
       localStorage.setItem("user", JSON.stringify(response.user));
@@ -81,23 +78,7 @@ const LoginPage = () => {
   // Todo: uncomment the email and password patterns
 
   return (
-    <motion.section
-      initial={{
-        opacity: 0,
-      }}
-      animate={{
-        opacity: 1,
-      }}
-      exit={{
-        opacity: 0,
-      }}
-      transition={{
-        duration: 0.8,
-        delay: 0.5,
-        ease: [0, 0.71, 0.2, 1.01],
-      }}
-      className="h-screen w-full col-center"
-    >
+    <section className="h-screen w-full col-center">
       <Card
         className={
           "w-11/12 sm:w-8/12 lg:w-4/12 mx-auto shadow-xl border-2 border-neutral-200"
@@ -128,14 +109,14 @@ const LoginPage = () => {
                     value: true,
                     message: "Email is required.",
                   },
-                  // pattern: {
-                  //   value: /^[a-zA-Z0-9._%+-]+@iub.edu.pk$/,
-                  //   message: "Please use your university email.",
-                  // },
+                  pattern: {
+                    value: /^[a-zA-Z0-9._%+-]+@iub.edu.pk$/,
+                    message: "Please use your university email.",
+                  },
                 })}
               ></Input>
               {errors && errors.email && (
-                <p className="text-red-500">{errors.email.message}</p>
+                <p className="text-red-500 text-xs">{errors.email.message}</p>
               )}
             </div>
 
@@ -157,11 +138,11 @@ const LoginPage = () => {
                     value: 8,
                     message: "Password must be of 8 characters.",
                   },
-                  // pattern: {
-                  //   value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z0-9])\S+$/,
-                  //   message:
-                  //     "Password must contain Alphabets, Numbers and Special Characters.",
-                  // },
+                  pattern: {
+                    value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z0-9])\S+$/,
+                    message:
+                      "Password must contain Alphabets, Numbers and Special Characters.",
+                  },
                 })}
               ></Input>
 
@@ -173,7 +154,7 @@ const LoginPage = () => {
               </span>
             </div>
             {errors && errors.password && (
-              <p className="text-red-500">{errors.password.message}</p>
+              <p className="text-red-500 text-xs">{errors.password.message}</p>
             )}
 
             {/* Login button */}
@@ -196,7 +177,7 @@ const LoginPage = () => {
           </form>
         </CardContent>
       </Card>
-    </motion.section>
+    </section>
   );
 };
 

@@ -14,7 +14,7 @@ const Chat = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState([]);
 
-  const { isSelected, selectedGroup } = useSelector((state) => state.Group);
+  const { selectedGroup } = useSelector((state) => state.Group);
 
   // fetch messages function
   const fetchMessages = async () => {

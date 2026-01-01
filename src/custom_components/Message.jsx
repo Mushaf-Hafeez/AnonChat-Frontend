@@ -9,8 +9,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { toast } from "react-toastify";
@@ -48,8 +46,6 @@ const Message = ({ message, setMessages }) => {
     } else {
       toast.error(response.message);
     }
-
-    // call the backend api to delete the message and also use websocket to delete it in realtime.
   };
 
   // handleMessageReport function
@@ -112,7 +108,9 @@ const Message = ({ message, setMessages }) => {
                 className={
                   "flex items-center gap-2 hover:bg-neutral-200 cursor-pointer"
                 }
-                onClick={() => handleMessageReport(message._id, message.group)}
+                onClick={() =>
+                  handleMessageReport(message._id, message.group._id)
+                }
               >
                 <ShieldAlert className="text-neutral-600" />
                 Report

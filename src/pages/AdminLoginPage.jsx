@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { Eye, EyeClosed } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { motion } from "motion/react";
 
 // importing reducers
 import { setIsAuth, setIsAuthLoading } from "@/redux/slices/authSlice";
@@ -12,12 +11,10 @@ import { setUser } from "@/redux/slices/userSlice";
 // importing Shadcn Components
 import {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-  CardFooter,
 } from "../components/ui/card";
 import { Label } from "../components/ui/label";
 import { Input } from "../components/ui/input";
@@ -75,23 +72,7 @@ const AdminLoginPage = () => {
   };
 
   return (
-    <motion.section
-      initial={{
-        opacity: 0,
-      }}
-      animate={{
-        opacity: 1,
-      }}
-      exit={{
-        opacity: 0,
-      }}
-      transition={{
-        duration: 0.8,
-        delay: 0.5,
-        ease: [0, 0.71, 0.2, 1.01],
-      }}
-      className="h-screen w-full col-center"
-    >
+    <section className="h-screen w-full col-center">
       <Card
         className={
           "w-11/12 md:w-4/12 mx-auto shadow-xl border-2 border-neutral-200"
@@ -171,7 +152,7 @@ const AdminLoginPage = () => {
           </form>
         </CardContent>
       </Card>
-    </motion.section>
+    </section>
   );
 };
 

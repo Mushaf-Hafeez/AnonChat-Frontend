@@ -6,8 +6,6 @@ import Message from "./Message";
 const ChatMessages = ({ messages, setMessages }) => {
   const chatContainer = useRef();
 
-  // Todo: need to fix why sometime there is only one message in the messages array and when the user receive the new message the sender of that message is not visible
-
   useEffect(() => {
     if (chatContainer.current) {
       chatContainer.current.scrollTo({

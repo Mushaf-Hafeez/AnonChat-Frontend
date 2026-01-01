@@ -127,7 +127,7 @@ const DeleteSection = ({ departments }) => {
             )}
           />
           {errors.department && (
-            <p className="text-red-500">{errors.department.message}</p>
+            <p className="text-red-500 text-xs">{errors.department.message}</p>
           )}
         </div>
 
@@ -159,7 +159,7 @@ const DeleteSection = ({ departments }) => {
             )}
           />
           {errors.semester && (
-            <p className="text-red-500">{errors.semester.message}</p>
+            <p className="text-red-500 text-xs">{errors.semester.message}</p>
           )}
         </div>
         {/* session label and dropdown */}
@@ -190,7 +190,7 @@ const DeleteSection = ({ departments }) => {
             )}
           />
           {errors.session && (
-            <p className="text-red-500">{errors.session.message}</p>
+            <p className="text-red-500 text-xs">{errors.session.message}</p>
           )}
         </div>
 
