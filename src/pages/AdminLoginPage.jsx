@@ -104,7 +104,9 @@ const AdminLoginPage = () => {
                 })}
               ></Input>
               {errors && errors.username && (
-                <p className="text-red-500">{errors.username.message}</p>
+                <p className="text-red-500 text-xs">
+                  {errors.username.message}
+                </p>
               )}
             </div>
 
@@ -137,7 +139,7 @@ const AdminLoginPage = () => {
               </span>
             </div>
             {errors && errors.password && (
-              <p className="text-red-500">{errors.password.message}</p>
+              <p className="text-red-500 text-xs">{errors.password.message}</p>
             )}
 
             {/* Login button */}
