@@ -15,8 +15,6 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
-import { motion } from "motion/react";
-
 // importing custom components
 import Spinner from "@/custom_components/Spinner";
 
@@ -119,23 +117,7 @@ const VerifyOTPPage = () => {
   }, [timeLeft, isTimerActive]);
 
   return (
-    <motion.section
-      initial={{
-        opacity: 0,
-      }}
-      animate={{
-        opacity: 1,
-      }}
-      exit={{
-        opacity: 0,
-      }}
-      transition={{
-        duration: 0.8,
-        delay: 0.5,
-        ease: [0, 0.71, 0.2, 1.01],
-      }}
-      className="h-screen w-full flex-center"
-    >
+    <section className="h-screen w-full flex-center">
       <Card
         className={
           "w-11/12 md:w-4/12 mx-auto shadow-xl border-2 border-neutral-200"
@@ -185,7 +167,7 @@ const VerifyOTPPage = () => {
           )}
         </CardFooter>
       </Card>
-    </motion.section>
+    </section>
   );
 };
 

@@ -84,9 +84,7 @@ const ChatSidebar = () => {
                 <span>
                   <Users size={22} />
                 </span>
-                {/* <p className="text-lg w-full shrink-0 overflow-x-auto">
-                  Here is the name of the group
-                </p> */}
+
                 <p className="text-md leading-6 overflow-x-auto scrollbar-none">
                   {group.groupName}
                 </p>

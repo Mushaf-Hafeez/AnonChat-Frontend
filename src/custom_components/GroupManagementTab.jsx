@@ -39,8 +39,6 @@ const GroupManagementTab = ({ groupData, setGroupData }) => {
 
   // acceptRequest handler function
   const handleAcceptRequest = async (requestedMember) => {
-    // Todo: remove the ID from the groupData.joinRequests and add the object into the groupData.members
-    // Todo: make the api call to remove the ID from the group.joinRequests and add the member ID in the group.members
     const response = await addMember(groupData._id, requestedMember._id);
 
     if (response.success) {
@@ -63,8 +61,6 @@ const GroupManagementTab = ({ groupData, setGroupData }) => {
 
   // rejectRequest handler function
   const handleRejectRequest = async (requestedMember) => {
-    // Todo: remove the ID from the groupData.joinRequests
-    // Todo: make the api call to remove the ID from the group.joinRequests
     const response = await rejectRequest(groupData._id, requestedMember._id);
 
     if (response.success) {
@@ -85,7 +81,6 @@ const GroupManagementTab = ({ groupData, setGroupData }) => {
 
   // deleteReported Message handler function
   const handleDeleteReportedMessage = async (reportedMessage) => {
-    // Todo: make the api call and remove it from the groupData
     const response = await deleteReportedMessage(
       groupData._id,
       reportedMessage._id
@@ -109,8 +104,6 @@ const GroupManagementTab = ({ groupData, setGroupData }) => {
 
   // dismissReported Message handler function
   const handleDismissReportedMessage = async (reportedMessage) => {
-    // Todo: make the api call and remove it from the groupData
-
     const response = await dismissReportedMessage(
       groupData._id,
       reportedMessage._id
@@ -225,9 +218,6 @@ const GroupManagementTab = ({ groupData, setGroupData }) => {
                     <TableCell>{member.name}</TableCell>
                     <TableCell>{member.role}</TableCell>
                     <TableCell className="relative">
-                      {/* Todo: Replace the icon with two buttons
-                      one for accept the join request
-                      other to reject the join request */}
                       <div className="absolute top-1/2 -translate-y-1/2 right-3 flex items-center gap-2">
                         <Button
                           variant={"ghost"}
@@ -276,9 +266,6 @@ const GroupManagementTab = ({ groupData, setGroupData }) => {
                     <TableCell>{message.sender.name}</TableCell>
                     <TableCell>{message.content}</TableCell>
                     <TableCell className="relative">
-                      {/* Todo: Replace the icon with two buttons
-                      one for accept the join request
-                      other to reject the join request */}
                       <div className="absolute top-1/2 -translate-y-1/2 right-3 flex items-center gap-2">
                         <Button
                           variant={"ghost"}

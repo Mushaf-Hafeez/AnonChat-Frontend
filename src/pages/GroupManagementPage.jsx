@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 
-import { motion } from "motion/react";
-
 import { useNavigate, useParams } from "react-router-dom";
 
 import { getGroupData } from "@/services/group";
@@ -10,10 +8,9 @@ import LazyLoadingPage from "./LazyLoadingPage";
 
 import GroupManagementHeader from "@/custom_components/GroupManagementHeader";
 import GroupManagementTab from "@/custom_components/GroupManagementTab";
-import { ArrowLeft, LucideChartGantt } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { socket } from "@/utils/socket";
 import { useSelector } from "react-redux";
-import { reportMessage } from "@/services/message";
 
 const GroupManagementPage = () => {
   const [groupData, setGroupData] = useState({});
@@ -77,23 +74,7 @@ const GroupManagementPage = () => {
   }
 
   return (
-    <motion.section
-      initial={{
-        opacity: 0,
-      }}
-      animate={{
-        opacity: 1,
-      }}
-      exit={{
-        opacity: 0,
-      }}
-      transition={{
-        duration: 0.8,
-        delay: 0.5,
-        ease: [0, 0.71, 0.2, 1.01],
-      }}
-      className="h-screen w-full flex flex-col gap-4 bg-neutral-200 px-4 md:px-10 py-5"
-    >
+    <section className="h-screen w-full flex flex-col gap-4 bg-neutral-200 px-4 md:px-10 py-5">
       {/* Header */}
       <div className="flex items-center justify-between bg-neutral-100 py-3 px-5 rounded-lg shadow-lg shadow-neutral-400/70">
         <div className="flex items-center gap-2">
@@ -123,7 +104,7 @@ const GroupManagementPage = () => {
 
       {/* Tab component */}
       <GroupManagementTab groupData={groupData} setGroupData={setGroupData} />
-    </motion.section>
+    </section>
   );
 };
 

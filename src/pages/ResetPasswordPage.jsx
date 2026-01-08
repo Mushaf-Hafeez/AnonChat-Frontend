@@ -1,12 +1,10 @@
 // importing Shadcn Components
 import {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-  CardFooter,
 } from "../components/ui/card";
 import { Label } from "../components/ui/label";
 import { Input } from "../components/ui/input";
@@ -17,7 +15,6 @@ import Spinner from "@/custom_components/Spinner";
 
 // importing icons
 import { Eye, EyeClosed } from "lucide-react";
-import { motion } from "motion/react";
 
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
@@ -82,23 +79,7 @@ const ResetPasswordPage = () => {
   };
 
   return (
-    <motion.section
-      initial={{
-        opacity: 0,
-      }}
-      animate={{
-        opacity: 1,
-      }}
-      exit={{
-        opacity: 0,
-      }}
-      transition={{
-        duration: 0.8,
-        delay: 0.5,
-        ease: [0, 0.71, 0.2, 1.01],
-      }}
-      className="h-screen w-full col-center"
-    >
+    <section className="h-screen w-full col-center">
       <Card
         className={
           "w-11/12 md:w-4/12 mx-auto shadow-xl border-2 border-neutral-200"
@@ -130,11 +111,11 @@ const ResetPasswordPage = () => {
                     value: 8,
                     message: "Password must be of 8 characters.",
                   },
-                  // pattern: {
-                  //   value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z0-9])\S+$/,
-                  //   message:
-                  //     "Password must contain Alphabets, Numbers and Special Characters.",
-                  // },
+                  pattern: {
+                    value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z0-9])\S+$/,
+                    message:
+                      "Password must contain Alphabets, Numbers and Special Characters.",
+                  },
                 })}
               ></Input>
 
@@ -170,11 +151,11 @@ const ResetPasswordPage = () => {
                     value: 8,
                     message: "Password must be of 8 characters.",
                   },
-                  // pattern: {
-                  //   value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z0-9])\S+$/,
-                  //   message:
-                  //     "Password must contain Alphabets, Numbers and Special Characters.",
-                  // },
+                  pattern: {
+                    value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z0-9])\S+$/,
+                    message:
+                      "Password must contain Alphabets, Numbers and Special Characters.",
+                  },
                 })}
               ></Input>
 
@@ -200,7 +181,7 @@ const ResetPasswordPage = () => {
           </form>
         </CardContent>
       </Card>
-    </motion.section>
+    </section>
   );
 };
 

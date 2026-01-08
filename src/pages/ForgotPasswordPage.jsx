@@ -21,8 +21,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { setIsAuthLoading } from "@/redux/slices/authSlice";
 
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-import { motion } from "motion/react";
 
 // importing api call functions
 import { forgotPassword } from "../services/auth";
@@ -30,8 +28,6 @@ import { forgotPassword } from "../services/auth";
 const ForgotPasswordPage = () => {
   const { isAuthLoading } = useSelector((state) => state.Auth);
   const dispatch = useDispatch();
-
-  const navigate = useNavigate();
 
   const {
     register,
@@ -64,23 +60,7 @@ const ForgotPasswordPage = () => {
   //   Todo: uncomment the email pattern
 
   return (
-    <motion.section
-      initial={{
-        opacity: 0,
-      }}
-      animate={{
-        opacity: 1,
-      }}
-      exit={{
-        opacity: 0,
-      }}
-      transition={{
-        duration: 0.8,
-        delay: 0.5,
-        ease: [0, 0.71, 0.2, 1.01],
-      }}
-      className="h-screen w-full col-center"
-    >
+    <section className="h-screen w-full col-center">
       <Card
         className={
           "w-11/12 md:w-4/12 mx-auto shadow-xl border-2 border-neutral-200"
@@ -114,14 +94,14 @@ const ForgotPasswordPage = () => {
                     value: true,
                     message: "Email is required.",
                   },
-                  // pattern: {
-                  //   value: /^[a-zA-Z0-9._%+-]+@iub.edu.pk$/,
-                  //   message: "Please use your university email.",
-                  // },
+                  pattern: {
+                    value: /^[a-zA-Z0-9._%+-]+@iub.edu.pk$/,
+                    message: "Please use your university email.",
+                  },
                 })}
               ></Input>
               {errors && errors.email && (
-                <p className="text-red-500">{errors.email.message}</p>
+                <p className="text-red-500 text-xs">{errors.email.message}</p>
               )}
             </div>
 
@@ -136,7 +116,7 @@ const ForgotPasswordPage = () => {
           </form>
         </CardContent>
       </Card>
-    </motion.section>
+    </section>
   );
 };
 

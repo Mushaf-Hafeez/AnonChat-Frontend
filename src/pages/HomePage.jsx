@@ -1,11 +1,10 @@
 // importing custom components
 import Navbar from "@/custom_components/Navbar";
-import { motion } from "motion/react";
 
 // importing components
 import { Button } from "@/components/ui/button";
 
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
 const HomePage = () => {
@@ -16,23 +15,7 @@ const HomePage = () => {
   };
 
   return (
-    <motion.section
-      initial={{
-        opacity: 0,
-      }}
-      animate={{
-        opacity: 1,
-      }}
-      exit={{
-        opacity: 0,
-      }}
-      transition={{
-        duration: 0.8,
-        delay: 0.5,
-        ease: [0, 0.71, 0.2, 1.01],
-      }}
-      className="h-screen w-full"
-    >
+    <section className="h-screen w-full">
       <Navbar />
 
       {/* hero section */}
@@ -49,20 +32,12 @@ const HomePage = () => {
         </p>
 
         {/* actions buttons */}
-        {/* <div className="flex-center gap-2">
-          <Button>
-            <Link to={"/login"}>Login</Link>
-          </Button>
-          <Button>
-            <Link to={"/signup"}>Signup</Link>
-          </Button>
-        </div> */}
 
         <Button onClick={handleClick} className={"rounded-full cursor-pointer"}>
           Get started <ArrowRight />
         </Button>
       </div>
-    </motion.section>
+    </section>
   );
 };
 

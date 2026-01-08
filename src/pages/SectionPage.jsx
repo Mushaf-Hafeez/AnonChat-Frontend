@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { Controller, useForm } from "react-hook-form";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { semesters, sessions } from "@/constants/data";
 import { addSection } from "@/services/section";
 import { toast } from "react-toastify";
@@ -32,7 +32,14 @@ const SectionPage = () => {
     formState: { errors, isSubmitting },
     reset,
     control,
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      department: "",
+      semester: "",
+      session: "",
+      section: "",
+    },
+  });
 
   const { departments } = useSelector((state) => state.Data);
 
@@ -45,7 +52,12 @@ const SectionPage = () => {
 
     if (response.success) {
       toast.success(response.message);
-      reset();
+      reset({
+        department: "",
+        semester: "",
+        session: "",
+        section: "",
+      });
     } else {
       toast.error(response.message);
     }
@@ -89,7 +101,9 @@ const SectionPage = () => {
               )}
             />
             {errors.department && (
-              <p className="text-red-500">{errors.department.message}</p>
+              <p className="text-red-500 text-xs">
+                {errors.department.message}
+              </p>
             )}
           </div>
 
@@ -121,7 +135,7 @@ const SectionPage = () => {
               )}
             />
             {errors.semester && (
-              <p className="text-red-500">{errors.semester.message}</p>
+              <p className="text-red-500 text-xs">{errors.semester.message}</p>
             )}
           </div>
 
@@ -153,7 +167,7 @@ const SectionPage = () => {
               )}
             />
             {errors.session && (
-              <p className="text-red-500">{errors.session.message}</p>
+              <p className="text-red-500 text-xs">{errors.session.message}</p>
             )}
           </div>
 
@@ -172,7 +186,7 @@ const SectionPage = () => {
               })}
             ></Input>
             {errors && errors.section && (
-              <p className="text-red-500">{errors.section.message}</p>
+              <p className="text-red-500 text-xs">{errors.section.message}</p>
             )}
           </div>
 

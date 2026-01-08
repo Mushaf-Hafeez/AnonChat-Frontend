@@ -143,7 +143,7 @@ const AddAdminsPage = () => {
             ></Input>
           </div>
           {errors && errors.rollno && (
-            <p className="text-red-500">{errors.rollno.message}</p>
+            <p className="text-red-500 text-xs">{errors.rollno.message}</p>
           )}
 
           {/* role input and dropdown */}
@@ -174,7 +174,7 @@ const AddAdminsPage = () => {
               )}
             />
             {errors.role && (
-              <p className="text-red-500">{errors.role.message}</p>
+              <p className="text-red-500 text-xs">{errors.role.message}</p>
             )}
           </div>
 

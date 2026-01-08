@@ -118,7 +118,7 @@ const DepartmentPage = () => {
               })}
             ></Input>
             {errors && errors.name && (
-              <p className="text-red-500">{errors.name.message}</p>
+              <p className="text-red-500 text-xs">{errors.name.message}</p>
             )}
           </div>
 
@@ -142,7 +142,7 @@ const DepartmentPage = () => {
               })}
             ></Input>
             {errors && errors.code && (
-              <p className="text-red-500">{errors.code.message}</p>
+              <p className="text-red-500 text-xs">{errors.code.message}</p>
             )}
 
             {/* Add button */}

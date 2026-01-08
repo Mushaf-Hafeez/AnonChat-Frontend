@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useSelector } from "react-redux";
 import { Input } from "@/components/ui/input";
@@ -54,8 +47,6 @@ const JoinGroup = ({ toggleMode }) => {
       reset();
     }
   };
-
-  // Todo: send the group join request to the group admin
 
   return (
     <>
