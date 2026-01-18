@@ -103,7 +103,7 @@ const AddAdminsPage = () => {
 
     const filteredAdmins = searchValue
       ? admins.filter((admin) =>
-          admin.rollno.toLowerCase().includes(searchValue.toLowerCase())
+          admin.rollno.toLowerCase().includes(searchValue.toLowerCase()),
         )
       : admins;
 
@@ -136,7 +136,7 @@ const AddAdminsPage = () => {
                   message: "Invalid roll no",
                 },
                 pattern: {
-                  value: /^[sf]\d{2}[a-z]+\d[me]\d{5}$/i,
+                  value: /^[fs]\d{2}[a-z]{4,6}\d?[me]\d{5}$/i,
                   message: "Invalid roll no.",
                 },
               })}
