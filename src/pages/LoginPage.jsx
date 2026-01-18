@@ -110,7 +110,7 @@ const LoginPage = () => {
                     message: "Email is required.",
                   },
                   pattern: {
-                    value: /^[a-zA-Z0-9._%+-]+@iub.edu.pk$/,
+                    value: /^[fs]\d{2}[a-z]{4,6}\d?[me]\d{5}@iub\.edu\.pk$/,
                     message: "Please use your university email.",
                   },
                 })}
